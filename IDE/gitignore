@@ -1,0 +1,22 @@
+# STM32CubeIDE build output
+Debug/
+Release/
+
+# IDE workspace metadata
+.metadata/
+
+# IDE project settings (optional - some people commit these, but they can cause issues across machines)
+.settings/
+
+# Compiled binaries
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.map
+*.list
+
+# OS junk
+Thumbs.db
+.DS_Store
