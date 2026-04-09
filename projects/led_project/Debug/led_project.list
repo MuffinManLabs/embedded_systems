@@ -29,25 +29,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00001300  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0000012f  00000000  00000000  00001330  2**0
+ 13 .debug_info   00000120  00000000  00000000  00001330  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000000bf  00000000  00000000  0000145f  2**0
+ 14 .debug_abbrev 00000097  00000000  00000000  00001450  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000048  00000000  00000000  00001520  2**3
+ 15 .debug_aranges 00000048  00000000  00000000  000014e8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 0000002c  00000000  00000000  00001568  2**0
+ 16 .debug_rnglists 0000002c  00000000  00000000  00001530  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00000fa6  00000000  00000000  00001594  2**0
+ 17 .debug_macro  00000fb2  00000000  00000000  0000155c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   000004c5  00000000  00000000  0000253a  2**0
+ 18 .debug_line   000004b0  00000000  00000000  0000250e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    00003cfd  00000000  00000000  000029ff  2**0
+ 19 .debug_str    00003d41  00000000  00000000  000029be  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  000066fc  2**0
+ 20 .comment      00000043  00000000  00000000  000066ff  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00000058  00000000  00000000  00006740  2**2
+ 21 .debug_frame  00000058  00000000  00000000  00006744  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000062  00000000  00000000  00006798  2**0
+ 22 .debug_line_str 00000062  00000000  00000000  0000679c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -81,84 +81,95 @@ Disassembly of section .text:
  80001c4:	080002e0 	.word	0x080002e0
 
 080001c8 <main>:
-#define RCC_AHB1ENR     0x40023830
-#define GPIOA_MODER     0x40020000
 #define GPIOA_ODR       0x40020014
+#define GPIOA_IDR		0x40020010
+#define GPIOA_PUPDR		0x4002000C
 
 int main(void)
 {
  80001c8:	b480      	push	{r7}
  80001ca:	b087      	sub	sp, #28
  80001cc:	af00      	add	r7, sp, #0
-    // Enable GPIOA clock (bit 0)
-    uint32_t* pRCC_AHB1ENR = (uint32_t*)RCC_AHB1ENR;
- 80001ce:	4b19      	ldr	r3, [pc, #100]	@ (8000234 <main+0x6c>)
- 80001d0:	60fb      	str	r3, [r7, #12]
-    *pRCC_AHB1ENR |= (1 << 0);
- 80001d2:	68fb      	ldr	r3, [r7, #12]
- 80001d4:	681b      	ldr	r3, [r3, #0]
- 80001d6:	f043 0201 	orr.w	r2, r3, #1
- 80001da:	68fb      	ldr	r3, [r7, #12]
- 80001dc:	601a      	str	r2, [r3, #0]
 
-    // Set PA1 to output mode (bits 3:2 = 01)
+	uint32_t* pRCC_AHB1ENR = (uint32_t*)RCC_AHB1ENR;
+ 80001ce:	4b18      	ldr	r3, [pc, #96]	@ (8000230 <main+0x68>)
+ 80001d0:	617b      	str	r3, [r7, #20]
     uint32_t* pGPIOA_MODER = (uint32_t*)GPIOA_MODER;
- 80001de:	4b16      	ldr	r3, [pc, #88]	@ (8000238 <main+0x70>)
- 80001e0:	60bb      	str	r3, [r7, #8]
-    *pGPIOA_MODER |= (1 << 2);
- 80001e2:	68bb      	ldr	r3, [r7, #8]
+ 80001d2:	4b18      	ldr	r3, [pc, #96]	@ (8000234 <main+0x6c>)
+ 80001d4:	613b      	str	r3, [r7, #16]
+    uint32_t* pGPIOA_ODR = (uint32_t*)GPIOA_ODR;
+ 80001d6:	4b18      	ldr	r3, [pc, #96]	@ (8000238 <main+0x70>)
+ 80001d8:	60fb      	str	r3, [r7, #12]
+    uint32_t* pGPIOA_IDR = (uint32_t*)GPIOA_IDR;
+ 80001da:	4b18      	ldr	r3, [pc, #96]	@ (800023c <main+0x74>)
+ 80001dc:	60bb      	str	r3, [r7, #8]
+    uint32_t* pGPIOA_PUPDR = (uint32_t*)GPIOA_PUPDR;
+ 80001de:	4b18      	ldr	r3, [pc, #96]	@ (8000240 <main+0x78>)
+ 80001e0:	607b      	str	r3, [r7, #4]
+
+
+    // Enable GPIOA clock (bit 0)
+    *pRCC_AHB1ENR |= (1 << 0);
+ 80001e2:	697b      	ldr	r3, [r7, #20]
  80001e4:	681b      	ldr	r3, [r3, #0]
- 80001e6:	f043 0204 	orr.w	r2, r3, #4
- 80001ea:	68bb      	ldr	r3, [r7, #8]
+ 80001e6:	f043 0201 	orr.w	r2, r3, #1
+ 80001ea:	697b      	ldr	r3, [r7, #20]
  80001ec:	601a      	str	r2, [r3, #0]
 
-    // Blink PA1
-    uint32_t* pGPIOA_ODR = (uint32_t*)GPIOA_ODR;
- 80001ee:	4b13      	ldr	r3, [pc, #76]	@ (800023c <main+0x74>)
- 80001f0:	607b      	str	r3, [r7, #4]
+    // Set PA1 to output mode (bits 3:2 = 01)
+    *pGPIOA_MODER |= (1 << 2);
+ 80001ee:	693b      	ldr	r3, [r7, #16]
+ 80001f0:	681b      	ldr	r3, [r3, #0]
+ 80001f2:	f043 0204 	orr.w	r2, r3, #4
+ 80001f6:	693b      	ldr	r3, [r7, #16]
+ 80001f8:	601a      	str	r2, [r3, #0]
 
-    for(;;)
-    {
-        *pGPIOA_ODR |= (1 << 1);
- 80001f2:	687b      	ldr	r3, [r7, #4]
- 80001f4:	681b      	ldr	r3, [r3, #0]
- 80001f6:	f043 0202 	orr.w	r2, r3, #2
+    //PA0 is already in input mode
+
+
+    //enable pull down on pa0 (0 volt when no current)
+    *pGPIOA_PUPDR |= (1 << 1);
  80001fa:	687b      	ldr	r3, [r7, #4]
- 80001fc:	601a      	str	r2, [r3, #0]
-        for(uint32_t i = 0; i < 500000; i++);
- 80001fe:	2300      	movs	r3, #0
- 8000200:	617b      	str	r3, [r7, #20]
- 8000202:	e002      	b.n	800020a <main+0x42>
- 8000204:	697b      	ldr	r3, [r7, #20]
- 8000206:	3301      	adds	r3, #1
- 8000208:	617b      	str	r3, [r7, #20]
- 800020a:	697b      	ldr	r3, [r7, #20]
- 800020c:	4a0c      	ldr	r2, [pc, #48]	@ (8000240 <main+0x78>)
- 800020e:	4293      	cmp	r3, r2
- 8000210:	d9f8      	bls.n	8000204 <main+0x3c>
-        *pGPIOA_ODR &= ~(1 << 1);
- 8000212:	687b      	ldr	r3, [r7, #4]
+ 80001fc:	681b      	ldr	r3, [r3, #0]
+ 80001fe:	f043 0202 	orr.w	r2, r3, #2
+ 8000202:	687b      	ldr	r3, [r7, #4]
+ 8000204:	601a      	str	r2, [r3, #0]
+
+
+
+    for(;;) {
+    	//if pa0 is receiving current
+    	if (*pGPIOA_IDR & 1) {
+ 8000206:	68bb      	ldr	r3, [r7, #8]
+ 8000208:	681b      	ldr	r3, [r3, #0]
+ 800020a:	f003 0301 	and.w	r3, r3, #1
+ 800020e:	2b00      	cmp	r3, #0
+ 8000210:	d006      	beq.n	8000220 <main+0x58>
+    		//output voltage at pin 1
+    		*pGPIOA_ODR |= (1<<1);
+ 8000212:	68fb      	ldr	r3, [r7, #12]
  8000214:	681b      	ldr	r3, [r3, #0]
- 8000216:	f023 0202 	bic.w	r2, r3, #2
- 800021a:	687b      	ldr	r3, [r7, #4]
+ 8000216:	f043 0202 	orr.w	r2, r3, #2
+ 800021a:	68fb      	ldr	r3, [r7, #12]
  800021c:	601a      	str	r2, [r3, #0]
-        for(uint32_t i = 0; i < 500000; i++);
- 800021e:	2300      	movs	r3, #0
- 8000220:	613b      	str	r3, [r7, #16]
- 8000222:	e002      	b.n	800022a <main+0x62>
- 8000224:	693b      	ldr	r3, [r7, #16]
- 8000226:	3301      	adds	r3, #1
- 8000228:	613b      	str	r3, [r7, #16]
- 800022a:	693b      	ldr	r3, [r7, #16]
- 800022c:	4a04      	ldr	r2, [pc, #16]	@ (8000240 <main+0x78>)
- 800022e:	4293      	cmp	r3, r2
- 8000230:	d9f8      	bls.n	8000224 <main+0x5c>
-        *pGPIOA_ODR |= (1 << 1);
- 8000232:	e7de      	b.n	80001f2 <main+0x2a>
- 8000234:	40023830 	.word	0x40023830
- 8000238:	40020000 	.word	0x40020000
- 800023c:	40020014 	.word	0x40020014
- 8000240:	0007a11f 	.word	0x0007a11f
+ 800021e:	e7f2      	b.n	8000206 <main+0x3e>
+    	}
+    	else {
+    		//output no voltage at pin 1
+    		*pGPIOA_ODR &= ~(1<<1);
+ 8000220:	68fb      	ldr	r3, [r7, #12]
+ 8000222:	681b      	ldr	r3, [r3, #0]
+ 8000224:	f023 0202 	bic.w	r2, r3, #2
+ 8000228:	68fb      	ldr	r3, [r7, #12]
+ 800022a:	601a      	str	r2, [r3, #0]
+    	if (*pGPIOA_IDR & 1) {
+ 800022c:	e7eb      	b.n	8000206 <main+0x3e>
+ 800022e:	bf00      	nop
+ 8000230:	40023830 	.word	0x40023830
+ 8000234:	40020000 	.word	0x40020000
+ 8000238:	40020014 	.word	0x40020014
+ 800023c:	40020010 	.word	0x40020010
+ 8000240:	4002000c 	.word	0x4002000c
 
 08000244 <Reset_Handler>:
 

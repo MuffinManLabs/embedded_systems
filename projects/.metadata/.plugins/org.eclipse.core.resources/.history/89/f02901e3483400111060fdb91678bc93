@@ -38,12 +38,10 @@ int main(void)
     *pRCC_AHB1ENR |= (1 << 0);
 
     // Set PA1 to output mode (bits 3:2 = 01)
-    *pGPIOA_MODER |= (1 << 2);
-
-    //PA0 is already in input mode
+//    *pGPIOA_MODER |= (1 << 2);
 
 
-    //enable pull down on pa0 (0 volt when no current)
+    //enable pull down on pa0
     *pGPIOA_PUPDR |= (1 << 1);
 
 
@@ -51,16 +49,6 @@ int main(void)
 
 
 
-    for(;;) {
-    	//if pa0 is receiving current
-    	if (*pGPIOA_IDR & 1) {
-    		//output voltage at pin 1
-    		*pGPIOA_ODR |= (1<<1);
-    	}
-    	else {
-    		//output no voltage at pin 1
-    		*pGPIOA_ODR &= ~(1<<1);
-    	}
-    }
+    for(;;);
 
 }
