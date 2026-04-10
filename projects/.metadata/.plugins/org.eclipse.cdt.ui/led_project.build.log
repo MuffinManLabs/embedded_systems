@@ -1,17 +1,10 @@
-15:22:57 **** Incremental Build of configuration Debug for project led_project ****
+21:11:01 **** Incremental Build of configuration Debug for project led_project ****
 make -j8 all 
-arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
-arm-none-eabi-gcc -o "led_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\led_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="led_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: led_project.elf
- 
 arm-none-eabi-size  led_project.elf 
-arm-none-eabi-objdump -h -S led_project.elf  > "led_project.list"
    text	   data	    bss	    dec	    hex	filename
-    768	      0	   1568	   2336	    920	led_project.elf
+    904	      0	   1568	   2472	    9a8	led_project.elf
 Finished building: default.size.stdout
  
-Finished building: led_project.list
- 
 
-15:22:57 Build Finished. 0 errors, 0 warnings. (took 692ms)
+21:11:01 Build Finished. 0 errors, 0 warnings. (took 288ms)
 

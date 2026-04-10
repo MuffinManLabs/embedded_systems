@@ -18,22 +18,11 @@
 
 #include <stdint.h>
 
-//to give gpioA and gpioD access to clock
 #define RCC_AHB1ENR     0x40023830
-// change pa1 to output , to output 3.3v to buzzer(dont change mode of button)
 #define GPIOA_MODER     0x40020000
-// output 3.3v to buzzer
 #define GPIOA_ODR       0x40020014
-//reads input from button
 #define GPIOA_IDR		0x40020010
-//set button input pin to pull down (dont read garbage values , only detect the 3.3v)
 #define GPIOA_PUPDR		0x4002000C
-
-
-//change pd12, 13, 14, 15 to output
-#define GPIOD_MODER 	0x40020C00
-// output voltage to the leds
-#define GPIOD_ODR       0x40020C14
 
 int main(void)
 {
@@ -43,53 +32,35 @@ int main(void)
     uint32_t* pGPIOA_ODR = (uint32_t*)GPIOA_ODR;
     uint32_t* pGPIOA_IDR = (uint32_t*)GPIOA_IDR;
     uint32_t* pGPIOA_PUPDR = (uint32_t*)GPIOA_PUPDR;
-    uint32_t* pGPIOD_MODER = (uint32_t*)GPIOD_MODER;
-    uint32_t* pGPIOD_ODR = (uint32_t*)GPIOD_ODR;
 
 
     // Enable GPIOA clock (bit 0)
     *pRCC_AHB1ENR |= (1 << 0);
 
-    //Enable GPIOD clock (bit 3)
-    *pRCC_AHB1ENR |= (1 << 3);
-
-
-
     // Set PA1 to output mode (bits 3:2 = 01)
     *pGPIOA_MODER |= (1 << 2);
-    //PA0 is already in input mode
 
-    //set pd12, 13, 14, 15 to output mode
-    *pGPIOD_MODER |= (1 << 24);
-    *pGPIOD_MODER |= (1 << 26);
-    *pGPIOD_MODER |= (1 << 28);
-    *pGPIOD_MODER |= (1 << 30);
+    //PA0 is already in input mode
 
 
     //enable pull down on pa0 (0 volt when no current)
     *pGPIOA_PUPDR |= (1 << 1);
 
-    //wait a little bit
-    for (int i = 0; i < 1000000; i++);
 
-    //turn on green led
-    *pGPIOD_ODR |= (1<< 12);
 
-    uint32_t counter = 0;
-    //loop forever until the button is pressed
-    while (!(*pGPIOA_IDR & 1)) {
-    	counter++;
-    }
 
-    //turn off green led
-    *pGPIOD_ODR &= ~(1<< 12);
 
-    //if it took a long time , beep the buzzer
-    if (counter > 500000) {
-    	*pGPIOA_ODR |= (1<< 1);
-    }
 
     for(;;) {
+    	//if pa0 is receiving current
+    	if (*pGPIOA_IDR & 1) {
+    		//output voltage at pin 1
+    		*pGPIOA_ODR |= (1<<1);
+    	}
+    	else {
+    		//output no voltage at pin 1
+    		*pGPIOA_ODR &= ~(1<<1);
+    	}
     }
 
 }

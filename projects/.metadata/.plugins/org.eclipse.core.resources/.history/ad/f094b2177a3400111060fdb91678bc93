@@ -69,20 +69,16 @@ int main(void)
     //enable pull down on pa0 (0 volt when no current)
     *pGPIOA_PUPDR |= (1 << 1);
 
-    //wait a little bit
+
     for (int i = 0; i < 1000000; i++);
 
-    //turn on green led
     *pGPIOD_ODR |= (1<< 12);
 
-    uint32_t counter = 0;
+    int counter = 0;
     //loop forever until the button is pressed
     while (!(*pGPIOA_IDR & 1)) {
     	counter++;
     }
-
-    //turn off green led
-    *pGPIOD_ODR &= ~(1<< 12);
 
     //if it took a long time , beep the buzzer
     if (counter > 500000) {
