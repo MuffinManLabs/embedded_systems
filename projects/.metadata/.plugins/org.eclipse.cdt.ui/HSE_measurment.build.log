@@ -1,6 +1,6 @@
-13:02:36 **** Incremental Build of configuration Debug for project HSE_measurment ****
+20:04:01 **** Incremental Build of configuration Debug for project HSE_measurment ****
 make -j8 all 
-arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f407vgtx.d" -MT"Startup/startup_stm32f407vgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f407vgtx.o" "../Startup/startup_stm32f407vgtx.s"
 arm-none-eabi-gcc -o "HSE_measurment.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\HSE_measurment\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HSE_measurment.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: HSE_measurment.elf
  
@@ -13,5 +13,5 @@ Finished building: default.size.stdout
 Finished building: HSE_measurment.list
  
 
-13:02:36 Build Finished. 0 errors, 0 warnings. (took 632ms)
+20:04:02 Build Finished. 0 errors, 0 warnings. (took 835ms)
 

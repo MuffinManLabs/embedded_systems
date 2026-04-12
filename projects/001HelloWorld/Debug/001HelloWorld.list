@@ -29,25 +29,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  0000205c  2**0
                   CONTENTS, READONLY
- 13 .debug_info   000008fe  00000000  00000000  0000208c  2**0
+ 13 .debug_info   0000092f  00000000  00000000  0000208c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000002d8  00000000  00000000  0000298a  2**0
+ 14 .debug_abbrev 000002e8  00000000  00000000  000029bb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000118  00000000  00000000  00002c68  2**3
+ 15 .debug_aranges 00000118  00000000  00000000  00002ca8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 000000be  00000000  00000000  00002d80  2**0
+ 16 .debug_rnglists 000000be  00000000  00000000  00002dc0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00002d38  00000000  00000000  00002e3e  2**0
+ 17 .debug_macro  00002d38  00000000  00000000  00002e7e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00001443  00000000  00000000  00005b76  2**0
+ 18 .debug_line   00001452  00000000  00000000  00005bb6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000098e7  00000000  00000000  00006fb9  2**0
+ 19 .debug_str    000098ec  00000000  00000000  00007008  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  000108a0  2**0
+ 20 .comment      00000043  00000000  00000000  000108f4  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000009d0  00000000  00000000  000108e4  2**2
+ 21 .debug_frame  000009d0  00000000  00000000  00010938  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 0000005f  00000000  00000000  000112b4  2**0
+ 22 .debug_line_str 00000064  00000000  00000000  00011308  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -100,9 +100,9 @@ int main(void)
  80001d8:	08000d38 	.word	0x08000d38
 
 080001dc <ITM_SendChar>:
-/* ITM register addresses */
-#define ITM_STIMULUS_PORT0   	*((volatile uint32_t*) 0xE0000000 )
-#define ITM_TRACE_EN          	*((volatile uint32_t*) 0xE0000E00 )
+//
+//  uint8_t = unsigned 8-bit integer = exactly the size of one ASCII character
+///////////////////////////////////////////////////////////////////////////////////////////
 
 void ITM_SendChar(uint8_t ch)
 {
@@ -111,34 +111,46 @@ void ITM_SendChar(uint8_t ch)
  80001e0:	af00      	add	r7, sp, #0
  80001e2:	4603      	mov	r3, r0
  80001e4:	71fb      	strb	r3, [r7, #7]
-
-	//Enable TRCENA
-	DEMCR |= ( 1 << 24);
+    //  |= means "set this bit to 1 without changing any other bits in the register"
+    //
+    //  This runs every time a character is sent. Setting a bit that's already set
+    //  does nothing harmful — it's simpler than checking first.
+    //
+    DEMCR |= ( 1 << 24);
  80001e6:	4b0f      	ldr	r3, [pc, #60]	@ (8000224 <ITM_SendChar+0x48>)
  80001e8:	681b      	ldr	r3, [r3, #0]
  80001ea:	4a0e      	ldr	r2, [pc, #56]	@ (8000224 <ITM_SendChar+0x48>)
  80001ec:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
  80001f0:	6013      	str	r3, [r2, #0]
-
-	//enable stimulus port 0
-	ITM_TRACE_EN |= ( 1 << 0);
+    //  Note: (1 << 0) is the same as just writing 1.
+    //  It's written this way as an embedded convention for readability.
+    //  (1 << 0) clearly says "I'm setting bit 0".
+    //  (1 << 5) would mean "I'm setting bit 5" to enable port 5.
+    //
+    ITM_TRACE_EN |= ( 1 << 0);
  80001f2:	4b0d      	ldr	r3, [pc, #52]	@ (8000228 <ITM_SendChar+0x4c>)
  80001f4:	681b      	ldr	r3, [r3, #0]
  80001f6:	4a0c      	ldr	r2, [pc, #48]	@ (8000228 <ITM_SendChar+0x4c>)
  80001f8:	f043 0301 	orr.w	r3, r3, #1
  80001fc:	6013      	str	r3, [r2, #0]
-
-	// read FIFO status in bit [0]:
-	while(!(ITM_STIMULUS_PORT0 & 1));
+    //  while(!(...)) means "keep looping as long as it's NOT ready."
+    //  The moment the FIFO has space, the loop exits.
+    //
+    //  x = don't care / could be 0 or 1, we only care about bit 0
+    //
+    while(!(ITM_STIMULUS_PORT0 & 1));
  80001fe:	bf00      	nop
  8000200:	f04f 4360 	mov.w	r3, #3758096384	@ 0xe0000000
  8000204:	681b      	ldr	r3, [r3, #0]
  8000206:	f003 0301 	and.w	r3, r3, #1
  800020a:	2b00      	cmp	r3, #0
  800020c:	d0f8      	beq.n	8000200 <ITM_SendChar+0x24>
-
-	//Write to ITM stimulus port0
-	ITM_STIMULUS_PORT0 = ch;
+    //     FIFO --> ITM --> TPIU --> SWO wire --> ST-LINK --> USB --> your PC
+    //
+    //  Your code does NOT have to do any of that.
+    //  It just drops the character in the mailbox and moves on to the next one.
+    //
+    ITM_STIMULUS_PORT0 = ch;
  800020e:	f04f 4260 	mov.w	r2, #3758096384	@ 0xe0000000
  8000212:	79fb      	ldrb	r3, [r7, #7]
  8000214:	6013      	str	r3, [r2, #0]
@@ -200,6 +212,9 @@ __attribute__((weak)) int _read(int file, char *ptr, int len)
  8000264:	bd80      	pop	{r7, pc}
 
 08000266 <_write>:
+//    len   --> tells the caller how many characters were successfully written
+//
+///////////////////////////////////////////////////////////////////////////////////////////
 
 __attribute__((weak)) int _write(int file, char *ptr, int len)
 {
@@ -209,23 +224,28 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
  800026c:	60f8      	str	r0, [r7, #12]
  800026e:	60b9      	str	r1, [r7, #8]
  8000270:	607a      	str	r2, [r7, #4]
-  (void)file;
-  int DataIdx;
+    (void)file;  // We don't use 'file'. This line silences a compiler warning.
+    int DataIdx;
 
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
+    // Loop through each character in the string, one at a time.
+    // For "Hello", this loops 5 times: H, e, l, l, o
+    for (DataIdx = 0; DataIdx < len; DataIdx++)
  8000272:	2300      	movs	r3, #0
  8000274:	617b      	str	r3, [r7, #20]
  8000276:	e009      	b.n	800028c <_write+0x26>
-  {
-   // __io_putchar(*ptr++);
-	  ITM_SendChar(*ptr++);
+        // Semihosting halts the processor every time it sends a character.
+        // The processor stops, hands the character to the debugger over SWD
+        // (the "stop and ask" protocol), then resumes. Very slow.
+
+        // NEW LINE:
+        ITM_SendChar(*ptr++);
  8000278:	68bb      	ldr	r3, [r7, #8]
  800027a:	1c5a      	adds	r2, r3, #1
  800027c:	60ba      	str	r2, [r7, #8]
  800027e:	781b      	ldrb	r3, [r3, #0]
  8000280:	4618      	mov	r0, r3
  8000282:	f7ff ffab 	bl	80001dc <ITM_SendChar>
-  for (DataIdx = 0; DataIdx < len; DataIdx++)
+    for (DataIdx = 0; DataIdx < len; DataIdx++)
  8000286:	697b      	ldr	r3, [r7, #20]
  8000288:	3301      	adds	r3, #1
  800028a:	617b      	str	r3, [r7, #20]
@@ -233,8 +253,12 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
  800028e:	687b      	ldr	r3, [r7, #4]
  8000290:	429a      	cmp	r2, r3
  8000292:	dbf1      	blt.n	8000278 <_write+0x12>
-  }
-  return len;
+        // So: first call gets 'H', next gets 'e', then 'l', 'l', 'o'
+        //
+        // After each character enters the FIFO, hardware takes over:
+        //   FIFO --> ITM --> TPIU --> SWO wire --> ST-LINK --> USB --> your PC
+    }
+    return len;
  8000294:	687b      	ldr	r3, [r7, #4]
 }
  8000296:	4618      	mov	r0, r3
@@ -243,6 +267,9 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
  800029c:	bd80      	pop	{r7, pc}
 
 0800029e <_close>:
+
+
+
 
 int _close(int file)
 {

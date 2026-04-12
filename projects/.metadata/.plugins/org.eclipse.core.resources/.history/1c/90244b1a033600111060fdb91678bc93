@@ -1,0 +1,112 @@
+
+
+#include <stdint.h>
+
+//GPIOA clock and configuration
+#define AHB1ENR 0x40023830
+#define GPIOA_MODER 0x40020000
+#define GPIOA_ODR 0x40020014
+
+//TIM2 clock and configuration
+#define APB1ENR 0x40023840
+#define TIM2_CR1 0x40000000
+#define TIM2_SR 0x40000010
+#define TIM2_PSC 0x40000028
+#define TIM2_ARR 0x4000002C
+#define TIM2_DIER 0x4000000C
+
+
+//NVIC configuration
+#define NVIC_ISER0 0xE000E100
+
+
+int main(void)
+{
+	//GPIOA is on ahb1 bus, so enable it's rcc clock
+	volatile uint32_t *pAHB1ENR    = (volatile uint32_t *)AHB1ENR;
+	//tim2 is on apb1 bus, so enable it's rcc clock
+	volatile uint32_t *pAPB1ENR    = (volatile uint32_t *)APB1ENR;
+	//change pin 5 to "output mode" to light up led
+	volatile uint32_t *pGPIOA_MODER = (volatile uint32_t *)GPIOA_MODER;
+	//to start outputting 3.3v out of pa5
+	volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+	//to enable the counter
+	volatile uint32_t *pTIM2_CR1   = (volatile uint32_t *)TIM2_CR1;
+	//need to clear the UIF (Update Interrupt Flag) bit in the SR after the interrupt fires to tell it that you handled the interrupt
+	volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+	//prescaler to make the frequency going into tim2 from apb1 smaller
+	volatile uint32_t *pTIM2_PSC   = (volatile uint32_t *)TIM2_PSC;
+	//value that the counter reaches when it resets
+	volatile uint32_t *pTIM2_ARR   = (volatile uint32_t *)TIM2_ARR;
+	//set the UIE (update interrupt enable) bit to 1 so it sends an interrupt everytime the counter reaches arr number
+	volatile uint32_t *pTIM2_DIER  = (volatile uint32_t *)TIM2_DIER;
+	//allow the tim2 interrupt in the nvic
+	volatile uint32_t *pNVIC_ISER0 = (volatile uint32_t *)NVIC_ISER0;
+
+
+	//GPIOA is on ahb1 bus, so enable it's rcc clock
+	*pAHB1ENR |= (1<<0);
+
+	//tim2 is on apb1 bus, so enable it's rcc clock
+	*pAPB1ENR |= (1<<0);
+
+	//change pin 5 to "output mode" to light up led
+	*pGPIOA_MODER |= (1<<10);
+
+
+
+	//prescaler to make the frequency going into tim2 from apb1 smaller
+	*pTIM2_PSC = 83;
+
+	//value that the counter reaches when it resets
+	*pTIM2_ARR = 999999;
+
+	//set the UIE (update interrupt enable) bit to 1 so it sends an interrupt everytime the counter reaches arr number
+	*pTIM2_DIER |= (1<<0);
+
+	//allow the tim2 interrupt in the nvic (tim2 interrupt is position 28 in the vector table)
+	*pNVIC_ISER0 = (1 << 28);
+
+	//to enable the tim2 counter
+	*pTIM2_CR1 |= (1<<0);
+
+
+
+    /* Loop forever */
+	for(;;);
+}
+
+
+
+void TIM2_IRQHandler() {
+	//counter that counts to 15
+	static counter = 0;
+
+
+
+	//set the UIF bit (0th bit update interrupt flag) to 0
+	volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+	*pTIM2_SR = 0;
+
+
+	//outpout the voltage from pa5
+	volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+	*pGPIOA_ODR |= (1<<5);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

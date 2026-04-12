@@ -1,0 +1,640 @@
+
+bomb_diffuser_project.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         000002f4  08000188  08000188  00001188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  0800047c  0800047c  00002004  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  0800047c  0800047c  00002004  2**0
+                  CONTENTS, READONLY
+  4 .ARM          00000000  0800047c  0800047c  00002004  2**0
+                  CONTENTS, READONLY
+  5 .preinit_array 00000000  0800047c  0800047c  00002004  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  0800047c  0800047c  0000147c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .fini_array   00000004  08000480  08000480  00001480  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .data         00000004  20000000  08000484  00002000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .ccmram       00000000  10000000  10000000  00002004  2**0
+                  CONTENTS
+ 10 .bss          00000020  20000004  20000004  00002004  2**2
+                  ALLOC
+ 11 ._user_heap_stack 00000604  20000024  20000024  00002004  2**0
+                  ALLOC
+ 12 .ARM.attributes 00000030  00000000  00000000  00002004  2**0
+                  CONTENTS, READONLY
+ 13 .debug_info   00000277  00000000  00000000  00002034  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_abbrev 000000dc  00000000  00000000  000022ab  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 00000050  00000000  00000000  00002388  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 00000034  00000000  00000000  000023d8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  00001018  00000000  00000000  0000240c  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   00000553  00000000  00000000  00003424  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    00003f48  00000000  00000000  00003977  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000043  00000000  00000000  000078bf  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  00000080  00000000  00000000  00007904  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 22 .debug_line_str 0000006c  00000000  00000000  00007984  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	@ (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	@ (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	@ (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	20000004 	.word	0x20000004
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	08000464 	.word	0x08000464
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	@ (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	@ (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	@ (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000008 	.word	0x20000008
+ 80001c4:	08000464 	.word	0x08000464
+
+080001c8 <main>:
+#define GPIOA_AFRL 0x40020020
+
+
+
+int main(void)
+{
+ 80001c8:	b480      	push	{r7}
+ 80001ca:	b093      	sub	sp, #76	@ 0x4c
+ 80001cc:	af00      	add	r7, sp, #0
+
+//	LED
+//	--------------------------------------------------------------------------------
+//
+	//GPIOA is on ahb1 bus, so enable it's rcc clock
+	volatile uint32_t *pAHB1ENR    = (volatile uint32_t *)AHB1ENR;
+ 80001ce:	4b3d      	ldr	r3, [pc, #244]	@ (80002c4 <main+0xfc>)
+ 80001d0:	647b      	str	r3, [r7, #68]	@ 0x44
+	//tim2 is on apb1 bus, so enable it's rcc clock
+	volatile uint32_t *pAPB1ENR    = (volatile uint32_t *)APB1ENR;
+ 80001d2:	4b3d      	ldr	r3, [pc, #244]	@ (80002c8 <main+0x100>)
+ 80001d4:	643b      	str	r3, [r7, #64]	@ 0x40
+	//change pin 5 to "output mode" to light up led
+	volatile uint32_t *pGPIOA_MODER = (volatile uint32_t *)GPIOA_MODER;
+ 80001d6:	4b3d      	ldr	r3, [pc, #244]	@ (80002cc <main+0x104>)
+ 80001d8:	63fb      	str	r3, [r7, #60]	@ 0x3c
+	//to start outputting 3.3v out of pa5
+	volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+ 80001da:	4b3d      	ldr	r3, [pc, #244]	@ (80002d0 <main+0x108>)
+ 80001dc:	63bb      	str	r3, [r7, #56]	@ 0x38
+	//to enable the counter
+	volatile uint32_t *pTIM2_CR1   = (volatile uint32_t *)TIM2_CR1;
+ 80001de:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
+ 80001e2:	637b      	str	r3, [r7, #52]	@ 0x34
+	//need to clear the UIF (Update Interrupt Flag) bit in the SR after the interrupt fires to tell it that you handled the interrupt
+	volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+ 80001e4:	4b3b      	ldr	r3, [pc, #236]	@ (80002d4 <main+0x10c>)
+ 80001e6:	633b      	str	r3, [r7, #48]	@ 0x30
+	//prescaler to make the frequency going into tim2 from apb1 smaller
+	volatile uint32_t *pTIM2_PSC   = (volatile uint32_t *)TIM2_PSC;
+ 80001e8:	4b3b      	ldr	r3, [pc, #236]	@ (80002d8 <main+0x110>)
+ 80001ea:	62fb      	str	r3, [r7, #44]	@ 0x2c
+	//value that the counter reaches when it resets
+	volatile uint32_t *pTIM2_ARR   = (volatile uint32_t *)TIM2_ARR;
+ 80001ec:	4b3b      	ldr	r3, [pc, #236]	@ (80002dc <main+0x114>)
+ 80001ee:	62bb      	str	r3, [r7, #40]	@ 0x28
+	//set the UIE (update interrupt enable) bit to 1 so it sends an interrupt everytime the counter reaches arr number
+	volatile uint32_t *pTIM2_DIER  = (volatile uint32_t *)TIM2_DIER;
+ 80001f0:	4b3b      	ldr	r3, [pc, #236]	@ (80002e0 <main+0x118>)
+ 80001f2:	627b      	str	r3, [r7, #36]	@ 0x24
+	//allow the tim2 interrupt in the nvic
+	volatile uint32_t *pNVIC_ISER0 = (volatile uint32_t *)NVIC_ISER0;
+ 80001f4:	4b3b      	ldr	r3, [pc, #236]	@ (80002e4 <main+0x11c>)
+ 80001f6:	623b      	str	r3, [r7, #32]
+
+
+
+
+	//GPIOA is on ahb1 bus, so enable it's rcc clock
+	*pAHB1ENR |= (1<<0);
+ 80001f8:	6c7b      	ldr	r3, [r7, #68]	@ 0x44
+ 80001fa:	681b      	ldr	r3, [r3, #0]
+ 80001fc:	f043 0201 	orr.w	r2, r3, #1
+ 8000200:	6c7b      	ldr	r3, [r7, #68]	@ 0x44
+ 8000202:	601a      	str	r2, [r3, #0]
+
+	//tim2 is on apb1 bus, so enable it's rcc clock
+	*pAPB1ENR |= (1<<0);
+ 8000204:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
+ 8000206:	681b      	ldr	r3, [r3, #0]
+ 8000208:	f043 0201 	orr.w	r2, r3, #1
+ 800020c:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
+ 800020e:	601a      	str	r2, [r3, #0]
+
+	//change pin 5 to "output mode" to light up led
+	*pGPIOA_MODER |= (1<<10);
+ 8000210:	6bfb      	ldr	r3, [r7, #60]	@ 0x3c
+ 8000212:	681b      	ldr	r3, [r3, #0]
+ 8000214:	f443 6280 	orr.w	r2, r3, #1024	@ 0x400
+ 8000218:	6bfb      	ldr	r3, [r7, #60]	@ 0x3c
+ 800021a:	601a      	str	r2, [r3, #0]
+
+
+
+	//prescaler to make the frequency going into tim2 from apb1 smaller
+	*pTIM2_PSC = 15;
+ 800021c:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
+ 800021e:	220f      	movs	r2, #15
+ 8000220:	601a      	str	r2, [r3, #0]
+
+	//value that the counter reaches when it resets (this is 10 times per second)
+	*pTIM2_ARR = 100000;
+ 8000222:	6abb      	ldr	r3, [r7, #40]	@ 0x28
+ 8000224:	4a30      	ldr	r2, [pc, #192]	@ (80002e8 <main+0x120>)
+ 8000226:	601a      	str	r2, [r3, #0]
+
+	//set the UIE (update interrupt enable) bit to 1 so it sends an interrupt everytime the counter reaches arr number
+	*pTIM2_DIER |= (1<<0);
+ 8000228:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 800022a:	681b      	ldr	r3, [r3, #0]
+ 800022c:	f043 0201 	orr.w	r2, r3, #1
+ 8000230:	6a7b      	ldr	r3, [r7, #36]	@ 0x24
+ 8000232:	601a      	str	r2, [r3, #0]
+
+	//allow the tim2 interrupt in the nvic (tim2 interrupt is position 28 in the vector table)
+	*pNVIC_ISER0 = (1 << 28);
+ 8000234:	6a3b      	ldr	r3, [r7, #32]
+ 8000236:	f04f 5280 	mov.w	r2, #268435456	@ 0x10000000
+ 800023a:	601a      	str	r2, [r3, #0]
+
+	//to enable the tim2 counter
+	*pTIM2_CR1 |= (1<<0);
+ 800023c:	6b7b      	ldr	r3, [r7, #52]	@ 0x34
+ 800023e:	681b      	ldr	r3, [r3, #0]
+ 8000240:	f043 0201 	orr.w	r2, r3, #1
+ 8000244:	6b7b      	ldr	r3, [r7, #52]	@ 0x34
+ 8000246:	601a      	str	r2, [r3, #0]
+	//--------------------------------------------------------------------------------
+
+
+
+	//choose the alternate function (TIM3) for pin pa6
+	volatile uint32_t *pGPIOA_AFRL = (volatile uint32_t *)GPIOA_AFRL;
+ 8000248:	4b28      	ldr	r3, [pc, #160]	@ (80002ec <main+0x124>)
+ 800024a:	61fb      	str	r3, [r7, #28]
+
+	//prescaler to make the frequency smaller
+	volatile uint32_t *pTIM3_PSC   = (volatile uint32_t *)TIM3_PSC;
+ 800024c:	4b28      	ldr	r3, [pc, #160]	@ (80002f0 <main+0x128>)
+ 800024e:	61bb      	str	r3, [r7, #24]
+
+	//the limit the counter can reach (smaller limit means higher frequency becasue counter would restart more often)
+	volatile uint32_t *pTIM3_ARR   = (volatile uint32_t *)TIM3_ARR;
+ 8000250:	4b28      	ldr	r3, [pc, #160]	@ (80002f4 <main+0x12c>)
+ 8000252:	617b      	str	r3, [r7, #20]
+
+	//to set the threshold that the counter reaches until it has to output a low signal instead of high
+	volatile uint32_t *pTIM3_CCR1  = (volatile uint32_t *)TIM3_CCR1;
+ 8000254:	4b28      	ldr	r3, [pc, #160]	@ (80002f8 <main+0x130>)
+ 8000256:	613b      	str	r3, [r7, #16]
+
+	// Decides: CNT < CCR → HIGH
+	//CNT ≥ CCR → LOW    (change ocm1M mode bit)
+	volatile uint32_t *pTIM3_CCMR1 = (volatile uint32_t *)TIM3_CCMR1;
+ 8000258:	4b28      	ldr	r3, [pc, #160]	@ (80002fc <main+0x134>)
+ 800025a:	60fb      	str	r3, [r7, #12]
+
+
+
+
+	//counter enable (start counting)
+	volatile uint32_t *pTIM3_CR1   = (volatile uint32_t *)TIM3_CR1;
+ 800025c:	4b28      	ldr	r3, [pc, #160]	@ (8000300 <main+0x138>)
+ 800025e:	60bb      	str	r3, [r7, #8]
+
+
+
+
+	//the gate that allows the high/low signal from tim to get to the pin pa6 (change CC1E bit)
+	volatile uint32_t *pTIM3_CCER  = (volatile uint32_t *)TIM3_CCER;
+ 8000260:	4b28      	ldr	r3, [pc, #160]	@ (8000304 <main+0x13c>)
+ 8000262:	607b      	str	r3, [r7, #4]
+
+
+
+
+	//enable clock for GPIOA
+	*pAHB1ENR |= (1 << 0);
+ 8000264:	6c7b      	ldr	r3, [r7, #68]	@ 0x44
+ 8000266:	681b      	ldr	r3, [r3, #0]
+ 8000268:	f043 0201 	orr.w	r2, r3, #1
+ 800026c:	6c7b      	ldr	r3, [r7, #68]	@ 0x44
+ 800026e:	601a      	str	r2, [r3, #0]
+
+	//change pa6 to alternate function mode (to use TIM3)
+	*pGPIOA_MODER |= (1 << 13);
+ 8000270:	6bfb      	ldr	r3, [r7, #60]	@ 0x3c
+ 8000272:	681b      	ldr	r3, [r3, #0]
+ 8000274:	f443 5200 	orr.w	r2, r3, #8192	@ 0x2000
+ 8000278:	6bfb      	ldr	r3, [r7, #60]	@ 0x3c
+ 800027a:	601a      	str	r2, [r3, #0]
+
+
+
+	//set pa6 to alternate function (TIM3 MODE)
+	*pGPIOA_AFRL |= (1 << 25);
+ 800027c:	69fb      	ldr	r3, [r7, #28]
+ 800027e:	681b      	ldr	r3, [r3, #0]
+ 8000280:	f043 7200 	orr.w	r2, r3, #33554432	@ 0x2000000
+ 8000284:	69fb      	ldr	r3, [r7, #28]
+ 8000286:	601a      	str	r2, [r3, #0]
+
+
+
+	//enable clock for tim3
+	*pAPB1ENR |= (1<<1);
+ 8000288:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
+ 800028a:	681b      	ldr	r3, [r3, #0]
+ 800028c:	f043 0202 	orr.w	r2, r3, #2
+ 8000290:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
+ 8000292:	601a      	str	r2, [r3, #0]
+
+	//lower the frequency that goes from HSI to TIM3 from 16mhz to 1mhz (1 million tics per second)
+	*pTIM3_PSC = 15;
+ 8000294:	69bb      	ldr	r3, [r7, #24]
+ 8000296:	220f      	movs	r2, #15
+ 8000298:	601a      	str	r2, [r3, #0]
+
+	//set the limit the counter can reach (counter will reset 1000 times before reaching a million tics)
+	*pTIM3_ARR  = 500;
+ 800029a:	697b      	ldr	r3, [r7, #20]
+ 800029c:	f44f 72fa 	mov.w	r2, #500	@ 0x1f4
+ 80002a0:	601a      	str	r2, [r3, #0]
+
+	//then set the threshold that the count should reach until it is set to 0volts
+	*pTIM3_CCR1 = 50;
+ 80002a2:	693b      	ldr	r3, [r7, #16]
+ 80002a4:	2232      	movs	r2, #50	@ 0x32
+ 80002a6:	601a      	str	r2, [r3, #0]
+
+	// Decides: CNT < CCR → HIGH
+	//CNT ≥ CCR → LOW    (change oc1M mode bit)
+	*pTIM3_CCMR1 |= (0x3 << 5);
+ 80002a8:	68fb      	ldr	r3, [r7, #12]
+ 80002aa:	681b      	ldr	r3, [r3, #0]
+ 80002ac:	f043 0260 	orr.w	r2, r3, #96	@ 0x60
+ 80002b0:	68fb      	ldr	r3, [r7, #12]
+ 80002b2:	601a      	str	r2, [r3, #0]
+
+
+	//turn on counter
+	*pTIM3_CR1 |= (1 << 0);
+ 80002b4:	68bb      	ldr	r3, [r7, #8]
+ 80002b6:	681b      	ldr	r3, [r3, #0]
+ 80002b8:	f043 0201 	orr.w	r2, r3, #1
+ 80002bc:	68bb      	ldr	r3, [r7, #8]
+ 80002be:	601a      	str	r2, [r3, #0]
+
+
+
+
+    /* Loop forever */
+	for(;;);
+ 80002c0:	bf00      	nop
+ 80002c2:	e7fd      	b.n	80002c0 <main+0xf8>
+ 80002c4:	40023830 	.word	0x40023830
+ 80002c8:	40023840 	.word	0x40023840
+ 80002cc:	40020000 	.word	0x40020000
+ 80002d0:	40020014 	.word	0x40020014
+ 80002d4:	40000010 	.word	0x40000010
+ 80002d8:	40000028 	.word	0x40000028
+ 80002dc:	4000002c 	.word	0x4000002c
+ 80002e0:	4000000c 	.word	0x4000000c
+ 80002e4:	e000e100 	.word	0xe000e100
+ 80002e8:	000186a0 	.word	0x000186a0
+ 80002ec:	40020020 	.word	0x40020020
+ 80002f0:	40000428 	.word	0x40000428
+ 80002f4:	4000042c 	.word	0x4000042c
+ 80002f8:	40000434 	.word	0x40000434
+ 80002fc:	40000418 	.word	0x40000418
+ 8000300:	40000400 	.word	0x40000400
+ 8000304:	40000420 	.word	0x40000420
+
+08000308 <TIM2_IRQHandler>:
+}
+
+
+
+void TIM2_IRQHandler() {
+ 8000308:	b480      	push	{r7}
+ 800030a:	b087      	sub	sp, #28
+ 800030c:	af00      	add	r7, sp, #0
+	//this irq handler fires 10 times per second. the start of the second, buzzer and led are on. then they turn off after 100ms.
+	static uint32_t buzzer_led_counter = 0;
+
+
+	//set the UIF bit (0th bit update interrupt flag) to 0
+	volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+ 800030e:	4b29      	ldr	r3, [pc, #164]	@ (80003b4 <TIM2_IRQHandler+0xac>)
+ 8000310:	617b      	str	r3, [r7, #20]
+	*pTIM2_SR = 0;
+ 8000312:	697b      	ldr	r3, [r7, #20]
+ 8000314:	2200      	movs	r2, #0
+ 8000316:	601a      	str	r2, [r3, #0]
+
+	//if the buzzer and led counter is 0, then turn them on
+	if (buzzer_led_counter == 0) {
+ 8000318:	4b27      	ldr	r3, [pc, #156]	@ (80003b8 <TIM2_IRQHandler+0xb0>)
+ 800031a:	681b      	ldr	r3, [r3, #0]
+ 800031c:	2b00      	cmp	r3, #0
+ 800031e:	d110      	bne.n	8000342 <TIM2_IRQHandler+0x3a>
+		//turn on led
+		volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+ 8000320:	4b26      	ldr	r3, [pc, #152]	@ (80003bc <TIM2_IRQHandler+0xb4>)
+ 8000322:	60bb      	str	r3, [r7, #8]
+		*pGPIOA_ODR |= (1<<5);
+ 8000324:	68bb      	ldr	r3, [r7, #8]
+ 8000326:	681b      	ldr	r3, [r3, #0]
+ 8000328:	f043 0220 	orr.w	r2, r3, #32
+ 800032c:	68bb      	ldr	r3, [r7, #8]
+ 800032e:	601a      	str	r2, [r3, #0]
+
+		//enable the output of signal to the pin (turn on buzzer)
+		volatile uint32_t *pTIM3_CCER  = (volatile uint32_t *)TIM3_CCER;
+ 8000330:	4b23      	ldr	r3, [pc, #140]	@ (80003c0 <TIM2_IRQHandler+0xb8>)
+ 8000332:	607b      	str	r3, [r7, #4]
+		*pTIM3_CCER |= (1<<0);
+ 8000334:	687b      	ldr	r3, [r7, #4]
+ 8000336:	681b      	ldr	r3, [r3, #0]
+ 8000338:	f043 0201 	orr.w	r2, r3, #1
+ 800033c:	687b      	ldr	r3, [r7, #4]
+ 800033e:	601a      	str	r2, [r3, #0]
+ 8000340:	e013      	b.n	800036a <TIM2_IRQHandler+0x62>
+
+	}
+	//if buzzer and led counter is 1, then turn them off
+	else if (buzzer_led_counter == 1) {
+ 8000342:	4b1d      	ldr	r3, [pc, #116]	@ (80003b8 <TIM2_IRQHandler+0xb0>)
+ 8000344:	681b      	ldr	r3, [r3, #0]
+ 8000346:	2b01      	cmp	r3, #1
+ 8000348:	d10f      	bne.n	800036a <TIM2_IRQHandler+0x62>
+		//turn off led
+		volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+ 800034a:	4b1c      	ldr	r3, [pc, #112]	@ (80003bc <TIM2_IRQHandler+0xb4>)
+ 800034c:	613b      	str	r3, [r7, #16]
+		*pGPIOA_ODR &= ~(1<<5);
+ 800034e:	693b      	ldr	r3, [r7, #16]
+ 8000350:	681b      	ldr	r3, [r3, #0]
+ 8000352:	f023 0220 	bic.w	r2, r3, #32
+ 8000356:	693b      	ldr	r3, [r7, #16]
+ 8000358:	601a      	str	r2, [r3, #0]
+
+		//disable the output of signal to the pin (turn off buzzer)
+		volatile uint32_t *pTIM3_CCER  = (volatile uint32_t *)TIM3_CCER;
+ 800035a:	4b19      	ldr	r3, [pc, #100]	@ (80003c0 <TIM2_IRQHandler+0xb8>)
+ 800035c:	60fb      	str	r3, [r7, #12]
+		*pTIM3_CCER &= ~(1<<0);
+ 800035e:	68fb      	ldr	r3, [r7, #12]
+ 8000360:	681b      	ldr	r3, [r3, #0]
+ 8000362:	f023 0201 	bic.w	r2, r3, #1
+ 8000366:	68fb      	ldr	r3, [r7, #12]
+ 8000368:	601a      	str	r2, [r3, #0]
+
+	}
+
+	//restart buzzer and led counter after 1 second
+	if (buzzer_led_counter >= 10) {
+ 800036a:	4b13      	ldr	r3, [pc, #76]	@ (80003b8 <TIM2_IRQHandler+0xb0>)
+ 800036c:	681b      	ldr	r3, [r3, #0]
+ 800036e:	2b09      	cmp	r3, #9
+ 8000370:	d903      	bls.n	800037a <TIM2_IRQHandler+0x72>
+	    buzzer_led_counter = 0;
+ 8000372:	4b11      	ldr	r3, [pc, #68]	@ (80003b8 <TIM2_IRQHandler+0xb0>)
+ 8000374:	2200      	movs	r2, #0
+ 8000376:	601a      	str	r2, [r3, #0]
+ 8000378:	e004      	b.n	8000384 <TIM2_IRQHandler+0x7c>
+	} else {
+	    buzzer_led_counter++;
+ 800037a:	4b0f      	ldr	r3, [pc, #60]	@ (80003b8 <TIM2_IRQHandler+0xb0>)
+ 800037c:	681b      	ldr	r3, [r3, #0]
+ 800037e:	3301      	adds	r3, #1
+ 8000380:	4a0d      	ldr	r2, [pc, #52]	@ (80003b8 <TIM2_IRQHandler+0xb0>)
+ 8000382:	6013      	str	r3, [r2, #0]
+	}
+
+
+	//if game has reached 10 seconds (10 tics per second)
+	if (game_end_counter == 100) {
+ 8000384:	4b0f      	ldr	r3, [pc, #60]	@ (80003c4 <TIM2_IRQHandler+0xbc>)
+ 8000386:	681b      	ldr	r3, [r3, #0]
+ 8000388:	2b64      	cmp	r3, #100	@ 0x64
+ 800038a:	d108      	bne.n	800039e <TIM2_IRQHandler+0x96>
+		//once end_game_counter reaches 100 tics, stop the timer using TIM2_CR1
+		volatile uint32_t *pTIM2_CR1   = (volatile uint32_t *) TIM2_CR1;
+ 800038c:	f04f 4380 	mov.w	r3, #1073741824	@ 0x40000000
+ 8000390:	603b      	str	r3, [r7, #0]
+		*pTIM2_CR1 &= ~(1<<0);
+ 8000392:	683b      	ldr	r3, [r7, #0]
+ 8000394:	681b      	ldr	r3, [r3, #0]
+ 8000396:	f023 0201 	bic.w	r2, r3, #1
+ 800039a:	683b      	ldr	r3, [r7, #0]
+ 800039c:	601a      	str	r2, [r3, #0]
+	}
+	game_end_counter++;
+ 800039e:	4b09      	ldr	r3, [pc, #36]	@ (80003c4 <TIM2_IRQHandler+0xbc>)
+ 80003a0:	681b      	ldr	r3, [r3, #0]
+ 80003a2:	3301      	adds	r3, #1
+ 80003a4:	4a07      	ldr	r2, [pc, #28]	@ (80003c4 <TIM2_IRQHandler+0xbc>)
+ 80003a6:	6013      	str	r3, [r2, #0]
+
+
+}
+ 80003a8:	bf00      	nop
+ 80003aa:	371c      	adds	r7, #28
+ 80003ac:	46bd      	mov	sp, r7
+ 80003ae:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80003b2:	4770      	bx	lr
+ 80003b4:	40000010 	.word	0x40000010
+ 80003b8:	20000020 	.word	0x20000020
+ 80003bc:	40020014 	.word	0x40020014
+ 80003c0:	40000420 	.word	0x40000420
+ 80003c4:	20000000 	.word	0x20000000
+
+080003c8 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 80003c8:	480d      	ldr	r0, [pc, #52]	@ (8000400 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 80003ca:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 80003cc:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 80003d0:	480c      	ldr	r0, [pc, #48]	@ (8000404 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 80003d2:	490d      	ldr	r1, [pc, #52]	@ (8000408 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 80003d4:	4a0d      	ldr	r2, [pc, #52]	@ (800040c <LoopForever+0xe>)
+  movs r3, #0
+ 80003d6:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 80003d8:	e002      	b.n	80003e0 <LoopCopyDataInit>
+
+080003da <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 80003da:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 80003dc:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 80003de:	3304      	adds	r3, #4
+
+080003e0 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 80003e0:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 80003e2:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 80003e4:	d3f9      	bcc.n	80003da <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 80003e6:	4a0a      	ldr	r2, [pc, #40]	@ (8000410 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 80003e8:	4c0a      	ldr	r4, [pc, #40]	@ (8000414 <LoopForever+0x16>)
+  movs r3, #0
+ 80003ea:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 80003ec:	e001      	b.n	80003f2 <LoopFillZerobss>
+
+080003ee <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 80003ee:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 80003f0:	3204      	adds	r2, #4
+
+080003f2 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 80003f2:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 80003f4:	d3fb      	bcc.n	80003ee <FillZerobss>
+
+
+/* Call static constructors */
+  bl __libc_init_array
+ 80003f6:	f000 f811 	bl	800041c <__libc_init_array>
+/* Call the application's entry point.*/
+
+  bl main
+ 80003fa:	f7ff fee5 	bl	80001c8 <main>
+
+080003fe <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 80003fe:	e7fe      	b.n	80003fe <LoopForever>
+  ldr   r0, =_estack
+ 8000400:	20020000 	.word	0x20020000
+  ldr r0, =_sdata
+ 8000404:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 8000408:	20000004 	.word	0x20000004
+  ldr r2, =_sidata
+ 800040c:	08000484 	.word	0x08000484
+  ldr r2, =_sbss
+ 8000410:	20000004 	.word	0x20000004
+  ldr r4, =_ebss
+ 8000414:	20000024 	.word	0x20000024
+
+08000418 <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 8000418:	e7fe      	b.n	8000418 <ADC_IRQHandler>
+	...
+
+0800041c <__libc_init_array>:
+ 800041c:	b570      	push	{r4, r5, r6, lr}
+ 800041e:	4d0d      	ldr	r5, [pc, #52]	@ (8000454 <__libc_init_array+0x38>)
+ 8000420:	4c0d      	ldr	r4, [pc, #52]	@ (8000458 <__libc_init_array+0x3c>)
+ 8000422:	1b64      	subs	r4, r4, r5
+ 8000424:	10a4      	asrs	r4, r4, #2
+ 8000426:	2600      	movs	r6, #0
+ 8000428:	42a6      	cmp	r6, r4
+ 800042a:	d109      	bne.n	8000440 <__libc_init_array+0x24>
+ 800042c:	4d0b      	ldr	r5, [pc, #44]	@ (800045c <__libc_init_array+0x40>)
+ 800042e:	4c0c      	ldr	r4, [pc, #48]	@ (8000460 <__libc_init_array+0x44>)
+ 8000430:	f000 f818 	bl	8000464 <_init>
+ 8000434:	1b64      	subs	r4, r4, r5
+ 8000436:	10a4      	asrs	r4, r4, #2
+ 8000438:	2600      	movs	r6, #0
+ 800043a:	42a6      	cmp	r6, r4
+ 800043c:	d105      	bne.n	800044a <__libc_init_array+0x2e>
+ 800043e:	bd70      	pop	{r4, r5, r6, pc}
+ 8000440:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8000444:	4798      	blx	r3
+ 8000446:	3601      	adds	r6, #1
+ 8000448:	e7ee      	b.n	8000428 <__libc_init_array+0xc>
+ 800044a:	f855 3b04 	ldr.w	r3, [r5], #4
+ 800044e:	4798      	blx	r3
+ 8000450:	3601      	adds	r6, #1
+ 8000452:	e7f2      	b.n	800043a <__libc_init_array+0x1e>
+ 8000454:	0800047c 	.word	0x0800047c
+ 8000458:	0800047c 	.word	0x0800047c
+ 800045c:	0800047c 	.word	0x0800047c
+ 8000460:	08000480 	.word	0x08000480
+
+08000464 <_init>:
+ 8000464:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000466:	bf00      	nop
+ 8000468:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800046a:	bc08      	pop	{r3}
+ 800046c:	469e      	mov	lr, r3
+ 800046e:	4770      	bx	lr
+
+08000470 <_fini>:
+ 8000470:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000472:	bf00      	nop
+ 8000474:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000476:	bc08      	pop	{r3}
+ 8000478:	469e      	mov	lr, r3
+ 800047a:	4770      	bx	lr

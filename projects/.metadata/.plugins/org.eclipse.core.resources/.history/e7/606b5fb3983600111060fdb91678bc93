@@ -1,0 +1,321 @@
+
+/*
+ * ==========================================
+ * BOMB DEFUSER GAME — PIN ASSIGNMENTS
+ * ==========================================
+ *
+ * PA0  — User button (onboard)        — "cut the wire" input
+ * PA2  — USART2_TX (AF7)              — send game messages to PC
+ * PA3  — USART2_RX (AF7)              — receive from PC (if needed)
+ * PA5  — GPIO output (breadboard LED) — countdown visual
+ * PA6  — TIM3_CH1 (AF2)              — PWM buzzer output
+ * PB0  — ADC1 channel 8 (analog mode) — potentiometer input
+ *
+ * ==========================================
+ * PERIPHERALS USED
+ * ==========================================
+ *
+ * TIM2  — Countdown timer (1 second interrupts)
+ * TIM3  — PWM for buzzer pitch control
+ * ADC1  — Reads potentiometer voltage (0–4095)
+ * USART2 — Sends text to PC serial terminal
+ *
+ */
+
+#include <stdint.h>
+
+//LED
+//--------------------------------------------------------------------------------
+//GPIOA clock and configuration
+#define AHB1ENR 0x40023830
+#define GPIOA_MODER 0x40020000
+#define GPIOA_ODR 0x40020014
+
+//TIM2 clock and configuration
+#define APB1ENR 0x40023840
+#define TIM2_CR1 0x40000000
+#define TIM2_SR 0x40000010
+#define TIM2_PSC 0x40000028
+#define TIM2_ARR 0x4000002C
+#define TIM2_DIER 0x4000000C
+
+
+//NVIC configuration
+#define NVIC_ISER0 0xE000E100
+
+
+
+//POTENTIOMETER
+//--------------------------------------------------------------------------------
+//GPIOB clock and configuration
+//#define AHB1ENR 0x40023830
+#define GPIOB_MODER 0x40020400
+
+//ADC (analog digital converter) clock and configuration -- converts voltage to a clean number
+#define APB2ENR  0x40023844
+#define ADC_SQR3 0X40012034
+#define ADC_CR2  0x40012008
+#define ADC_DR  0x4001204C
+
+
+
+
+
+//BUZZER
+//--------------------------------------------------------------------------------
+//TIM3 clock and configuration (TIM3 base = 0x40000400)
+//#define APB1ENR 0x40023840
+#define TIM3_CR1   0x40000400
+#define TIM3_CCMR1 0x40000418
+#define TIM3_CCER  0x40000420
+#define TIM3_PSC   0x40000428
+#define TIM3_ARR   0x4000042C
+#define TIM3_CCR1  0x40000434
+
+//GPIOA alternate function register (for pins 0-7)
+#define GPIOA_AFRL 0x40020020
+
+
+
+int main(void)
+{
+
+//	LED
+//	--------------------------------------------------------------------------------
+//
+	//GPIOA is on ahb1 bus, so enable it's rcc clock
+	volatile uint32_t *pAHB1ENR    = (volatile uint32_t *)AHB1ENR;
+	//tim2 is on apb1 bus, so enable it's rcc clock
+	volatile uint32_t *pAPB1ENR    = (volatile uint32_t *)APB1ENR;
+	//change pin 5 to "output mode" to light up led
+	volatile uint32_t *pGPIOA_MODER = (volatile uint32_t *)GPIOA_MODER;
+//	//to start outputting 3.3v out of pa5
+//	volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+//	//to enable the counter
+//	volatile uint32_t *pTIM2_CR1   = (volatile uint32_t *)TIM2_CR1;
+//	//need to clear the UIF (Update Interrupt Flag) bit in the SR after the interrupt fires to tell it that you handled the interrupt
+//	volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+//	//prescaler to make the frequency going into tim2 from apb1 smaller
+//	volatile uint32_t *pTIM2_PSC   = (volatile uint32_t *)TIM2_PSC;
+//	//value that the counter reaches when it resets
+//	volatile uint32_t *pTIM2_ARR   = (volatile uint32_t *)TIM2_ARR;
+//	//set the UIE (update interrupt enable) bit to 1 so it sends an interrupt everytime the counter reaches arr number
+//	volatile uint32_t *pTIM2_DIER  = (volatile uint32_t *)TIM2_DIER;
+//	//allow the tim2 interrupt in the nvic
+//	volatile uint32_t *pNVIC_ISER0 = (volatile uint32_t *)NVIC_ISER0;
+
+
+
+
+
+
+//
+//	//GPIOA is on ahb1 bus, so enable it's rcc clock
+//	*pAHB1ENR |= (1<<0);
+//
+//	//tim2 is on apb1 bus, so enable it's rcc clock
+//	*pAPB1ENR |= (1<<0);
+//
+//	//change pin 5 to "output mode" to light up led
+//	*pGPIOA_MODER |= (1<<10);
+//
+//
+//
+//	//prescaler to make the frequency going into tim2 from apb1 smaller
+//	*pTIM2_PSC = 15;
+//
+//	//value that the counter reaches when it resets
+//	*pTIM2_ARR = 999999;
+//
+//	//set the UIE (update interrupt enable) bit to 1 so it sends an interrupt everytime the counter reaches arr number
+//	*pTIM2_DIER |= (1<<0);
+//
+//	//allow the tim2 interrupt in the nvic (tim2 interrupt is position 28 in the vector table)
+//	*pNVIC_ISER0 = (1 << 28);
+//
+//	//to enable the tim2 counter
+//	*pTIM2_CR1 |= (1<<0);
+
+
+
+
+
+
+
+//	//POTENTIOMETER
+//	//--------------------------------------------------------------------------------
+//
+//	//change PB0 to "analog mode" for ADC input
+//	volatile uint32_t *pGPIOB_MODER = (volatile uint32_t *)GPIOB_MODER;
+//
+//	//ADC1 is on apb2 bus, so enable its __rcc__ clock
+//	volatile uint32_t *pAPB2ENR = (volatile uint32_t *)APB2ENR;
+//
+//	//tell the ADC which channel to read (channel 8 = PB0)
+//	volatile uint32_t *pADC_SQR3 = (volatile uint32_t *)ADC_SQR3;
+//
+//	//control register to turn on the ADC and start conversions. use adon bit to turn on adc1, and swstart to start conversion,
+//    //and cont bit for continuous conversions
+//	volatile uint32_t *pADC_CR2 = (volatile uint32_t *)ADC_CR2;
+//
+//	//where the ADC stores the converted number (0-4095)
+//	volatile uint32_t *pADC_DR = (volatile uint32_t *)ADC_DR;
+//
+//
+//	//turn on gpioB clock
+//	*pAHB1ENR |= (1<<1);
+//
+//	//change mode of pb0 pin
+//	*pGPIOB_MODER |= 0x3;
+//
+//
+//
+//
+//
+//	//turn on adc1 clock
+//	*pAPB2ENR |= (1<<8);
+//
+//	//ADC should read channel 8
+//	*pADC_SQR3 = 8;
+//
+//	//turn on adc1 with ADON  bit
+//	*pADC_CR2 |= (1<<0);
+//
+//	//turn on continuous conversions with CONT  bit
+//	*pADC_CR2 |= (1<<1);
+//
+//	//start conversion with SWSTART bit
+//	*pADC_CR2 |= (1<<30);
+
+
+
+
+
+	//BUZZER
+	//--------------------------------------------------------------------------------
+
+
+
+	//choose the alternate function (TIM3) for pin pa6
+	volatile uint32_t *pGPIOA_AFRL = (volatile uint32_t *)GPIOA_AFRL;
+
+	//prescaler to make the frequency smaller
+	volatile uint32_t *pTIM3_PSC   = (volatile uint32_t *)TIM3_PSC;
+
+	//the limit the counter can reach (smaller limit means higher frequency becasue counter would restart more often)
+	volatile uint32_t *pTIM3_ARR   = (volatile uint32_t *)TIM3_ARR;
+
+	//to set the threshold that the counter reaches until it has to output a low signal instead of high
+	volatile uint32_t *pTIM3_CCR1  = (volatile uint32_t *)TIM3_CCR1;
+
+	// Decides: CNT < CCR → HIGH
+	//CNT ≥ CCR → LOW    (change ocm1M mode bit)
+	volatile uint32_t *pTIM3_CCMR1 = (volatile uint32_t *)TIM3_CCMR1;
+
+
+
+
+	//counter enable (start counting)
+	volatile uint32_t *pTIM3_CR1   = (volatile uint32_t *)TIM3_CR1;
+
+
+
+
+	//the gate that allows the high/low signal from tim to get to the pin pa6 (change CC1E bit)
+	volatile uint32_t *pTIM3_CCER  = (volatile uint32_t *)TIM3_CCER;
+
+
+
+
+	//enable clock for GPIOA
+	*pAHB1ENR |= (1 << 0);
+
+	//change pa6 to alternate function mode (to use TIM3)
+	*pGPIOA_MODER |= (1 << 13);
+
+
+
+	//set pa6 to alternate function (TIM3 MODE)
+	*pGPIOA_AFRL |= (1 << 25);
+
+
+
+	//enable clock for tim3
+	*pAPB1ENR |= (1<<1);
+
+	//lower the frequency that goes from HSI to TIM3 from 16mhz to 1mhz (1 million tics per second)
+	*pTIM3_PSC = 15;
+
+	//set the limit the counter can reach (counter will reset 1000 times before reaching a million tics)
+	*pTIM3_ARR  = 500;
+
+	//then set the threshold that the count should reach until it is set to 0volts
+	*pTIM3_CCR1 = 50;
+
+	// Decides: CNT < CCR → HIGH
+	//CNT ≥ CCR → LOW    (change oc1M mode bit)
+	*pTIM3_CCMR1 |= (0x3 << 5);
+
+
+	//enable the output of signal to the pin
+	*pTIM3_CCER |= (1<<0);
+
+
+	//turn on counter
+	*pTIM3_CR1 |= (1 << 0);
+
+
+
+
+
+
+
+
+
+
+
+    /* Loop forever */
+	for(;;);
+}
+
+
+
+//void TIM2_IRQHandler() {
+//	//counter that counts to 15
+//	static int counter = 1;
+//
+//
+//
+//	//set the UIF bit (0th bit update interrupt flag) to 0
+//	volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+//	*pTIM2_SR = 0;
+//
+//
+//	//toggle the voltage from pa5 (flip bit 5 using xor operator)
+//	volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+//	*pGPIOA_ODR ^=(1<<5);
+//
+//	if (counter == 10) {
+//		//once counter reaches 15, stop the timer using TIM2_CR1
+//		volatile uint32_t *pTIM2_CR1   = (volatile uint32_t *) TIM2_CR1;
+//		*pTIM2_CR1 &= ~(1<<0);
+//	}
+//	counter++;
+//
+//}
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

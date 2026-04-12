@@ -1,0 +1,27 @@
+14:30:01 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+../Src/main.c: In function 'main':
+../Src/main.c:225:28: warning: unused variable 'pTIM3_CCER' [-Wunused-variable]
+  225 |         volatile uint32_t *pTIM3_CCER  = (volatile uint32_t *)TIM3_CCER;
+      |                            ^~~~~~~~~~
+../Src/main.c:97:28: warning: unused variable 'pTIM2_SR' [-Wunused-variable]
+   97 |         volatile uint32_t *pTIM2_SR    = (volatile uint32_t *)TIM2_SR;
+      |                            ^~~~~~~~
+../Src/main.c:93:28: warning: unused variable 'pGPIOA_ODR' [-Wunused-variable]
+   93 |         volatile uint32_t *pGPIOA_ODR  = (volatile uint32_t *)GPIOA_ODR;
+      |                            ^~~~~~~~~~
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1156	      4	   1572	   2732	    aac	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+
+14:30:01 Build Finished. 0 errors, 3 warnings. (took 756ms)
+
