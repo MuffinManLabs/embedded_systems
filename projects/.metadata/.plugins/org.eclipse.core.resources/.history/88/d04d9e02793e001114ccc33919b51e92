@@ -1,0 +1,13 @@
+/*
+ * bme280.h
+ *
+ *  Created on: Apr 22, 2026
+ *      Author: huray
+ */
+
+#ifndef BME280_H_
+#define BME280_H_
+
+
+
+#endif /* BME280_H_ */
