@@ -3,28 +3,39 @@
 
 void usart2_init(void)
 {
-    /* Step 1: Enable clocks for GPIOA and USART2 */
-	RCC->AHB1ENR |= (1<<0);
+    /* Step 1: Enable clocks
+     * GPIOA is on AHB1 bus (bit 0 of AHB1ENR)
+     * USART2 is on APB1 bus (bit 17 of APB1ENR) */
+    RCC->AHB1ENR |= (1 << 0);
+    RCC->APB1ENR |= (1 << 17);
 
-	RCC->APB1ENR |= (1<<17);
+    /* Step 2: Configure PA2 and PA3 as alternate function mode (0b10)
+     * MODER fields are 2 bits wide: pin2 = bits [5:4], pin3 = bits [7:6] */
+    GPIOA->MODER &= ~(0x3 << 4);   /* Clear PA2 mode bits */
+    GPIOA->MODER |=  (0x2 << 4);   /* Set PA2 to alternate function */
+    GPIOA->MODER &= ~(0x3 << 6);   /* Clear PA3 mode bits */
+    GPIOA->MODER |=  (0x2 << 6);   /* Set PA3 to alternate function */
 
-    /* Step 2: Configure PA2 and PA3 as alternate function mode */
-	GPIOA->MODER |= (1<<5);
-	GPIOA->MODER |= (1<<7);
+    /* Step 3: Set alternate function to AF7 (USART2) for PA2 and PA3
+     * AFRL fields are 4 bits wide: pin2 = bits [11:8], pin3 = bits [15:12] */
+    GPIOA->AFRL &= ~(0xF << 8);    /* Clear PA2 AF bits */
+    GPIOA->AFRL |=  (0x7 << 8);    /* Set PA2 to AF7 */
+    GPIOA->AFRL &= ~(0xF << 12);   /* Clear PA3 AF bits */
+    GPIOA->AFRL |=  (0x7 << 12);   /* Set PA3 to AF7 */
 
-    /* Step 3: Set alternate function type to AF7 (USART2) for PA2 and PA3 */
-	GPIOA->AFRL |= (0x7<<8);
-	GPIOA->AFRL |= (0x7<<12);
+    /* Step 4: Configure USART2 baud rate
+     * 16 MHz / (16 * 115200) = 8.6806
+     * Mantissa = 8 (0x8), Fraction = 0.6806 * 16 = 11 (0xB)
+     * BRR = (8 << 4) | 11 = 0x008B
+     * Word length: 8 bits (default, CR1 bit 12 = 0)
+     * Stop bits: 1 (default, CR2 bits [13:12] = 00) */
+    USART2->BRR = 0x008B;
 
-    /* Step 4: Configure USART2: baud rate, word length, stop bits */
-	USART2->BRR = 0x008B;
-
-    /* Step 5: Enable USART2 transmitter and the USART2 peripheral */
-	USART2->CR1 |= (1<<13);
-	USART2->CR1 |= (1<<3);
-
+    /* Step 5: Enable transmitter and USART2 peripheral
+     * TE (bit 3): Enables the transmit shift register
+     * UE (bit 13): Master enable for the entire USART2 block */
+    USART2->CR1 |= (1 << 3) | (1 << 13);
 }
-
 
 /*
  * Sends a single byte over USART2 TX.
