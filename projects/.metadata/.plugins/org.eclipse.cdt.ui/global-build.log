@@ -555,3 +555,289 @@ Finished building: default.size.stdout
  
 Finished building: bomb_diffuser_project.list
  
+14:45:30 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1196	     72	   1568	   2836	    b14	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+14:47:36 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1228	     72	   1568	   2868	    b34	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+18:36:57 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1228	     72	   1568	   2868	    b34	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+18:59:34 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1244	     72	   1568	   2884	    b44	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+19:10:17 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1256	     72	   1568	   2896	    b50	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+19:11:01 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1256	     72	   1568	   2896	    b50	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+19:46:52 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1312	     80	   1568	   2960	    b90	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+20:14:34 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1336	     84	   1572	   2992	    bb0	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+20:16:02 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+   text	   data	    bss	    dec	    hex	filename
+   1336	     84	   1572	   2992	    bb0	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+20:17:00 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1480	    100	   1572	   3152	    c50	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+21:47:32 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1600	    108	   1572	   3280	    cd0	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+21:51:21 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1728	    116	   1572	   3416	    d58	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+16:42:27 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1816	    116	   1572	   3504	    db0	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+16:49:40 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+../Src/main.c: In function 'init_usart2':
+../Src/main.c:297:9: warning: implicit declaration of function 'uart_send_string' [-Wimplicit-function-declaration]
+  297 |         uart_send_string("\033[2J\033[H");
+      |         ^~~~~~~~~~~~~~~~
+../Src/main.c: At top level:
+../Src/main.c:314:6: warning: conflicting types for 'uart_send_string'; have 'void(char *)'
+  314 | void uart_send_string(char * string) {
+      |      ^~~~~~~~~~~~~~~~
+../Src/main.c:297:9: note: previous implicit declaration of 'uart_send_string' with type 'void(char *)'
+  297 |         uart_send_string("\033[2J\033[H");
+      |         ^~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   1828	    116	   1572	   3516	    dbc	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+14:08:58 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+../Src/main.c: In function 'init_usart2':
+../Src/main.c:324:9: warning: implicit declaration of function 'uart_send_string' [-Wimplicit-function-declaration]
+  324 |         uart_send_string("\033[2J\033[H");
+      |         ^~~~~~~~~~~~~~~~
+../Src/main.c: At top level:
+../Src/main.c:363:6: warning: conflicting types for 'uart_send_string'; have 'void(char *)'
+  363 | void uart_send_string(char * string) {
+      |      ^~~~~~~~~~~~~~~~
+../Src/main.c:324:9: note: previous implicit declaration of 'uart_send_string' with type 'void(char *)'
+  324 |         uart_send_string("\033[2J\033[H");
+      |         ^~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "bomb_diffuser_project.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\bomb_diffuser_project\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="bomb_diffuser_project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: bomb_diffuser_project.elf
+ 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+arm-none-eabi-objdump -h -S bomb_diffuser_project.elf  > "bomb_diffuser_project.list"
+   text	   data	    bss	    dec	    hex	filename
+   2004	    132	   1580	   3716	    e84	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+Finished building: bomb_diffuser_project.list
+ 
+14:10:31 **** Incremental Build of configuration Debug for project bomb_diffuser_project ****
+make -j8 all 
+arm-none-eabi-size  bomb_diffuser_project.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2004	    132	   1580	   3716	    e84	bomb_diffuser_project.elf
+Finished building: default.size.stdout
+ 
+09:09:05 **** Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Startup/startup_stm32f407vgtx.d" -MT"Startup/startup_stm32f407vgtx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Startup/startup_stm32f407vgtx.o" "../Startup/startup_stm32f407vgtx.s"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
+arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
+arm-none-eabi-gcc "../Src/usart2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/usart2.d" -MT"Src/usart2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/usart2.o"
+../Src/main.c:22:4: warning: #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use." [-Wcpp]
+   22 |   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
+      |    ^~~~~~~
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+    652	      0	   1568	   2220	    8ac	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+09:09:43 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/usart2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/usart2.d" -MT"Src/usart2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/usart2.o"
+../Src/usart2.c: In function 'usart2_init':
+../Src/usart2.c:20:9: error: 'USART2' undeclared (first use in this function); did you mean 'USART2_H'?
+   20 |         USART2->BRR = 0x008B;
+      |         ^~~~~~
+      |         USART2_H
+../Src/usart2.c:20:9: note: each undeclared identifier is reported only once for each function it appears in
+../Src/usart2.c: In function 'usart2_send_byte':
+../Src/usart2.c:40:14: error: 'USART2' undeclared (first use in this function); did you mean 'USART2_H'?
+   40 |     while (!(USART2->SR & (1 << 7)))
+      |              ^~~~~~
+      |              USART2_H
+make: *** [Src/subdir.mk:28: Src/usart2.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+09:12:12 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/usart2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/usart2.d" -MT"Src/usart2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/usart2.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+    924	      0	   1568	   2492	    9bc	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 

@@ -1,0 +1,93 @@
+#ifndef STM32F407XX_H
+#define STM32F407XX_H
+
+#include <stdint.h>
+
+/*
+ * RCC (Reset and Clock Control) register structure
+ * Base address: 0x40023800
+ * Reference: RM0090 Section 7.3
+ */
+
+
+/* ---- RCC ---- */
+typedef struct {
+    volatile uint32_t CR;           /* Offset 0x00: Clock control register           */
+    volatile uint32_t PLLCFGR;      /* Offset 0x04: PLL configuration register       */
+    volatile uint32_t CFGR;         /* Offset 0x08: Clock configuration register     */
+    volatile uint32_t CIR;          /* Offset 0x0C: Clock interrupt register          */
+    volatile uint32_t AHB1RSTR;     /* Offset 0x10: AHB1 peripheral reset register   */
+    volatile uint32_t AHB2RSTR;     /* Offset 0x14: AHB2 peripheral reset register   */
+    volatile uint32_t AHB3RSTR;     /* Offset 0x18: AHB3 peripheral reset register   */
+    uint32_t          RESERVED0;    /* Offset 0x1C: Reserved                          */
+    volatile uint32_t APB1RSTR;     /* Offset 0x20: APB1 peripheral reset register   */
+    volatile uint32_t APB2RSTR;     /* Offset 0x24: APB2 peripheral reset register   */
+    uint32_t          RESERVED1;    /* Offset 0x28: Reserved                          */
+    uint32_t          RESERVED2;    /* Offset 0x2C: Reserved                          */
+    volatile uint32_t AHB1ENR;      /* Offset 0x30: AHB1 peripheral clock enable     */
+    volatile uint32_t AHB2ENR;      /* Offset 0x34: AHB2 peripheral clock enable     */
+    volatile uint32_t AHB3ENR;      /* Offset 0x38: AHB3 peripheral clock enable     */
+    uint32_t          RESERVED3;    /* Offset 0x3C: Reserved                          */
+    volatile uint32_t APB1ENR;      /* Offset 0x40: APB1 peripheral clock enable     */
+    volatile uint32_t APB2ENR;      /* Offset 0x44: APB2 peripheral clock enable     */
+} RCC_TypeDef;
+
+#define RCC_BASE    0x40023800UL
+// In the below line, RCC is a macro (text replacement).
+// ((RCC_TypeDef *) RCC_BASE) just means that you are treating
+// RCC_BASE address as an address that points to data shaped
+// like an RCC_TypeDef struct, so the compiler can calculate
+// the correct offset for each register by field name.
+//"whenever I use this number to access memory, calculate offsets as if the data there is shaped like a GPIO_TypeDef."
+#define RCC         ((RCC_TypeDef *) RCC_BASE)
+
+
+
+
+/*
+ * GPIO register structure
+ * Base addresses: GPIOA=0x40020000, GPIOB=0x40020400, etc.
+ * Reference: RM0090 Section 8.4
+ */
+typedef struct {
+    volatile uint32_t MODER;        /* Offset 0x00: Mode register              */
+    volatile uint32_t OTYPER;       /* Offset 0x04: Output type register       */
+    volatile uint32_t OSPEEDR;      /* Offset 0x08: Output speed register      */
+    volatile uint32_t PUPDR;        /* Offset 0x0C: Pull-up/pull-down register */
+    volatile uint32_t IDR;          /* Offset 0x10: Input data register        */
+    volatile uint32_t ODR;          /* Offset 0x14: Output data register       */
+    volatile uint32_t BSRR;         /* Offset 0x18: Bit set/reset register     */
+    volatile uint32_t LCKR;         /* Offset 0x1C: Lock register              */
+    volatile uint32_t AFRL;         /* Offset 0x20: Alternate function low     */
+    volatile uint32_t AFRH;         /* Offset 0x24: Alternate function high    */
+} GPIO_TypeDef;
+
+#define GPIOA_BASE  0x40020000UL
+#define GPIOA       ((GPIO_TypeDef *) GPIOA_BASE)
+
+
+
+
+
+/*
+ * USART register structure
+ * Base addresses: USART2=0x40004400, USART3=0x40004800, etc.
+ * Reference: RM0090 Section 30.6
+ */
+typedef struct {
+    volatile uint32_t SR;           /* Offset 0x00: Status register            */
+    volatile uint32_t DR;           /* Offset 0x04: Data register              */
+    volatile uint32_t BRR;          /* Offset 0x08: Baud rate register         */
+    volatile uint32_t CR1;          /* Offset 0x0C: Control register 1         */
+    volatile uint32_t CR2;          /* Offset 0x10: Control register 2         */
+    volatile uint32_t CR3;          /* Offset 0x14: Control register 3         */
+    volatile uint32_t GTPR;         /* Offset 0x18: Guard time/prescaler       */
+} USART_TypeDef;
+
+#define USART2_BASE 0x40004400UL
+#define USART2      ((USART_TypeDef *) USART2_BASE)
+
+
+
+
+#endif /* STM32F407XX_H */

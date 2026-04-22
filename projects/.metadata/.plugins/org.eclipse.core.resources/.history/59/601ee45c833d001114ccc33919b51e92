@@ -1,0 +1,35 @@
+#ifndef STM32F407XX_H
+#define STM32F407XX_H
+
+#include <stdint.h>
+
+/*
+ * RCC (Reset and Clock Control) register structure
+ * Base address: 0x40023800
+ * Reference: RM0090 Section 7.3
+ */
+typedef struct {
+    volatile uint32_t CR;           /* Offset 0x00: Clock control register           */
+    volatile uint32_t PLLCFGR;      /* Offset 0x04: PLL configuration register       */
+    volatile uint32_t CFGR;         /* Offset 0x08: Clock configuration register     */
+    volatile uint32_t CIR;          /* Offset 0x0C: Clock interrupt register          */
+    volatile uint32_t AHB1RSTR;     /* Offset 0x10: AHB1 peripheral reset register   */
+    volatile uint32_t AHB2RSTR;     /* Offset 0x14: AHB2 peripheral reset register   */
+    volatile uint32_t AHB3RSTR;     /* Offset 0x18: AHB3 peripheral reset register   */
+    uint32_t          RESERVED0;    /* Offset 0x1C: Reserved                          */
+    volatile uint32_t APB1RSTR;     /* Offset 0x20: APB1 peripheral reset register   */
+    volatile uint32_t APB2RSTR;     /* Offset 0x24: APB2 peripheral reset register   */
+    uint32_t          RESERVED1;    /* Offset 0x28: Reserved                          */
+    uint32_t          RESERVED2;    /* Offset 0x2C: Reserved                          */
+    volatile uint32_t AHB1ENR;      /* Offset 0x30: AHB1 peripheral clock enable     */
+    volatile uint32_t AHB2ENR;      /* Offset 0x34: AHB2 peripheral clock enable     */
+    volatile uint32_t AHB3ENR;      /* Offset 0x38: AHB3 peripheral clock enable     */
+    uint32_t          RESERVED3;    /* Offset 0x3C: Reserved                          */
+    volatile uint32_t APB1ENR;      /* Offset 0x40: APB1 peripheral clock enable     */
+    volatile uint32_t APB2ENR;      /* Offset 0x44: APB2 peripheral clock enable     */
+} RCC_TypeDef;
+
+#define RCC_BASE    0x40023800UL
+#define RCC         ((RCC_TypeDef *) RCC_BASE)
+
+#endif /* STM32F407XX_H */

@@ -1,0 +1,3 @@
+../Src/usart2.c:4:6:usart2_init	1
+../Src/usart2.c:34:6:usart2_send_byte	2
+../Src/usart2.c:56:6:usart2_send_string	2
