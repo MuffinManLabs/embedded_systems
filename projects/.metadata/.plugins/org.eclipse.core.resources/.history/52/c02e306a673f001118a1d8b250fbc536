@@ -1,0 +1,43 @@
+#include "bme280.h"
+#include "spi2.h"
+
+/*
+ * Initializes the BME280 sensor.
+ *
+ * STAGE 1 (current): Verifies SPI communication by reading the chip ID
+ * register (0xD0) and comparing against the expected value (0x60).
+ * This is a "hello world" sanity check — if this passes, we know SPI2
+ * wiring, clocks, and the four-wire protocol are all working.
+ *
+ * STAGE 2 (not yet implemented): Read factory calibration coefficients.
+ * STAGE 3 (not yet implemented): Configure oversampling and mode.
+ */
+bool bme280_init(void)
+{
+    /* The BME280 SPI read protocol is a two-byte exchange:
+     *   Byte 1: register address with bit 7 = 1 (read flag)
+     *   Byte 2: dummy byte — sensor sends register contents back on MISO
+     *
+     * For the chip ID at 0xD0, bit 7 is already 1, so we send 0xD0 as-is.
+     * CS must stay LOW for the entire two-byte transaction. */
+
+    uint8_t chip_id;
+
+    /* Step 1: Pull CS LOW to select the BME280. */
+    spi2_cs_enable();
+
+    /* Step 2: Send the register address byte.
+     * The byte the sensor returns during this exchange is garbage — ignore it. */
+    (void)spi2_transmit_receive(BME280_REG_ID);
+
+    /* Step 3: Send a dummy byte (0x00) so the SPI clock keeps ticking.
+     * The sensor uses this exchange to send back the register contents on MISO. */
+    chip_id = spi2_transmit_receive(0x00);
+
+    /* Step 4: Pull CS HIGH to deselect the BME280 and end the transaction. */
+    spi2_cs_disable();
+
+    /* Step 5: Compare the chip ID against the expected value (0x60).
+     * Return true on match, false on mismatch. */
+    return (chip_id == BME280_CHIP_ID);
+}

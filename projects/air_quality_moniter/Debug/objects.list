@@ -1,4 +1,6 @@
+"./Src/bme280.o"
 "./Src/main.o"
+"./Src/spi2.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Src/usart2.o"

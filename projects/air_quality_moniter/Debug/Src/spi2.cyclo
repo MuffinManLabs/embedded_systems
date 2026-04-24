@@ -1,0 +1,4 @@
+../Src/spi2.c:5:6:spi2_init	1
+../Src/spi2.c:67:9:spi2_transmit_receive	3
+../Src/spi2.c:105:6:spi2_cs_enable	1
+../Src/spi2.c:117:6:spi2_cs_disable	1

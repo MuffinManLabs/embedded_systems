@@ -5,8 +5,8 @@
  *      Author: huray
  */
 
-#ifndef SPI2_H_
-#define SPI2_H_
+#ifndef SPI2_H
+#define SPI2_H
 
 #include <stdint.h>
 
@@ -31,4 +31,4 @@ void spi2_cs_enable(void);
 /* Pulls PB12 (CS) HIGH to deselect the slave device. */
 void spi2_cs_disable(void);
 
-#endif /* SPI2_H_ */
+#endif /* SPI2_H */

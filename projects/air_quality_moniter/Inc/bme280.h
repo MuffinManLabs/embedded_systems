@@ -1,7 +1,8 @@
-
-
 #ifndef BME280_H_
 #define BME280_H_
+
+#include <stdint.h>
+#include <stdbool.h>
 
 /* ---- BME280 Register Addresses ----
  * These are the full 8-bit addresses from the BME280 datasheet Table 18.
@@ -41,10 +42,15 @@
 
 
 
-/* Reads the chip ID register (0xD0) and verifies it returns 0x60.
- * Call this after spi2_init() to confirm SPI wiring and communication.
- * Returns 1 if ID matches (success), 0 if it doesn't (failure). */
-uint8_t bme280_init(void);
+/* Initializes the BME280 sensor.
+ * Reads the chip ID register (0xD0) and verifies it returns 0x60 to
+ * confirm SPI wiring and communication. Then reads the factory calibration
+ * coefficients from the sensor and stores them in RAM for later use by the
+ * compensation formulas. Finally configures oversampling and mode with
+ * sensible defaults (see bme280.c).
+ * Call this once after spi2_init().
+ * Returns true on success, false if the chip ID doesn't match. */
+bool bme280_init(void);
 
 
 /* Reads temperature from the BME280 data registers, applies the
@@ -52,6 +58,33 @@ uint8_t bme280_init(void);
  * and returns the temperature in degrees Celsius multiplied by 100.
  * Example: a return value of 2350 means 23.50°C. */
 int32_t bme280_read_temperature(void);
+
+
+/* Reads pressure from the BME280 data registers, applies the
+ * compensation formula using factory calibration coefficients,
+ * and returns the pressure in Pascals in Q24.8 fixed-point format
+ * (24 integer bits, 8 fractional bits — i.e. the value is Pa * 256).
+ * Divide by 256 to get Pascals. Divide by 25600 to get hectopascals (hPa).
+ * Example: a return value of 24674867 means 24674867 / 256 = 96386.2 Pa
+ * = 963.86 hPa.
+ *
+ * NOTE: bme280_read_temperature() must be called before this function,
+ * because the temperature compensation produces an intermediate value
+ * (t_fine) that the pressure formula depends on. */
+uint32_t bme280_read_pressure(void);
+
+
+/* Reads humidity from the BME280 data registers, applies the
+ * compensation formula using factory calibration coefficients,
+ * and returns the relative humidity in Q22.10 fixed-point format
+ * (22 integer bits, 10 fractional bits — i.e. the value is %RH * 1024).
+ * Divide by 1024 to get percent relative humidity.
+ * Example: a return value of 47445 means 47445 / 1024 = 46.33 %RH.
+ *
+ * NOTE: bme280_read_temperature() must be called before this function,
+ * because the temperature compensation produces an intermediate value
+ * (t_fine) that the humidity formula depends on. */
+uint32_t bme280_read_humidity(void);
 
 
 #endif /* BME280_H_ */

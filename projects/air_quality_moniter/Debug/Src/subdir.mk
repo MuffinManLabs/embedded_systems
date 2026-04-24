@@ -5,19 +5,25 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Src/bme280.c \
 ../Src/main.c \
+../Src/spi2.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c \
 ../Src/usart2.c 
 
 OBJS += \
+./Src/bme280.o \
 ./Src/main.o \
+./Src/spi2.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o \
 ./Src/usart2.o 
 
 C_DEPS += \
+./Src/bme280.d \
 ./Src/main.d \
+./Src/spi2.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d \
 ./Src/usart2.d 
@@ -30,7 +36,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/usart2.cyclo ./Src/usart2.d ./Src/usart2.o ./Src/usart2.su
+	-$(RM) ./Src/bme280.cyclo ./Src/bme280.d ./Src/bme280.o ./Src/bme280.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/spi2.cyclo ./Src/spi2.d ./Src/spi2.o ./Src/spi2.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/usart2.cyclo ./Src/usart2.d ./Src/usart2.o ./Src/usart2.su
 
 .PHONY: clean-Src
 
