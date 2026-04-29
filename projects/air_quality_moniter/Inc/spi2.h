@@ -21,14 +21,64 @@
 /* Configures GPIOB pins, SPI2 peripheral, and enables clocks. */
 void spi2_init(void);
 
+
+
+
+
 /* Sends one byte on MOSI and simultaneously receives one byte on MISO.
  * Returns the byte received from the slave device. */
 uint8_t spi2_transmit_receive(uint8_t byte);
 
+
+
+
+/* Burst reads `length` consecutive registers from a SPI device, starting
+ * at `reg_addr`. The device's internal address pointer auto-increments
+ * after each byte, so only the starting address is sent.
+ *
+ * Bit 7 of the address is forced to 1 by this function to signal a read
+ * operation (per the BME280 SPI read protocol). The first byte returned
+ * by the device during the address transfer is discarded.
+ *
+ * Parameters:
+ *   reg_addr — starting register address (bit 7 forced to 1 internally)
+ *   buffer   — caller-allocated array where received bytes will be stored;
+ *              must have space for at least `length` bytes
+ *   length   — number of register bytes to read
+ *
+ * The function does nothing if buffer is NULL or length is zero.
+ * CS is pulled LOW at the start and HIGH at the end to frame the transaction. */
+void spi2_read_registers(uint8_t reg_addr, uint8_t *buffer, uint16_t length);
+
+
+
+
+/* Writes a single byte to a register on a SPI device.
+ *
+ * Bit 7 of the address is forced to 0 by this function to signal a write
+ * operation (per the BME280 SPI write protocol). The caller passes the
+ * natural datasheet address (e.g. 0xF4) and the driver handles the flag.
+ *
+ * Parameters:
+ *   reg_addr — register address to write to (bit 7 forced to 0 internally)
+ *   data     — byte value to write into that register
+ *
+ * CS is pulled LOW at the start and HIGH at the end to frame the transaction.
+ * The BME280 commits the new register value on the rising edge of CS. */
+void spi2_write_register(uint8_t reg_addr, uint8_t data);
+
+
+
+
+
 /* Pulls PB12 (CS) LOW to select the slave device. */
 void spi2_cs_enable(void);
 
+
+
 /* Pulls PB12 (CS) HIGH to deselect the slave device. */
 void spi2_cs_disable(void);
+
+
 
 #endif /* SPI2_H */

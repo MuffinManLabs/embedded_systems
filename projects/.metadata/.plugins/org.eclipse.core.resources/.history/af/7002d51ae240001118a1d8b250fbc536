@@ -1,0 +1,69 @@
+#include "stm32f407xx.h"
+#include "usart2.h"
+#include "spi2.h"
+#include "bme280.h"
+
+/* Declare access to the calibration coefficients for debug printing.
+ * These are defined as `static` in bme280.c so they aren't normally
+ * visible here. For bring-up diagnostics only, we expose a helper
+ * in bme280.c that dumps them for us. See bme280_debug_print_calib(). */
+extern void bme280_debug_print_calib(void);
+
+int main(void)
+{
+    /* Step 1: Initialize the debug serial port (USART2) first.
+     * We need this up and running before anything else so we can print
+     * status messages about the rest of the startup sequence. */
+    usart2_init();
+    usart2_send_string("\r\n--- Air Quality Monitor starting ---\r\n");
+
+    /* Step 2: Initialize the SPI2 peripheral so we can talk to the BME280. */
+    usart2_send_string("Initializing SPI2... ");
+    spi2_init();
+    usart2_send_string("OK\r\n");
+
+    /* Step 3: Run full BME280 init (chip ID check + calibration read +
+     * configure control registers). The status code tells us exactly
+     * which stage failed if anything goes wrong. */
+    usart2_send_string("BME280 init... ");
+    bme280_status_t bme_status = bme280_init();
+
+    switch (bme_status)
+    {
+        case BME280_OK:
+            usart2_send_string("OK\r\n");
+            break;
+
+        case BME280_ERR_ID_MISMATCH:
+            usart2_send_string("FAIL: chip ID mismatch (Stage 1)\r\n");
+            usart2_send_string("  Check SPI wiring, CS pin, and 3.3V power.\r\n");
+            while (1) { /* halt */ }
+
+        case BME280_ERR_CALIB_INVALID:
+            usart2_send_string("FAIL: calibration invalid (Stage 2)\r\n");
+            usart2_send_string("  dig_T1 was 0x0000 or 0xFFFF - likely MISO stuck.\r\n");
+            while (1) { /* halt */ }
+
+        case BME280_ERR_CONFIG_VERIFY:
+            usart2_send_string("FAIL: config register verify (Stage 3)\r\n");
+            usart2_send_string("  A control register did not read back the value written.\r\n");
+            while (1) { /* halt */ }
+
+        default:
+            /* Defensive: if the enum gains new values later and we
+             * forget to update this switch, we still halt loudly. */
+            usart2_send_string("FAIL: unknown status code\r\n");
+            while (1) { /* halt */ }
+    }
+
+    /* Step 4: Dump the factory calibration coefficients over USART for
+     * sanity checking during bring-up. Remove this once the driver is
+     * verified working. */
+    bme280_debug_print_calib();
+
+    /* Infinite loop - bare-metal main() must never return. */
+    while (1)
+    {
+        /* Empty for now - measurement reads will go here in the next chunk. */
+    }
+}

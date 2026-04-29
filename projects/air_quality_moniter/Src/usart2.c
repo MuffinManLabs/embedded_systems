@@ -72,3 +72,101 @@ void usart2_send_string(const char *str)
         str++;
     }
 }
+
+
+
+
+void usart2_send_hex(uint32_t value)
+{
+    /* Print the literal "0x" prefix so output is unambiguous. */
+    usart2_send_byte('0');
+    usart2_send_byte('x');
+
+    /* A 32-bit value has 8 nibbles (4 bits each). We print from the
+     * most-significant nibble down to the least-significant nibble
+     * so the output reads left-to-right like a normal hex number.
+     *
+     * Loop invariant: `shift` holds the bit position of the nibble
+     * we're about to extract, starting at bit 28 and decreasing by 4
+     * each iteration until we process bit 0. */
+    for (int32_t shift = 28; shift >= 0; shift -= 4)
+    {
+        /* Isolate the current 4-bit nibble:
+         *   value >> shift  moves the target nibble down to bits [3:0]
+         *   & 0x0F          masks off everything above bits [3:0]
+         * Result is a value between 0 and 15 inclusive. */
+        uint8_t nibble = (uint8_t)((value >> shift) & 0x0FU);
+
+        /* Convert the nibble to an ASCII hex character.
+         * Nibbles 0–9  become '0'–'9' (ASCII 0x30–0x39).
+         * Nibbles 10–15 become 'A'–'F' (ASCII 0x41–0x46). */
+        uint8_t ch;
+        if (nibble < 10U)
+        {
+            ch = (uint8_t)('0' + nibble);
+        }
+        else
+        {
+            ch = (uint8_t)('A' + (nibble - 10U));
+        }
+
+        usart2_send_byte(ch);
+    }
+}
+
+
+/*
+ * Sends a signed 32-bit integer as ASCII decimal digits over USART2.
+ *
+ * Algorithm:
+ *   1. If negative, print '-' and convert to unsigned absolute value.
+ *      (The cast through uint32_t handles INT32_MIN correctly — its
+ *       positive twin doesn't fit in int32_t, but the unsigned bit
+ *       pattern wraps cleanly.)
+ *   2. Special-case 0 (the digit-extraction loop would print nothing).
+ *   3. Repeatedly take the last digit (n % 10), store as ASCII in a
+ *      buffer, then divide by 10. Digits come out in reverse order.
+ *   4. Print the buffer back-to-front so the output reads left-to-right.
+ *
+ * Buffer size: a 32-bit value is at most 10 decimal digits, plus a
+ * possible sign. 12 bytes leaves safe headroom.
+ */
+void usart2_send_int(int32_t value)
+{
+    char buf[12];
+    int32_t idx = 0;
+    uint32_t abs_val;
+
+    if (value < 0)
+    {
+        usart2_send_byte('-');
+        /* Negate via unsigned to avoid signed overflow on INT32_MIN. */
+        abs_val = -(uint32_t)value;
+    }
+    else
+    {
+        abs_val = (uint32_t)value;
+    }
+
+    /* Special case: 0 would skip the digit-extraction loop entirely. */
+    if (abs_val == 0U)
+    {
+        usart2_send_byte('0');
+        return;
+    }
+
+    /* Extract digits in reverse order (least significant first). */
+    while (abs_val > 0U)
+    {
+        buf[idx] = (char)('0' + (abs_val % 10U));
+        idx++;
+        abs_val /= 10U;
+    }
+
+    /* Print the buffer in reverse so the most-significant digit prints first. */
+    while (idx > 0)
+    {
+        idx--;
+        usart2_send_byte((uint8_t)buf[idx]);
+    }
+}

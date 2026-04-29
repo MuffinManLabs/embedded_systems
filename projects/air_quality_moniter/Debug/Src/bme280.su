@@ -1,1 +1,8 @@
-../Src/bme280.c:15:6:bme280_init	16	static
+../Src/bme280.c:107:17:bme280_init	8	static
+../Src/bme280.c:154:17:bme280_read_data	40	static
+../Src/bme280.c:223:13:bme280_verify_id	16	static
+../Src/bme280.c:273:13:bme280_read_calibration	40	static
+../Src/bme280.c:375:13:bme280_configure	16	static
+../Src/bme280.c:431:16:bme280_compensate_temp	32	static
+../Src/bme280.c:480:17:bme280_compensate_press	328	static
+../Src/bme280.c:528:17:bme280_compensate_hum	24	static

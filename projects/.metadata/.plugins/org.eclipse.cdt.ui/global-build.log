@@ -874,3 +874,158 @@ Finished building: default.size.stdout
  
 Finished building: air_quality_moniter.list
  
+21:22:48 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/bme280.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bme280.d" -MT"Src/bme280.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bme280.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/spi2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/spi2.d" -MT"Src/spi2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/spi2.o"
+arm-none-eabi-gcc "../Src/usart2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/usart2.d" -MT"Src/usart2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/usart2.o"
+../Src/bme280.c:50:16: warning: 't_fine' defined but not used [-Wunused-variable]
+   50 | static int32_t t_fine;
+      |                ^~~~~~
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   3060	      0	   1600	   4660	   1234	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+16:04:32 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/bme280.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bme280.d" -MT"Src/bme280.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bme280.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/spi2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/spi2.d" -MT"Src/spi2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/spi2.o"
+../Src/bme280.c:50:16: warning: 't_fine' defined but not used [-Wunused-variable]
+   50 | static int32_t t_fine;
+      |                ^~~~~~
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   3588	      0	   1600	   5188	   1444	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+16:05:30 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   3608	      0	   1600	   5208	   1458	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+16:06:00 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   3588	      0	   1600	   5188	   1444	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+12:33:31 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/bme280.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bme280.d" -MT"Src/bme280.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bme280.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Src/usart2.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/usart2.d" -MT"Src/usart2.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/usart2.o"
+../Src/bme280.c:88:8: error: unknown type name 'bool'
+   88 | static bool bme280_verify_id(void);
+      |        ^~~~
+../Src/bme280.c:89:8: error: unknown type name 'bool'
+   89 | static bool bme280_read_calibration(void);
+      |        ^~~~
+../Src/bme280.c:90:8: error: unknown type name 'bool'
+   90 | static bool bme280_configure(void);
+      |        ^~~~
+../Src/bme280.c:223:8: error: unknown type name 'bool'
+  223 | static bool bme280_verify_id(void) {
+      |        ^~~~
+../Src/bme280.c:273:8: error: unknown type name 'bool'
+  273 | static bool bme280_read_calibration(void) {
+      |        ^~~~
+../Src/bme280.c: In function 'bme280_read_calibration':
+../Src/bme280.c:335:24: error: 'false' undeclared (first use in this function)
+  335 |                 return false;
+      |                        ^~~~~
+../Src/bme280.c:5:1: note: 'false' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+    4 | #include "usart2.h"
+  +++ |+#include <stdbool.h>
+    5 | 
+../Src/bme280.c:335:24: note: each undeclared identifier is reported only once for each function it appears in
+  335 |                 return false;
+      |                        ^~~~~
+../Src/bme280.c:338:16: error: 'true' undeclared (first use in this function)
+  338 |         return true;
+      |                ^~~~
+../Src/bme280.c:338:16: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Src/bme280.c: At top level:
+../Src/bme280.c:375:8: error: unknown type name 'bool'
+  375 | static bool bme280_configure(void) {
+      |        ^~~~
+../Src/bme280.c: In function 'bme280_configure':
+../Src/bme280.c:394:24: error: 'false' undeclared (first use in this function)
+  394 |                 return false;
+      |                        ^~~~~
+../Src/bme280.c:394:24: note: 'false' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Src/bme280.c:407:16: error: 'true' undeclared (first use in this function)
+  407 |         return true;
+      |                ^~~~
+../Src/bme280.c:407:16: note: 'true' is defined in header '<stdbool.h>'; did you forget to '#include <stdbool.h>'?
+../Src/bme280.c: In function 'bme280_read_calibration':
+../Src/bme280.c:339:1: warning: control reaches end of non-void function [-Wreturn-type]
+  339 | }
+      | ^
+../Src/bme280.c: In function 'bme280_configure':
+../Src/bme280.c:408:1: warning: control reaches end of non-void function [-Wreturn-type]
+  408 | }
+      | ^
+make: *** [Src/subdir.mk:34: Src/bme280.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j8 all" terminated with exit code 2. Build might be incomplete.
+12:34:43 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/bme280.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bme280.d" -MT"Src/bme280.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bme280.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   6928	      0	   1608	   8536	   2158	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+12:40:25 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/bme280.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/bme280.d" -MT"Src/bme280.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/bme280.o"
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   6004	      0	   1608	   7612	   1dbc	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 

@@ -1,5 +1,6 @@
 #include "stm32f407xx.h"
 #include "spi2.h"
+#include <stddef.h>   /* for NULL */
 
 
 void spi2_init(void)
@@ -94,6 +95,76 @@ uint8_t spi2_transmit_receive(uint8_t byte)
     return (uint8_t)SPI2->DR;
 }
 
+
+
+
+void spi2_read_registers(uint8_t reg_addr, uint8_t *buffer, uint16_t length)
+{
+    /* Defensive parameter validation: bail out early on bad inputs
+     * instead of producing weird SPI behavior. Catches caller bugs
+     * at the boundary, not deep inside the transaction. */
+    if ((buffer == NULL) || (length == 0U))
+    {
+        return;
+    }
+
+    /* Force bit 7 of the address to 1 to signal a read operation.
+     * The BME280 SPI protocol treats bit 7 as the read/write flag:
+     *   bit 7 = 1 → read, bit 7 = 0 → write.
+     * We OR with 0x80 defensively in case the caller passed a
+     * "plain" address without the flag already set. */
+    uint8_t read_addr = reg_addr | 0x80U;
+
+    /* Step 1: Pull CS LOW to begin the transaction. The device's
+     * internal state is reset on the falling edge of CS and will
+     * stay "alive" until CS goes HIGH again. */
+    spi2_cs_enable();
+
+    /* Step 2: Send the starting register address. The byte the
+     * device returns during this exchange is garbage — discard it. */
+    (void)spi2_transmit_receive(read_addr);
+
+    /* Step 3: Clock out `length` dummy bytes and save each returned
+     * byte into the caller's buffer. The device auto-increments its
+     * internal register pointer after every byte, so we get
+     * consecutive registers without re-sending any address. */
+    for (uint16_t i = 0U; i < length; i++)
+    {
+        buffer[i] = spi2_transmit_receive(0x00U);
+    }
+
+    /* Step 4: Pull CS HIGH to end the transaction. The device's
+     * internal pointer and mode are discarded here. */
+    spi2_cs_disable();
+}
+
+
+
+void spi2_write_register(uint8_t reg_addr, uint8_t data)
+{
+
+    /* Force bit 7 of the address to 0 to signal a write operation.
+     * The BME280 SPI protocol treats bit 7 as the read/write flag:
+     *   bit 7 = 1 → read, bit 7 = 0 → write.
+     * We AND with 0x7F */
+    uint8_t write_addr = reg_addr & 0x7FU;
+
+    /* Step 1: Pull CS LOW to begin the transaction. The device's
+     * internal state is reset on the falling edge of CS and will
+     * stay "alive" until CS goes HIGH again. */
+    spi2_cs_enable();
+
+    /* Step 2: Send the register address you want to write data to. The byte the
+     * device returns during this exchange is garbage — discard it. */
+    (void)spi2_transmit_receive(write_addr);
+
+    /* Step 3: transmit the actual data you would like to write to that address */
+    (void)spi2_transmit_receive(data);
+
+    /* Step 4: Pull CS HIGH to end the transaction.
+     * The BME280 commits the new register value on the rising edge of CS. */
+    spi2_cs_disable();
+}
 
 
 

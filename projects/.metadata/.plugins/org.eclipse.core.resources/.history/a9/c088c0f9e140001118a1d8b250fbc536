@@ -1,0 +1,193 @@
+#include "stm32f407xx.h"
+#include "spi2.h"
+#include <stddef.h>   /* for NULL */
+
+
+void spi2_init(void)
+{
+    /* Step 1: Enable clocks
+     * GPIOB is on AHB1 bus (bit 1 of AHB1ENR)
+     * SPI2 is on APB1 bus (bit 14 of APB1ENR) */
+    RCC->AHB1ENR |= (1 << 1);
+    RCC->APB1ENR |= (1 << 14);
+
+    /* Step 2: Configure PB13, PB14, PB15 as alternate function mode (0b10)
+     * MODER fields are 2 bits wide:
+     * pin12 = bits [25:24], pin13 = bits [27:26]
+     * pin14 = bits [29:28], pin15 = bits [31:30] */
+    GPIOB->MODER &= ~(0xFF << 24);   /* Clear mode bits for PB12-PB15 */
+    GPIOB->MODER |=  (0x1 << 24);    /* PB12 = general purpose output (0b01) for CS */
+    GPIOB->MODER |=  (0x2 << 26);    /* PB13 = alternate function (0b10) for SCK */
+    GPIOB->MODER |=  (0x2 << 28);    /* PB14 = alternate function (0b10) for MISO */
+    GPIOB->MODER |=  (0x2 << 30);    /* PB15 = alternate function (0b10) for MOSI */
+
+    /* Step 3: Set alternate function to AF5 (SPI2) for PB13, PB14, PB15
+     * AFRH fields are 4 bits wide (for pins 8-15):
+     * pin13 = bits [23:20], pin14 = bits [27:24], pin15 = bits [31:28]
+     * PB12 is GPIO output so it does not need an alternate function. */
+    GPIOB->AFRH &= ~(0xFFF << 20);   /* Clear AF bits for PB13, PB14, PB15 */
+    GPIOB->AFRH |=  (0x5 << 20);     /* PB13 = AF5 (SPI2_SCK) */
+    GPIOB->AFRH |=  (0x5 << 24);     /* PB14 = AF5 (SPI2_MISO) */
+    GPIOB->AFRH |=  (0x5 << 28);     /* PB15 = AF5 (SPI2_MOSI) */
+
+    /* Step 4: Set CS (PB12) HIGH to deselect the sensor at startup.
+     * CS is active low, so HIGH = sensor not selected. */
+    GPIOB->ODR |= (1 << 12);
+
+    /* Step 5: Configure SPI2 peripheral in SPI_CR1 register
+     * MSTR (bit 2):   Master mode — STM32 generates the clock
+     * SSM  (bit 9):   Software slave management — we handle CS via GPIO
+     * SSI  (bit 8):   Internal slave select HIGH — prevents mode fault
+     * BR[2:0] (bits 5:3): Baud rate = fPCLK / 16 = 16 MHz / 16 = 1 MHz
+     *   BR = 011 → (0x3 << 3)
+     * SPE  (bit 6):   SPI peripheral enable
+     *
+     * Bits left at default (0):
+     *   CPOL=0, CPHA=0 → SPI Mode 0 (clock idles LOW, sample on rising edge)
+     *   DFF=0          → 8-bit data frame
+     *   LSBFIRST=0     → MSB transmitted first */
+    SPI2->CR1 = (1 << 2)             /* MSTR: master mode */
+              | (1 << 9)             /* SSM: software slave management */
+              | (1 << 8)             /* SSI: internal slave select HIGH */
+              | (0x3 << 3)           /* BR = 011: fPCLK / 16 = 1 MHz */
+              | (1 << 6);            /* SPE: enable SPI2 */
+}
+
+
+
+
+
+
+
+/*
+ * Sends one byte and simultaneously receives one byte over SPI2.
+ * SPI is full-duplex: every byte sent on MOSI produces a byte on MISO.
+ * When reading from a sensor, pass a dummy byte (0x00) and use the return value.
+ * When writing to a sensor, pass the real data and ignore the return value.
+ */
+uint8_t spi2_transmit_receive(uint8_t byte)
+{
+    /* Wait until TXE (bit 1) in the status register is set.
+     * TXE = 1 means the transmit buffer is empty and ready for a new byte.
+     * TXE = 0 means the previous byte hasn't been moved to the shift
+     * register yet, so we must wait. */
+    while (!(SPI2->SR & (1 << 1)))
+    {
+        /* Do nothing — just keep checking */
+    }
+
+    /* Write the byte to the data register.
+     * This loads it into the transmit buffer, and the hardware begins
+     * clocking it out on MOSI. Simultaneously, a byte from the slave
+     * is clocked in on MISO. */
+    SPI2->DR = byte;
+
+    /* Wait until RXNE (bit 0) in the status register is set.
+     * RXNE = 1 means the receive buffer has a byte ready to read.
+     * RXNE = 0 means the transfer is still in progress. */
+    while (!(SPI2->SR & (1 << 0)))
+    {
+        /* Do nothing — just keep checking */
+    }
+
+    /* Read the data register to get the byte received from the slave.
+     * Reading DR also clears the RXNE flag automatically. */
+    return (uint8_t)SPI2->DR;
+}
+
+
+
+
+void spi2_read_registers(uint8_t reg_addr, uint8_t *buffer, uint16_t length)
+{
+    /* Defensive parameter validation: bail out early on bad inputs
+     * instead of producing weird SPI behavior. Catches caller bugs
+     * at the boundary, not deep inside the transaction. */
+    if ((buffer == NULL) || (length == 0U))
+    {
+        return;
+    }
+
+    /* Force bit 7 of the address to 1 to signal a read operation.
+     * The BME280 SPI protocol treats bit 7 as the read/write flag:
+     *   bit 7 = 1 → read, bit 7 = 0 → write.
+     * We OR with 0x80 defensively in case the caller passed a
+     * "plain" address without the flag already set. */
+    uint8_t read_addr = reg_addr | 0x80U;
+
+    /* Step 1: Pull CS LOW to begin the transaction. The device's
+     * internal state is reset on the falling edge of CS and will
+     * stay "alive" until CS goes HIGH again. */
+    spi2_cs_enable();
+
+    /* Step 2: Send the starting register address. The byte the
+     * device returns during this exchange is garbage — discard it. */
+    (void)spi2_transmit_receive(read_addr);
+
+    /* Step 3: Clock out `length` dummy bytes and save each returned
+     * byte into the caller's buffer. The device auto-increments its
+     * internal register pointer after every byte, so we get
+     * consecutive registers without re-sending any address. */
+    for (uint16_t i = 0U; i < length; i++)
+    {
+        buffer[i] = spi2_transmit_receive(0x00U);
+    }
+
+    /* Step 4: Pull CS HIGH to end the transaction. The device's
+     * internal pointer and mode are discarded here. */
+    spi2_cs_disable();
+}
+
+
+
+void spi2_write_register(uint8_t reg_addr, uint8_t data)
+{
+
+    /* Force bit 7 of the address to 0 to signal a write operation.
+     * The BME280 SPI protocol treats bit 7 as the read/write flag:
+     *   bit 7 = 1 → read, bit 7 = 0 → write.
+     * We AND with 0x7F */
+	uint8_t write_addr = reg_addr & 0x7FU;
+
+    /* Step 1: Pull CS LOW to begin the transaction. The device's
+     * internal state is reset on the falling edge of CS and will
+     * stay "alive" until CS goes HIGH again. */
+    spi2_cs_enable();
+
+    /* Step 2: Send the register address you want to write data to. The byte the
+     * device returns during this exchange is garbage — discard it. */
+    (void)spi2_transmit_receive(write_addr);
+
+    /* Step 3: transmit the actual data you would like to write to that address */
+    (void)spi2_transmit_receive(data);
+
+    /* Step 4: Pull CS HIGH to end the transaction.
+     * The BME280 commits the new register value on the rising edge of CS. */
+    spi2_cs_disable();
+}
+
+
+
+
+/*
+ * Pulls CS (PB12) LOW to select the BME280.
+ * Call this before starting an SPI transaction.
+ */
+void spi2_cs_enable(void)
+{
+    GPIOB->ODR &= ~(1 << 12);
+}
+
+
+
+
+/*
+ * Pulls CS (PB12) HIGH to deselect the BME280.
+ * Call this after an SPI transaction is complete.
+ */
+void spi2_cs_disable(void)
+{
+    GPIOB->ODR |= (1 << 12);
+}
+
+

@@ -1,0 +1,53 @@
+/*
+ * spi2.h
+ *
+ *  Created on: Apr 22, 2026
+ *      Author: huray
+ */
+
+#ifndef SPI2_H
+#define SPI2_H
+
+#include <stdint.h>
+
+/*
+ * SPI2 Driver
+ * Provides low-level SPI2 communication on PB13 (SCK), PB14 (MISO),
+ * PB15 (MOSI), and PB12 (CS as GPIO output).
+ * Used to communicate with the BME280 sensor.
+ * SPI Mode 0 (CPOL=0, CPHA=0), 1 MHz clock, 8-bit data, MSB first.
+ */
+
+/* Configures GPIOB pins, SPI2 peripheral, and enables clocks. */
+void spi2_init(void);
+
+/* Sends one byte on MOSI and simultaneously receives one byte on MISO.
+ * Returns the byte received from the slave device. */
+uint8_t spi2_transmit_receive(uint8_t byte);
+
+/* Burst reads `length` consecutive registers from a SPI device, starting
+ * at `reg_addr`. The device's internal address pointer auto-increments
+ * after each byte, so only the starting address is sent.
+ *
+ * Bit 7 of the address is forced to 1 by this function to signal a read
+ * operation (per the BME280 SPI read protocol). The first byte returned
+ * by the device during the address transfer is discarded.
+ *
+ * Parameters:
+ *   reg_addr — starting register address (bit 7 forced to 1 internally)
+ *   buffer   — caller-allocated array where received bytes will be stored;
+ *              must have space for at least `length` bytes
+ *   length   — number of register bytes to read
+ *
+ * The function does nothing if buffer is NULL or length is zero.
+ * CS is pulled LOW at the start and HIGH at the end to frame the transaction. */
+void spi2_read_registers(uint8_t reg_addr, uint8_t *buffer, uint16_t length);
+
+
+/* Pulls PB12 (CS) LOW to select the slave device. */
+void spi2_cs_enable(void);
+
+/* Pulls PB12 (CS) HIGH to deselect the slave device. */
+void spi2_cs_disable(void);
+
+#endif /* SPI2_H */

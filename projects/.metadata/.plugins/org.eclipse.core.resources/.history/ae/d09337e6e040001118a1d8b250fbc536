@@ -1,0 +1,48 @@
+#include "stm32f407xx.h"
+#include "usart2.h"
+#include "spi2.h"
+#include "bme280.h"
+
+/* Declare access to the calibration coefficients for debug printing.
+ * These are defined as `static` in bme280.c so they aren't normally
+ * visible here. For bring-up diagnostics only, we expose a helper
+ * in bme280.c that dumps them for us. See bme280_debug_print_calib(). */
+extern void bme280_debug_print_calib(void);
+
+int main(void)
+{
+    /* Step 1: Initialize the debug serial port (USART2) first.
+     * We need this up and running before anything else so we can print
+     * status messages about the rest of the startup sequence. */
+    usart2_init();
+    usart2_send_string("\r\n--- Air Quality Monitor starting ---\r\n");
+
+    /* Step 2: Initialize the SPI2 peripheral so we can talk to the BME280. */
+    usart2_send_string("Initializing SPI2... ");
+    spi2_init();
+    usart2_send_string("OK\r\n");
+
+    /* Step 3: Run full BME280 init (chip ID check + calibration read). */
+    usart2_send_string("Initializing BME280... ");
+    if (bme280_init())
+    {
+        usart2_send_string("OK\r\n");
+
+        /* Bring-up diagnostic: dump all 18 calibration coefficients
+         * over USART2 so we can sanity-check them against expected
+         * ranges before trusting any measurements. */
+        usart2_send_string("\r\n--- BME280 Calibration Coefficients ---\r\n");
+        bme280_debug_print_calib();
+        usart2_send_string("----------------------------------------\r\n");
+    }
+    else
+    {
+        usart2_send_string("FAIL (wrong chip ID)\r\n");
+    }
+
+    /* Infinite loop — bare-metal main() must never return. */
+    while (1)
+    {
+
+    }
+}
