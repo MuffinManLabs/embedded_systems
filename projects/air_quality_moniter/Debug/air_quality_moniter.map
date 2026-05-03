@@ -109,7 +109,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x103 ./Src/spi2.o
  .debug_macro   0x00000000       0x6a ./Src/spi2.o
  .debug_macro   0x00000000      0x1df ./Src/spi2.o
- .debug_macro   0x00000000       0x40 ./Src/spi2.o
+ .debug_macro   0x00000000       0x4e ./Src/spi2.o
  .group         0x00000000        0xc ./Src/syscalls.o
  .group         0x00000000        0xc ./Src/syscalls.o
  .group         0x00000000        0xc ./Src/syscalls.o
@@ -330,7 +330,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x103 ./Src/usart2.o
  .debug_macro   0x00000000       0x6a ./Src/usart2.o
  .debug_macro   0x00000000      0x1df ./Src/usart2.o
- .debug_macro   0x00000000       0x40 ./Src/usart2.o
+ .debug_macro   0x00000000       0x4e ./Src/usart2.o
  .text          0x00000000       0x14 ./Startup/startup_stm32f407vgtx.o
  .data          0x00000000        0x0 ./Startup/startup_stm32f407vgtx.o
  .bss           0x00000000        0x0 ./Startup/startup_stm32f407vgtx.o
@@ -1008,38 +1008,38 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_rnglists
                 0x000000ba       0x19 ./Startup/startup_stm32f407vgtx.o
 
-.debug_macro    0x00000000     0x13f2
- .debug_macro   0x00000000       0xa1 ./Src/bme280.o
- .debug_macro   0x000000a1      0xae4 ./Src/bme280.o
- .debug_macro   0x00000b85       0x22 ./Src/bme280.o
- .debug_macro   0x00000ba7       0x8e ./Src/bme280.o
- .debug_macro   0x00000c35       0x51 ./Src/bme280.o
- .debug_macro   0x00000c86      0x103 ./Src/bme280.o
- .debug_macro   0x00000d89       0x6a ./Src/bme280.o
- .debug_macro   0x00000df3      0x1df ./Src/bme280.o
- .debug_macro   0x00000fd2       0x4c ./Src/bme280.o
- .debug_macro   0x0000101e       0x22 ./Src/bme280.o
- .debug_macro   0x00001040       0x8f ./Src/main.o
- .debug_macro   0x000010cf       0x40 ./Src/main.o
- .debug_macro   0x0000110f       0x52 ./Src/main.o
- .debug_macro   0x00001161       0x85 ./Src/spi2.o
- .debug_macro   0x000011e6      0x190 ./Src/spi2.o
- .debug_macro   0x00001376       0x7c ./Src/usart2.o
+.debug_macro    0x00000000     0x13f6
+ .debug_macro   0x00000000       0x97 ./Src/bme280.o
+ .debug_macro   0x00000097      0xae4 ./Src/bme280.o
+ .debug_macro   0x00000b7b       0x22 ./Src/bme280.o
+ .debug_macro   0x00000b9d       0x8e ./Src/bme280.o
+ .debug_macro   0x00000c2b       0x51 ./Src/bme280.o
+ .debug_macro   0x00000c7c      0x103 ./Src/bme280.o
+ .debug_macro   0x00000d7f       0x6a ./Src/bme280.o
+ .debug_macro   0x00000de9      0x1df ./Src/bme280.o
+ .debug_macro   0x00000fc8       0x4c ./Src/bme280.o
+ .debug_macro   0x00001014       0x22 ./Src/bme280.o
+ .debug_macro   0x00001036       0x8f ./Src/main.o
+ .debug_macro   0x000010c5       0x4e ./Src/main.o
+ .debug_macro   0x00001113       0x52 ./Src/main.o
+ .debug_macro   0x00001165       0x85 ./Src/spi2.o
+ .debug_macro   0x000011ea      0x190 ./Src/spi2.o
+ .debug_macro   0x0000137a       0x7c ./Src/usart2.o
 
-.debug_line     0x00000000     0x1865
- .debug_line    0x00000000      0x81d ./Src/bme280.o
- .debug_line    0x0000081d      0x4fd ./Src/main.o
- .debug_line    0x00000d1a      0x57d ./Src/spi2.o
- .debug_line    0x00001297      0x553 ./Src/usart2.o
- .debug_line    0x000017ea       0x7b ./Startup/startup_stm32f407vgtx.o
+.debug_line     0x00000000     0x1859
+ .debug_line    0x00000000      0x811 ./Src/bme280.o
+ .debug_line    0x00000811      0x4fd ./Src/main.o
+ .debug_line    0x00000d0e      0x57d ./Src/spi2.o
+ .debug_line    0x0000128b      0x553 ./Src/usart2.o
+ .debug_line    0x000017de       0x7b ./Startup/startup_stm32f407vgtx.o
 
-.debug_str      0x00000000     0x473e
- .debug_str     0x00000000     0x473e ./Src/bme280.o
-                               0x4248 (size before relaxing)
- .debug_str     0x0000473e     0x419b ./Src/main.o
- .debug_str     0x0000473e     0x4417 ./Src/spi2.o
- .debug_str     0x0000473e     0x4076 ./Src/usart2.o
- .debug_str     0x0000473e       0x86 ./Startup/startup_stm32f407vgtx.o
+.debug_str      0x00000000     0x477b
+ .debug_str     0x00000000     0x477b ./Src/bme280.o
+                               0x423e (size before relaxing)
+ .debug_str     0x0000477b     0x41d8 ./Src/main.o
+ .debug_str     0x0000477b     0x4454 ./Src/spi2.o
+ .debug_str     0x0000477b     0x40b3 ./Src/usart2.o
+ .debug_str     0x0000477b       0x86 ./Startup/startup_stm32f407vgtx.o
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Src/bme280.o

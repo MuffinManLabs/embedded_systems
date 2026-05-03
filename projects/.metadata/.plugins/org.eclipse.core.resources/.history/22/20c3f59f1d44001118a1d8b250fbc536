@@ -1,7 +1,7 @@
 #include "bme280.h"
 #include "spi2.h"
 #include <stdbool.h>
-
+#include "usart2.h"
 
 /* ------------------------------------------------------------------
  * Factory calibration coefficients
@@ -549,4 +549,7 @@ static uint32_t bme280_compensate_hum(int32_t adc_H) {
 	return (uint32_t) (v_x1_u32r >> 12);
 }
 
+/* ============================================================
+ * Debug / bring-up (remove for production)
+ * ============================================================ */
 

@@ -44,39 +44,6 @@ typedef struct {
 
 
 
-
-
-/*
- * FLASH interface register structure
- * Base address: 0x40023C00
- * Reference: RM0090 Section 3.9 (STM32F405xx/07xx variant)
- *
- * On STM32F407: 6 registers total. (F42xxx/F43xxx adds OPTCR1 at 0x18 —
- * not present on this chip.)
- */
-typedef struct {
-    volatile uint32_t ACR;          /* Offset 0x00: Access control register
-                                                    (LATENCY, PRFTEN, ICEN, DCEN, ICRST, DCRST) */
-    volatile uint32_t KEYR;         /* Offset 0x04: Key register
-                                                    (unlock sequence for FLASH_CR)              */
-    volatile uint32_t OPTKEYR;      /* Offset 0x08: Option key register
-                                                    (unlock sequence for FLASH_OPTCR)           */
-    volatile uint32_t SR;           /* Offset 0x0C: Status register
-                                                    (BSY, EOP, error flags)                     */
-    volatile uint32_t CR;           /* Offset 0x10: Control register
-                                                    (program/erase operations)                  */
-    volatile uint32_t OPTCR;        /* Offset 0x14: Option control register
-                                                    (RDP, BOR_LEV, write protection)            */
-} FLASH_TypeDef;
-
-#define FLASH_BASE  0x40023C00UL
-#define FLASH       ((FLASH_TypeDef *) FLASH_BASE)
-
-
-
-
-
-
 /*
  * GPIO register structure
  * Base addresses: GPIOA=0x40020000, GPIOB=0x40020400, etc.

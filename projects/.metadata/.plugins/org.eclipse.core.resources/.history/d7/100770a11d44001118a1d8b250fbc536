@@ -3,7 +3,11 @@
 #include "spi2.h"
 #include "bme280.h"
 
-
+/* Declare access to the calibration coefficients for debug printing.
+ * These are defined as `static` in bme280.c so they aren't normally
+ * visible here. For bring-up diagnostics only, we expose a helper
+ * in bme280.c that dumps them for us. See bme280_debug_print_calib(). */
+extern void bme280_debug_print_calib(void);
 
 
 /*

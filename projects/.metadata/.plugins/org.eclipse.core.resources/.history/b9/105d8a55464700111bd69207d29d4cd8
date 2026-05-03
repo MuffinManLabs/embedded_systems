@@ -1,0 +1,32 @@
+#include "rcc.h"
+#include "stm32f407xx.h"
+
+/* ===== Bit position #defines (private to this file) ===== */
+/* RCC_CR */
+#define RCC_CR_HSEON        (1U << 16)
+#define RCC_CR_HSERDY       (1U << 17)
+#define RCC_CR_PLLON        (1U << 24)
+#define RCC_CR_PLLRDY       (1U << 25)
+/* … etc … */
+
+/* ===== Private helpers (one per step) ===== */
+static void rcc_enable_hse(void);
+static void rcc_configure_flash_latency(void);
+static void rcc_configure_bus_prescalers(void);
+static void rcc_configure_pll(void);
+static void rcc_enable_pll_and_wait(void);
+static void rcc_switch_sysclk_to_pll(void);
+
+/* ===== Public API ===== */
+void rcc_init_clock_168mhz(void)
+{
+    rcc_enable_hse();
+    rcc_configure_flash_latency();
+    rcc_configure_bus_prescalers();
+    rcc_configure_pll();
+    rcc_enable_pll_and_wait();
+    rcc_switch_sysclk_to_pll();
+}
+
+/* ===== Implementations below ===== */
+/* (we'll fill these in one at a time) */
