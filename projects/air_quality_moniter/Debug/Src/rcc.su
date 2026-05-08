@@ -1,0 +1,7 @@
+../Src/rcc.c:96:6:rcc_init_clock_168mhz	8	static
+../Src/rcc.c:113:13:rcc_enable_hse	4	static
+../Src/rcc.c:143:13:rcc_configure_flash_latency	4	static
+../Src/rcc.c:169:13:rcc_configure_bus_prescalers	16	static
+../Src/rcc.c:195:13:rcc_configure_pll	4	static
+../Src/rcc.c:214:13:rcc_enable_pll_and_wait	4	static
+../Src/rcc.c:235:13:rcc_switch_sysclk_to_pll	16	static

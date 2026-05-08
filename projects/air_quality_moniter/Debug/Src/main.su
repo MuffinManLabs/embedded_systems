@@ -1,2 +1,2 @@
-../Src/main.c:23:13:delay_approx_1s	16	static
-../Src/main.c:33:5:main	56	static
+../Src/main.c:21:13:delay_approx_1s	16	static
+../Src/main.c:27:5:main	56	static

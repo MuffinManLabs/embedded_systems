@@ -1,6 +1,6 @@
-../Src/spi2.c:6:6:spi2_init	4	static
-../Src/spi2.c:68:9:spi2_transmit_receive	16	static
-../Src/spi2.c:101:6:spi2_read_registers	32	static
-../Src/spi2.c:143:6:spi2_write_register	24	static
-../Src/spi2.c:176:6:spi2_cs_enable	4	static
-../Src/spi2.c:188:6:spi2_cs_disable	4	static
+../Src/spi2.c:5:6:spi2_init	4	static
+../Src/spi2.c:60:9:spi2_transmit_receive	16	static
+../Src/spi2.c:87:6:spi2_read_registers	32	static
+../Src/spi2.c:124:6:spi2_write_register	24	static
+../Src/spi2.c:153:6:spi2_cs_enable	4	static
+../Src/spi2.c:161:6:spi2_cs_disable	4	static

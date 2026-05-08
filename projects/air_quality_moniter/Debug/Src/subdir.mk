@@ -7,6 +7,7 @@
 C_SRCS += \
 ../Src/bme280.c \
 ../Src/main.c \
+../Src/rcc.c \
 ../Src/spi2.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 OBJS += \
 ./Src/bme280.o \
 ./Src/main.o \
+./Src/rcc.o \
 ./Src/spi2.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o \
@@ -23,6 +25,7 @@ OBJS += \
 C_DEPS += \
 ./Src/bme280.d \
 ./Src/main.d \
+./Src/rcc.d \
 ./Src/spi2.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d \
@@ -36,7 +39,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/bme280.cyclo ./Src/bme280.d ./Src/bme280.o ./Src/bme280.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/spi2.cyclo ./Src/spi2.d ./Src/spi2.o ./Src/spi2.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/usart2.cyclo ./Src/usart2.d ./Src/usart2.o ./Src/usart2.su
+	-$(RM) ./Src/bme280.cyclo ./Src/bme280.d ./Src/bme280.o ./Src/bme280.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/rcc.cyclo ./Src/rcc.d ./Src/rcc.o ./Src/rcc.su ./Src/spi2.cyclo ./Src/spi2.d ./Src/spi2.o ./Src/spi2.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/usart2.cyclo ./Src/usart2.d ./Src/usart2.o ./Src/usart2.su
 
 .PHONY: clean-Src
 

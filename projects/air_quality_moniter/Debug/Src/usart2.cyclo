@@ -1,5 +1,5 @@
 ../Src/usart2.c:4:6:usart2_init	1
-../Src/usart2.c:45:6:usart2_send_byte	2
-../Src/usart2.c:67:6:usart2_send_string	2
-../Src/usart2.c:79:6:usart2_send_hex	3
-../Src/usart2.c:134:6:usart2_send_int	5
+../Src/usart2.c:49:6:usart2_send_byte	2
+../Src/usart2.c:71:6:usart2_send_string	2
+../Src/usart2.c:83:6:usart2_send_hex	3
+../Src/usart2.c:138:6:usart2_send_int	5

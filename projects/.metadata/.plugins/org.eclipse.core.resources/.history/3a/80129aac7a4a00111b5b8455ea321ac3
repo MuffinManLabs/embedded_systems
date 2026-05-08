@@ -24,16 +24,12 @@ void usart2_init(void)
     GPIOA->AFRL |=  (0x7 << 12);   /* Set PA3 to AF7 */
 
     /* Step 4: Configure USART2 baud rate
-     * Target: 115200 baud, 8N1
-     * PCLK1 = 42 MHz (after rcc_init_clock_168mhz):
-     *   USARTDIV = 42,000,000 / (16 * 115200) = 22.7865
-     *   Mantissa = 22 (0x16), Fraction = round(0.7865 * 16) = 13 (0xD)
-     *   BRR = (22 << 4) | 13 = 0x016D
-     * Actual baud: 115068.49 (-0.114% error, well within UART tolerance)
+     * 16 MHz / (16 * 115200) = 8.6806
+     * Mantissa = 8 (0x8), Fraction = 0.6806 * 16 = 11 (0xB)
+     * BRR = (8 << 4) | 11 = 0x008B
      * Word length: 8 bits (default, CR1 bit 12 = 0)
      * Stop bits: 1 (default, CR2 bits [13:12] = 00) */
-    USART2->BRR = 0x016D;
-
+    USART2->BRR =  0x016D;
 
     /* Step 5: Enable transmitter and USART2 peripheral
      * TE (bit 3): Enables the transmit shift register
