@@ -33,13 +33,15 @@ typedef struct {
 } RCC_TypeDef;
 
 #define RCC_BASE    0x40023800UL
-/*
- * RCC is a macro (text replacement). ((RCC_TypeDef *) RCC_BASE) treats
- * RCC_BASE as a pointer to data shaped like an RCC_TypeDef struct, so
- * the compiler computes the correct offset for each register by field
- * name (e.g. RCC->CR  ->  *(uint32_t *)(0x40023800 + 0x00)).
- */
+// In the below line, RCC is a macro (text replacement).
+// ((RCC_TypeDef *) RCC_BASE) just means that you are treating
+// RCC_BASE address as an address that points to data shaped
+// like an RCC_TypeDef struct, so the compiler can calculate
+// the correct offset for each register by field name.
+//"whenever I use this number to access memory, calculate offsets as if the data there is shaped like a GPIO_TypeDef."
 #define RCC         ((RCC_TypeDef *) RCC_BASE)
+
+
 
 
 
@@ -73,6 +75,8 @@ typedef struct {
 
 
 
+
+
 /*
  * GPIO register structure
  * Base addresses: GPIOA=0x40020000, GPIOB=0x40020400, etc.
@@ -97,6 +101,8 @@ typedef struct {
 
 #define GPIOB_BASE  0x40020400UL
 #define GPIOB       ((GPIO_TypeDef *) GPIOB_BASE)
+
+
 
 
 
@@ -137,34 +143,6 @@ typedef struct {
 
 #define SPI2_BASE   0x40003800UL
 #define SPI2        ((SPI_TypeDef *) SPI2_BASE)
-
-
-
-
-/*
- * SysTick (System Timer) register structure
- * Base address: 0xE000E010
- * Reference: ARM Cortex-M4 Generic User Guide ARM DUI 0553B, Section 4.4
- *
- * SysTick is part of the ARM Cortex-M core, not an STM32-specific peripheral.
- * Its registers live in the System Control Space (SCS) on the internal
- * Private Peripheral Bus, at fixed addresses that are identical across
- * every Cortex-M chip.
- */
-typedef struct {
-    volatile uint32_t CSR;          /* Offset 0x00: Control and Status register
-                                                    (ENABLE, TICKINT, CLKSOURCE, COUNTFLAG) */
-    volatile uint32_t RVR;          /* Offset 0x04: Reload Value register
-                                                    (24-bit reload value [23:0])            */
-    volatile uint32_t CVR;          /* Offset 0x08: Current Value register
-                                                    (24-bit live counter [23:0];
-                                                     write any value to clear)              */
-    volatile uint32_t CALIB;        /* Offset 0x0C: Calibration Value register (read-only;
-                                                    not used - reload computed from HCLK)   */
-} SysTick_TypeDef;
-
-#define SYSTICK_BASE    0xE000E010UL
-#define SYSTICK         ((SysTick_TypeDef *) SYSTICK_BASE)
 
 
 #endif /* STM32F407XX_H */

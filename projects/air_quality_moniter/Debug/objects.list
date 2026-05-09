@@ -4,5 +4,6 @@
 "./Src/spi2.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
+"./Src/systick.o"
 "./Src/usart2.o"
 "./Startup/startup_stm32f407vgtx.o"

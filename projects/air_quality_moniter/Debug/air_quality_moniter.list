@@ -5,49 +5,49 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   00000188  08000000  08000000  00001000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         00001568  08000188  08000188  00001188  2**2
+  1 .text         000015b4  08000188  08000188  00001188  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       000001b8  080016f0  080016f0  000026f0  2**2
+  2 .rodata       000001b8  0800173c  0800173c  0000273c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  080018a8  080018a8  000028b8  2**0
+  3 .ARM.extab    00000000  080018f4  080018f4  00002904  2**0
                   CONTENTS, READONLY
-  4 .ARM          00000008  080018a8  080018a8  000028a8  2**2
+  4 .ARM          00000008  080018f4  080018f4  000028f4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  080018b0  080018b8  000028b8  2**0
+  5 .preinit_array 00000000  080018fc  08001904  00002904  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  080018b0  080018b0  000028b0  2**2
+  6 .init_array   00000004  080018fc  080018fc  000028fc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  080018b4  080018b4  000028b4  2**2
+  7 .fini_array   00000004  08001900  08001900  00002900  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         00000000  20000000  20000000  000028b8  2**0
+  8 .data         00000000  20000000  20000000  00002904  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .ccmram       00000000  10000000  10000000  000028b8  2**0
+  9 .ccmram       00000000  10000000  10000000  00002904  2**0
                   CONTENTS
- 10 .bss          00000044  20000000  20000000  00003000  2**2
+ 10 .bss          00000048  20000000  20000000  00003000  2**2
                   ALLOC
- 11 ._user_heap_stack 00000604  20000044  20000044  00003000  2**0
+ 11 ._user_heap_stack 00000600  20000048  20000048  00003000  2**0
                   ALLOC
- 12 .ARM.attributes 00000030  00000000  00000000  000028b8  2**0
+ 12 .ARM.attributes 00000030  00000000  00000000  00002904  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0000114b  00000000  00000000  000028e8  2**0
+ 13 .debug_info   0000129d  00000000  00000000  00002934  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00000672  00000000  00000000  00003a33  2**0
+ 14 .debug_abbrev 0000072a  00000000  00000000  00003bd1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000180  00000000  00000000  000040a8  2**3
+ 15 .debug_aranges 000001b0  00000000  00000000  00004300  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 0000010a  00000000  00000000  00004228  2**0
+ 16 .debug_rnglists 00000129  00000000  00000000  000044b0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  000015c0  00000000  00000000  00004332  2**0
+ 17 .debug_macro  00001689  00000000  00000000  000045d9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00001d82  00000000  00000000  000058f2  2**0
+ 18 .debug_line   00002226  00000000  00000000  00005c62  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    00004b9e  00000000  00000000  00007674  2**0
+ 19 .debug_str    00004d30  00000000  00000000  00007e88  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  0000c212  2**0
+ 20 .comment      00000043  00000000  00000000  0000cbb8  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000004e0  00000000  00000000  0000c258  2**2
+ 21 .debug_frame  00000550  00000000  00000000  0000cbfc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 0000006a  00000000  00000000  0000c738  2**0
+ 22 .debug_line_str 0000006a  00000000  00000000  0000d14c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -66,7 +66,7 @@ Disassembly of section .text:
  800019e:	bd10      	pop	{r4, pc}
  80001a0:	20000000 	.word	0x20000000
  80001a4:	00000000 	.word	0x00000000
- 80001a8:	080016d8 	.word	0x080016d8
+ 80001a8:	08001724 	.word	0x08001724
 
 080001ac <frame_dummy>:
  80001ac:	b508      	push	{r3, lr}
@@ -78,7 +78,7 @@ Disassembly of section .text:
  80001ba:	bd08      	pop	{r3, pc}
  80001bc:	00000000 	.word	0x00000000
  80001c0:	20000004 	.word	0x20000004
- 80001c4:	080016d8 	.word	0x080016d8
+ 80001c4:	08001724 	.word	0x08001724
 
 080001c8 <__aeabi_ldivmod>:
  80001c8:	b97b      	cbnz	r3, 80001ea <__aeabi_ldivmod+0x22>
@@ -490,7 +490,7 @@ bme280_status_t bme280_read_data(bme280_data_t *reading)
  80005b6:	2208      	movs	r2, #8
  80005b8:	4619      	mov	r1, r3
  80005ba:	20f7      	movs	r0, #247	@ 0xf7
- 80005bc:	f000 ff00 	bl	80013c0 <spi2_read_registers>
+ 80005bc:	f000 fef8 	bl	80013b0 <spi2_read_registers>
      * Humidity: just MSB << 8 | LSB, since it is only 16 bits wide.
      *
      * Cast each byte to int32_t before shifting so the upper bits do
@@ -583,25 +583,25 @@ static bool bme280_verify_id(void) {
 
 	/* Step 1: Pull CS LOW to select the BME280. */
 	spi2_cs_enable();
- 8000626:	f000 ff19 	bl	800145c <spi2_cs_enable>
+ 8000626:	f000 ff11 	bl	800144c <spi2_cs_enable>
 
 	/* Step 2: Send the register address byte.
 	 * The byte the sensor returns during this exchange is garbage — ignore it. */
 	(void) spi2_transmit_receive(BME280_REG_ID);
  800062a:	20d0      	movs	r0, #208	@ 0xd0
- 800062c:	f000 fea6 	bl	800137c <spi2_transmit_receive>
+ 800062c:	f000 fe9e 	bl	800136c <spi2_transmit_receive>
 
 	/* Step 3: Send a dummy byte (0x00) so the SPI clock keeps ticking.
 	 * The sensor uses this exchange to send back the register contents on MISO. */
 	chip_id = spi2_transmit_receive(0x00U);
  8000630:	2000      	movs	r0, #0
- 8000632:	f000 fea3 	bl	800137c <spi2_transmit_receive>
+ 8000632:	f000 fe9b 	bl	800136c <spi2_transmit_receive>
  8000636:	4603      	mov	r3, r0
  8000638:	71fb      	strb	r3, [r7, #7]
 
 	/* Step 4: Pull CS HIGH to deselect the BME280 and end the transaction. */
 	spi2_cs_disable();
- 800063a:	f000 ff1f 	bl	800147c <spi2_cs_disable>
+ 800063a:	f000 ff17 	bl	800146c <spi2_cs_disable>
 
 	return (chip_id == BME280_CHIP_ID);
  800063e:	79fb      	ldrb	r3, [r7, #7]
@@ -636,7 +636,7 @@ static bool bme280_read_calibration(void) {
  800065c:	221a      	movs	r2, #26
  800065e:	4619      	mov	r1, r3
  8000660:	2088      	movs	r0, #136	@ 0x88
- 8000662:	f000 fead 	bl	80013c0 <spi2_read_registers>
+ 8000662:	f000 fea5 	bl	80013b0 <spi2_read_registers>
 
 	/* Temperature coefficients (bytes 0–5)
 	 * Each is 16-bit, little-endian: low byte first, then high byte.
@@ -794,7 +794,7 @@ static bool bme280_read_calibration(void) {
  8000762:	2207      	movs	r2, #7
  8000764:	4619      	mov	r1, r3
  8000766:	20e1      	movs	r0, #225	@ 0xe1
- 8000768:	f000 fe2a 	bl	80013c0 <spi2_read_registers>
+ 8000768:	f000 fe22 	bl	80013b0 <spi2_read_registers>
 
 	/* dig_H2 is 16-bit signed, little-endian (bytes 0–1). */
 	dig_H2 = (int16_t) (((uint16_t) buf[1] << 8) | buf[0]);
@@ -920,15 +920,15 @@ static bool bme280_configure(void) {
 	spi2_write_register(BME280_REG_CONFIG, BME280_CONFIG_VALUE);
  800082e:	21b0      	movs	r1, #176	@ 0xb0
  8000830:	20f5      	movs	r0, #245	@ 0xf5
- 8000832:	f000 fdf6 	bl	8001422 <spi2_write_register>
+ 8000832:	f000 fdee 	bl	8001412 <spi2_write_register>
 	spi2_write_register(BME280_REG_CTRL_HUM, BME280_CTRL_HUM_VALUE);
  8000836:	2101      	movs	r1, #1
  8000838:	20f2      	movs	r0, #242	@ 0xf2
- 800083a:	f000 fdf2 	bl	8001422 <spi2_write_register>
+ 800083a:	f000 fdea 	bl	8001412 <spi2_write_register>
 	spi2_write_register(BME280_REG_CTRL_MEAS, BME280_CTRL_MEAS_VALUE);
  800083e:	2157      	movs	r1, #87	@ 0x57
  8000840:	20f4      	movs	r0, #244	@ 0xf4
- 8000842:	f000 fdee 	bl	8001422 <spi2_write_register>
+ 8000842:	f000 fde6 	bl	8001412 <spi2_write_register>
 	/* Read each register back and compare against the value we just
 	 * wrote. Bail out on the first mismatch — there is no useful
 	 * recovery, the caller (bme280_init) will simply return false
@@ -939,7 +939,7 @@ static bool bme280_configure(void) {
  8000848:	2201      	movs	r2, #1
  800084a:	4619      	mov	r1, r3
  800084c:	20f5      	movs	r0, #245	@ 0xf5
- 800084e:	f000 fdb7 	bl	80013c0 <spi2_read_registers>
+ 800084e:	f000 fdaf 	bl	80013b0 <spi2_read_registers>
 	if (readback != BME280_CONFIG_VALUE) {
  8000852:	79fb      	ldrb	r3, [r7, #7]
  8000854:	2bb0      	cmp	r3, #176	@ 0xb0
@@ -954,7 +954,7 @@ static bool bme280_configure(void) {
  800085e:	2201      	movs	r2, #1
  8000860:	4619      	mov	r1, r3
  8000862:	20f2      	movs	r0, #242	@ 0xf2
- 8000864:	f000 fdac 	bl	80013c0 <spi2_read_registers>
+ 8000864:	f000 fda4 	bl	80013b0 <spi2_read_registers>
 	if (readback != BME280_CTRL_HUM_VALUE) {
  8000868:	79fb      	ldrb	r3, [r7, #7]
  800086a:	2b01      	cmp	r3, #1
@@ -969,7 +969,7 @@ static bool bme280_configure(void) {
  8000874:	2201      	movs	r2, #1
  8000876:	4619      	mov	r1, r3
  8000878:	20f4      	movs	r0, #244	@ 0xf4
- 800087a:	f000 fda1 	bl	80013c0 <spi2_read_registers>
+ 800087a:	f000 fd99 	bl	80013b0 <spi2_read_registers>
 	if (readback != BME280_CTRL_MEAS_VALUE) {
  800087e:	79fb      	ldrb	r3, [r7, #7]
  8000880:	2b57      	cmp	r3, #87	@ 0x57
@@ -1692,1388 +1692,1454 @@ static uint32_t bme280_compensate_hum(int32_t adc_H) {
  8000f74:	20000036 	.word	0x20000036
  8000f78:	20000034 	.word	0x20000034
 
-08000f7c <delay_approx_1s>:
- * The `volatile` qualifier on the loop counter prevents the compiler
- * from optimizing the entire loop away.
- *
- * TODO: replace with SysTick-based delay once that driver exists.
- */
-static void delay_approx_1s(void) {
- 8000f7c:	b480      	push	{r7}
- 8000f7e:	b083      	sub	sp, #12
+08000f7c <main>:
+ * fresh measurement. */
+#define BME280_SAMPLE_PERIOD_MS     1000U
+
+
+int main(void)
+{
+ 8000f7c:	b580      	push	{r7, lr}
+ 8000f7e:	b08e      	sub	sp, #56	@ 0x38
  8000f80:	af00      	add	r7, sp, #0
-	for (volatile uint32_t i = 0U; i < 2000000U; i++) {
- 8000f82:	2300      	movs	r3, #0
- 8000f84:	607b      	str	r3, [r7, #4]
- 8000f86:	e002      	b.n	8000f8e <delay_approx_1s+0x12>
- 8000f88:	687b      	ldr	r3, [r7, #4]
- 8000f8a:	3301      	adds	r3, #1
- 8000f8c:	607b      	str	r3, [r7, #4]
- 8000f8e:	687b      	ldr	r3, [r7, #4]
- 8000f90:	4a04      	ldr	r2, [pc, #16]	@ (8000fa4 <delay_approx_1s+0x28>)
- 8000f92:	4293      	cmp	r3, r2
- 8000f94:	d9f8      	bls.n	8000f88 <delay_approx_1s+0xc>
-		/* intentionally empty */
-	}
-}
- 8000f96:	bf00      	nop
- 8000f98:	bf00      	nop
- 8000f9a:	370c      	adds	r7, #12
- 8000f9c:	46bd      	mov	sp, r7
- 8000f9e:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8000fa2:	4770      	bx	lr
- 8000fa4:	001e847f 	.word	0x001e847f
+    /* Step 0: Bring SYSCLK up to 168 MHz before initializing any peripheral
+     * whose timing depends on bus clocks. Must run first. */
+    rcc_init_clock_168mhz();
+ 8000f82:	f000 f8fb 	bl	800117c <rcc_init_clock_168mhz>
 
-08000fa8 <main>:
+    /* Step 1: Initialize the system tick timer for delays and time-keeping.
+     * Must come after RCC since the reload value is computed from HCLK. */
+    systick_init();
+ 8000f86:	f000 fa81 	bl	800148c <systick_init>
 
-int main(void) {
- 8000fa8:	b580      	push	{r7, lr}
- 8000faa:	b08c      	sub	sp, #48	@ 0x30
- 8000fac:	af00      	add	r7, sp, #0
-	/* Step 0: Bring SYSCLK up to 168 MHz before initializing any
-	 * peripheral whose timing depends on bus clocks. Must run first. */
-	rcc_init_clock_168mhz();
- 8000fae:	f000 f8ed 	bl	800118c <rcc_init_clock_168mhz>
+    /* Step 2: Initialize the debug serial port (USART2) so the rest of the
+     * boot sequence can report status. */
+    usart2_init();
+ 8000f8a:	f000 faad 	bl	80014e8 <usart2_init>
+    usart2_send_string("\r\n--- Air Quality Monitor starting ---\r\n");
+ 8000f8e:	4869      	ldr	r0, [pc, #420]	@ (8001134 <main+0x1b8>)
+ 8000f90:	f000 fb18 	bl	80015c4 <usart2_send_string>
 
-	/* Step 1: Initialize the debug serial port (USART2) first.
-	 * We need this up and running before anything else so we can print
-	 * status messages about the rest of the startup sequence. */
-	usart2_init();
- 8000fb2:	f000 fa73 	bl	800149c <usart2_init>
-	usart2_send_string("\r\n--- Air Quality Monitor starting ---\r\n");
- 8000fb6:	4863      	ldr	r0, [pc, #396]	@ (8001144 <main+0x19c>)
- 8000fb8:	f000 fade 	bl	8001578 <usart2_send_string>
+    /* Step 3: Initialize the SPI2 peripheral so we can talk to the BME280. */
+    usart2_send_string("Initializing SPI2... ");
+ 8000f94:	4868      	ldr	r0, [pc, #416]	@ (8001138 <main+0x1bc>)
+ 8000f96:	f000 fb15 	bl	80015c4 <usart2_send_string>
+    spi2_init();
+ 8000f9a:	f000 f98d 	bl	80012b8 <spi2_init>
+    usart2_send_string("OK\r\n");
+ 8000f9e:	4867      	ldr	r0, [pc, #412]	@ (800113c <main+0x1c0>)
+ 8000fa0:	f000 fb10 	bl	80015c4 <usart2_send_string>
 
-	/* Step 2: Initialize the SPI2 peripheral so we can talk to the BME280. */
-	usart2_send_string("Initializing SPI2... ");
- 8000fbc:	4862      	ldr	r0, [pc, #392]	@ (8001148 <main+0x1a0>)
- 8000fbe:	f000 fadb 	bl	8001578 <usart2_send_string>
-	spi2_init();
- 8000fc2:	f000 f981 	bl	80012c8 <spi2_init>
-	usart2_send_string("OK\r\n");
- 8000fc6:	4861      	ldr	r0, [pc, #388]	@ (800114c <main+0x1a4>)
- 8000fc8:	f000 fad6 	bl	8001578 <usart2_send_string>
+    /* Step 4: Run full BME280 init (chip ID check + calibration read +
+     * configure control registers). The status code tells us exactly which
+     * stage failed if anything goes wrong. */
+    usart2_send_string("BME280 init... ");
+ 8000fa4:	4866      	ldr	r0, [pc, #408]	@ (8001140 <main+0x1c4>)
+ 8000fa6:	f000 fb0d 	bl	80015c4 <usart2_send_string>
+    bme280_status_t bme_status = bme280_init();
+ 8000faa:	f7ff fadb 	bl	8000564 <bme280_init>
+ 8000fae:	4603      	mov	r3, r0
+ 8000fb0:	f887 302f 	strb.w	r3, [r7, #47]	@ 0x2f
 
-	/* Step 3: Run full BME280 init (chip ID check + calibration read +
-	 * configure control registers). The status code tells us exactly
-	 * which stage failed if anything goes wrong. */
-	usart2_send_string("BME280 init... ");
- 8000fcc:	4860      	ldr	r0, [pc, #384]	@ (8001150 <main+0x1a8>)
- 8000fce:	f000 fad3 	bl	8001578 <usart2_send_string>
-	bme280_status_t bme_status = bme280_init();
- 8000fd2:	f7ff fac7 	bl	8000564 <bme280_init>
- 8000fd6:	4603      	mov	r3, r0
- 8000fd8:	f887 302b 	strb.w	r3, [r7, #43]	@ 0x2b
+    switch (bme_status)
+ 8000fb4:	f897 302f 	ldrb.w	r3, [r7, #47]	@ 0x2f
+ 8000fb8:	2b03      	cmp	r3, #3
+ 8000fba:	d82a      	bhi.n	8001012 <main+0x96>
+ 8000fbc:	a201      	add	r2, pc, #4	@ (adr r2, 8000fc4 <main+0x48>)
+ 8000fbe:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8000fc2:	bf00      	nop
+ 8000fc4:	08000fd5 	.word	0x08000fd5
+ 8000fc8:	08000fe3 	.word	0x08000fe3
+ 8000fcc:	08000ff3 	.word	0x08000ff3
+ 8000fd0:	08001003 	.word	0x08001003
+    {
+    case BME280_OK:
+        usart2_send_string("OK\r\n");
+ 8000fd4:	4859      	ldr	r0, [pc, #356]	@ (800113c <main+0x1c0>)
+ 8000fd6:	f000 faf5 	bl	80015c4 <usart2_send_string>
+        break;
+ 8000fda:	bf00      	nop
+     * timestamp against each task's "last run" timestamp. The CPU spends
+     * its time looping through these checks rather than blocking inside
+     * delay calls, which leaves room for future tasks (OLED refresh,
+     * SGP30 sample, etc.) to run at their own rates concurrently. */
+    bme280_data_t reading;
+    uint32_t last_bme_read_ms = 0U;
+ 8000fdc:	2300      	movs	r3, #0
+ 8000fde:	637b      	str	r3, [r7, #52]	@ 0x34
+ 8000fe0:	e01c      	b.n	800101c <main+0xa0>
+        usart2_send_string("FAIL: chip ID mismatch (Stage 1)\r\n");
+ 8000fe2:	4858      	ldr	r0, [pc, #352]	@ (8001144 <main+0x1c8>)
+ 8000fe4:	f000 faee 	bl	80015c4 <usart2_send_string>
+        usart2_send_string("  Check SPI wiring, CS pin, and 3.3V power.\r\n");
+ 8000fe8:	4857      	ldr	r0, [pc, #348]	@ (8001148 <main+0x1cc>)
+ 8000fea:	f000 faeb 	bl	80015c4 <usart2_send_string>
+        while (1) { /* halt */ }
+ 8000fee:	bf00      	nop
+ 8000ff0:	e7fd      	b.n	8000fee <main+0x72>
+        usart2_send_string("FAIL: calibration invalid (Stage 2)\r\n");
+ 8000ff2:	4856      	ldr	r0, [pc, #344]	@ (800114c <main+0x1d0>)
+ 8000ff4:	f000 fae6 	bl	80015c4 <usart2_send_string>
+        usart2_send_string("  dig_T1 was 0x0000 or 0xFFFF - likely MISO stuck.\r\n");
+ 8000ff8:	4855      	ldr	r0, [pc, #340]	@ (8001150 <main+0x1d4>)
+ 8000ffa:	f000 fae3 	bl	80015c4 <usart2_send_string>
+        while (1) { /* halt */ }
+ 8000ffe:	bf00      	nop
+ 8001000:	e7fd      	b.n	8000ffe <main+0x82>
+        usart2_send_string("FAIL: config register verify (Stage 3)\r\n");
+ 8001002:	4854      	ldr	r0, [pc, #336]	@ (8001154 <main+0x1d8>)
+ 8001004:	f000 fade 	bl	80015c4 <usart2_send_string>
+        usart2_send_string("  A control register did not read back the value written.\r\n");
+ 8001008:	4853      	ldr	r0, [pc, #332]	@ (8001158 <main+0x1dc>)
+ 800100a:	f000 fadb 	bl	80015c4 <usart2_send_string>
+        while (1) { /* halt */ }
+ 800100e:	bf00      	nop
+ 8001010:	e7fd      	b.n	800100e <main+0x92>
+        usart2_send_string("FAIL: unknown status code\r\n");
+ 8001012:	4852      	ldr	r0, [pc, #328]	@ (800115c <main+0x1e0>)
+ 8001014:	f000 fad6 	bl	80015c4 <usart2_send_string>
+        while (1) { /* halt */ }
+ 8001018:	bf00      	nop
+ 800101a:	e7fd      	b.n	8001018 <main+0x9c>
 
-	switch (bme_status) {
- 8000fdc:	f897 302b 	ldrb.w	r3, [r7, #43]	@ 0x2b
- 8000fe0:	2b03      	cmp	r3, #3
- 8000fe2:	d827      	bhi.n	8001034 <main+0x8c>
- 8000fe4:	a201      	add	r2, pc, #4	@ (adr r2, 8000fec <main+0x44>)
- 8000fe6:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8000fea:	bf00      	nop
- 8000fec:	08000ffd 	.word	0x08000ffd
- 8000ff0:	08001005 	.word	0x08001005
- 8000ff4:	08001015 	.word	0x08001015
- 8000ff8:	08001025 	.word	0x08001025
-	case BME280_OK:
-		usart2_send_string("OK\r\n");
- 8000ffc:	4853      	ldr	r0, [pc, #332]	@ (800114c <main+0x1a4>)
- 8000ffe:	f000 fabb 	bl	8001578 <usart2_send_string>
-		break;
- 8001002:	e01c      	b.n	800103e <main+0x96>
+    while (1)
+    {
+        uint32_t now_ms = systick_get_ms();
+ 800101c:	f000 fa4a 	bl	80014b4 <systick_get_ms>
+ 8001020:	62b8      	str	r0, [r7, #40]	@ 0x28
 
-	case BME280_ERR_ID_MISMATCH:
-		usart2_send_string("FAIL: chip ID mismatch (Stage 1)\r\n");
- 8001004:	4853      	ldr	r0, [pc, #332]	@ (8001154 <main+0x1ac>)
- 8001006:	f000 fab7 	bl	8001578 <usart2_send_string>
-		usart2_send_string("  Check SPI wiring, CS pin, and 3.3V power.\r\n");
- 800100a:	4853      	ldr	r0, [pc, #332]	@ (8001158 <main+0x1b0>)
- 800100c:	f000 fab4 	bl	8001578 <usart2_send_string>
-		while (1) { /* halt */
- 8001010:	bf00      	nop
- 8001012:	e7fd      	b.n	8001010 <main+0x68>
-		}
+        /* ---- BME280 sample task: every 1 second, non-blocking. ----
+         * Wrap-safe unsigned subtraction handles the ~49.7 day rollover
+         * of the SysTick counter without special-casing. */
+        if ((now_ms - last_bme_read_ms) >= BME280_SAMPLE_PERIOD_MS)
+ 8001022:	6aba      	ldr	r2, [r7, #40]	@ 0x28
+ 8001024:	6b7b      	ldr	r3, [r7, #52]	@ 0x34
+ 8001026:	1ad3      	subs	r3, r2, r3
+ 8001028:	f5b3 7f7a 	cmp.w	r3, #1000	@ 0x3e8
+ 800102c:	d3f6      	bcc.n	800101c <main+0xa0>
+        {
+            last_bme_read_ms = now_ms;
+ 800102e:	6abb      	ldr	r3, [r7, #40]	@ 0x28
+ 8001030:	637b      	str	r3, [r7, #52]	@ 0x34
 
-	case BME280_ERR_CALIB_INVALID:
-		usart2_send_string("FAIL: calibration invalid (Stage 2)\r\n");
- 8001014:	4851      	ldr	r0, [pc, #324]	@ (800115c <main+0x1b4>)
- 8001016:	f000 faaf 	bl	8001578 <usart2_send_string>
-		usart2_send_string(
- 800101a:	4851      	ldr	r0, [pc, #324]	@ (8001160 <main+0x1b8>)
- 800101c:	f000 faac 	bl	8001578 <usart2_send_string>
-				"  dig_T1 was 0x0000 or 0xFFFF - likely MISO stuck.\r\n");
-		while (1) { /* halt */
- 8001020:	bf00      	nop
- 8001022:	e7fd      	b.n	8001020 <main+0x78>
-		}
+            /* Read one coherent sample from the BME280. */
+            (void)bme280_read_data(&reading);  /* always returns BME280_OK currently */
+ 8001032:	1d3b      	adds	r3, r7, #4
+ 8001034:	4618      	mov	r0, r3
+ 8001036:	f7ff fab8 	bl	80005aa <bme280_read_data>
+             * Split into whole and fractional parts. The fractional part
+             * needs zero-padding to 2 digits so values like 0.05 don't
+             * print as "0.5". For negative temperatures, the % operator
+             * in C99 preserves the sign on the remainder, so we take its
+             * absolute value before printing. */
+            int32_t t_whole = reading.temp_x100 / 100;
+ 800103a:	687b      	ldr	r3, [r7, #4]
+ 800103c:	4a48      	ldr	r2, [pc, #288]	@ (8001160 <main+0x1e4>)
+ 800103e:	fb82 1203 	smull	r1, r2, r2, r3
+ 8001042:	1152      	asrs	r2, r2, #5
+ 8001044:	17db      	asrs	r3, r3, #31
+ 8001046:	1ad3      	subs	r3, r2, r3
+ 8001048:	627b      	str	r3, [r7, #36]	@ 0x24
+            int32_t t_frac  = reading.temp_x100 % 100;
+ 800104a:	687b      	ldr	r3, [r7, #4]
+ 800104c:	4a44      	ldr	r2, [pc, #272]	@ (8001160 <main+0x1e4>)
+ 800104e:	fb82 1203 	smull	r1, r2, r2, r3
+ 8001052:	1151      	asrs	r1, r2, #5
+ 8001054:	17da      	asrs	r2, r3, #31
+ 8001056:	1a8a      	subs	r2, r1, r2
+ 8001058:	2164      	movs	r1, #100	@ 0x64
+ 800105a:	fb01 f202 	mul.w	r2, r1, r2
+ 800105e:	1a9b      	subs	r3, r3, r2
+ 8001060:	633b      	str	r3, [r7, #48]	@ 0x30
+            if (t_frac < 0)
+ 8001062:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
+ 8001064:	2b00      	cmp	r3, #0
+ 8001066:	da02      	bge.n	800106e <main+0xf2>
+            {
+                t_frac = -t_frac;
+ 8001068:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
+ 800106a:	425b      	negs	r3, r3
+ 800106c:	633b      	str	r3, [r7, #48]	@ 0x30
+            }
 
-	case BME280_ERR_CONFIG_VERIFY:
-		usart2_send_string("FAIL: config register verify (Stage 3)\r\n");
- 8001024:	484f      	ldr	r0, [pc, #316]	@ (8001164 <main+0x1bc>)
- 8001026:	f000 faa7 	bl	8001578 <usart2_send_string>
-		usart2_send_string(
- 800102a:	484f      	ldr	r0, [pc, #316]	@ (8001168 <main+0x1c0>)
- 800102c:	f000 faa4 	bl	8001578 <usart2_send_string>
-				"  A control register did not read back the value written.\r\n");
-		while (1) { /* halt */
- 8001030:	bf00      	nop
- 8001032:	e7fd      	b.n	8001030 <main+0x88>
-		}
+            usart2_send_string("T: ");
+ 800106e:	483d      	ldr	r0, [pc, #244]	@ (8001164 <main+0x1e8>)
+ 8001070:	f000 faa8 	bl	80015c4 <usart2_send_string>
+            usart2_send_int(t_whole);
+ 8001074:	6a78      	ldr	r0, [r7, #36]	@ 0x24
+ 8001076:	f000 fabb 	bl	80015f0 <usart2_send_int>
+            usart2_send_byte('.');
+ 800107a:	202e      	movs	r0, #46	@ 0x2e
+ 800107c:	f000 fa8a 	bl	8001594 <usart2_send_byte>
+            if (t_frac < 10) { usart2_send_byte('0'); }   /* zero-pad */
+ 8001080:	6b3b      	ldr	r3, [r7, #48]	@ 0x30
+ 8001082:	2b09      	cmp	r3, #9
+ 8001084:	dc02      	bgt.n	800108c <main+0x110>
+ 8001086:	2030      	movs	r0, #48	@ 0x30
+ 8001088:	f000 fa84 	bl	8001594 <usart2_send_byte>
+            usart2_send_int(t_frac);
+ 800108c:	6b38      	ldr	r0, [r7, #48]	@ 0x30
+ 800108e:	f000 faaf 	bl	80015f0 <usart2_send_int>
+            usart2_send_string(" C   ");
+ 8001092:	4835      	ldr	r0, [pc, #212]	@ (8001168 <main+0x1ec>)
+ 8001094:	f000 fa96 	bl	80015c4 <usart2_send_string>
 
-	default:
-		/* Defensive: if the enum gains new values later and we
-		 * forget to update this switch, we still halt loudly. */
-		usart2_send_string("FAIL: unknown status code\r\n");
- 8001034:	484d      	ldr	r0, [pc, #308]	@ (800116c <main+0x1c4>)
- 8001036:	f000 fa9f 	bl	8001578 <usart2_send_string>
-		while (1) { /* halt */
- 800103a:	bf00      	nop
- 800103c:	e7fd      	b.n	800103a <main+0x92>
-	 * before the next read. */
-	bme280_data_t reading;
-
-	while (1) {
-		/* ---- Read one coherent sample from the BME280. ---- */
-		(void) bme280_read_data(&reading); /* Always returns BME280_OK currently */
- 800103e:	1d3b      	adds	r3, r7, #4
- 8001040:	4618      	mov	r0, r3
- 8001042:	f7ff fab2 	bl	80005aa <bme280_read_data>
-		 * Split into whole and fractional parts. The fractional part
-		 * needs zero-padding to 2 digits so values like 0.05 don't print
-		 * as "0.5". For negative temperatures, the % operator in C99
-		 * preserves the sign on the remainder, so we take its absolute
-		 * value before printing. */
-		int32_t t_whole = reading.temp_x100 / 100;
- 8001046:	687b      	ldr	r3, [r7, #4]
- 8001048:	4a49      	ldr	r2, [pc, #292]	@ (8001170 <main+0x1c8>)
- 800104a:	fb82 1203 	smull	r1, r2, r2, r3
- 800104e:	1152      	asrs	r2, r2, #5
- 8001050:	17db      	asrs	r3, r3, #31
- 8001052:	1ad3      	subs	r3, r2, r3
- 8001054:	627b      	str	r3, [r7, #36]	@ 0x24
-		int32_t t_frac = reading.temp_x100 % 100;
- 8001056:	687b      	ldr	r3, [r7, #4]
- 8001058:	4a45      	ldr	r2, [pc, #276]	@ (8001170 <main+0x1c8>)
- 800105a:	fb82 1203 	smull	r1, r2, r2, r3
- 800105e:	1151      	asrs	r1, r2, #5
- 8001060:	17da      	asrs	r2, r3, #31
- 8001062:	1a8a      	subs	r2, r1, r2
- 8001064:	2164      	movs	r1, #100	@ 0x64
- 8001066:	fb01 f202 	mul.w	r2, r1, r2
- 800106a:	1a9b      	subs	r3, r3, r2
- 800106c:	62fb      	str	r3, [r7, #44]	@ 0x2c
-		if (t_frac < 0) {
- 800106e:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
- 8001070:	2b00      	cmp	r3, #0
- 8001072:	da02      	bge.n	800107a <main+0xd2>
-			t_frac = -t_frac;
- 8001074:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
- 8001076:	425b      	negs	r3, r3
- 8001078:	62fb      	str	r3, [r7, #44]	@ 0x2c
-		}
-
-		usart2_send_string("T: ");
- 800107a:	483e      	ldr	r0, [pc, #248]	@ (8001174 <main+0x1cc>)
- 800107c:	f000 fa7c 	bl	8001578 <usart2_send_string>
-		usart2_send_int(t_whole);
- 8001080:	6a78      	ldr	r0, [r7, #36]	@ 0x24
- 8001082:	f000 fa8f 	bl	80015a4 <usart2_send_int>
-		usart2_send_byte('.');
- 8001086:	202e      	movs	r0, #46	@ 0x2e
- 8001088:	f000 fa5e 	bl	8001548 <usart2_send_byte>
-		if (t_frac < 10) {
- 800108c:	6afb      	ldr	r3, [r7, #44]	@ 0x2c
- 800108e:	2b09      	cmp	r3, #9
- 8001090:	dc02      	bgt.n	8001098 <main+0xf0>
-			usart2_send_byte('0');
- 8001092:	2030      	movs	r0, #48	@ 0x30
- 8001094:	f000 fa58 	bl	8001548 <usart2_send_byte>
-		} /* zero-pad */
-		usart2_send_int(t_frac);
- 8001098:	6af8      	ldr	r0, [r7, #44]	@ 0x2c
- 800109a:	f000 fa83 	bl	80015a4 <usart2_send_int>
-		usart2_send_string(" C   ");
- 800109e:	4836      	ldr	r0, [pc, #216]	@ (8001178 <main+0x1d0>)
- 80010a0:	f000 fa6a 	bl	8001578 <usart2_send_string>
-
-		/* ---- Pressure: press_x256 holds (Pa × 256), i.e. Q24.8. ----
-		 * First divide by 256 to get whole Pascals, then split into
-		 * hPa whole and fractional parts (1 hPa = 100 Pa). */
-		uint32_t p_pa = reading.press_x256 / 256U;
- 80010a4:	68bb      	ldr	r3, [r7, #8]
- 80010a6:	0a1b      	lsrs	r3, r3, #8
- 80010a8:	623b      	str	r3, [r7, #32]
-		uint32_t hpa_whole = p_pa / 100U;
+            /* ---- Pressure: press_x256 holds (Pa * 256), i.e. Q24.8. ----
+             * First divide by 256 to get whole Pascals, then split into
+             * hPa whole and fractional parts (1 hPa = 100 Pa). */
+            uint32_t p_pa      = reading.press_x256 / 256U;
+ 8001098:	68bb      	ldr	r3, [r7, #8]
+ 800109a:	0a1b      	lsrs	r3, r3, #8
+ 800109c:	623b      	str	r3, [r7, #32]
+            uint32_t hpa_whole = p_pa / 100U;
+ 800109e:	6a3b      	ldr	r3, [r7, #32]
+ 80010a0:	4a2f      	ldr	r2, [pc, #188]	@ (8001160 <main+0x1e4>)
+ 80010a2:	fba2 2303 	umull	r2, r3, r2, r3
+ 80010a6:	095b      	lsrs	r3, r3, #5
+ 80010a8:	61fb      	str	r3, [r7, #28]
+            uint32_t hpa_frac  = p_pa % 100U;
  80010aa:	6a3b      	ldr	r3, [r7, #32]
- 80010ac:	4a30      	ldr	r2, [pc, #192]	@ (8001170 <main+0x1c8>)
- 80010ae:	fba2 2303 	umull	r2, r3, r2, r3
- 80010b2:	095b      	lsrs	r3, r3, #5
- 80010b4:	61fb      	str	r3, [r7, #28]
-		uint32_t hpa_frac = p_pa % 100U;
- 80010b6:	6a3b      	ldr	r3, [r7, #32]
- 80010b8:	4a2d      	ldr	r2, [pc, #180]	@ (8001170 <main+0x1c8>)
- 80010ba:	fba2 1203 	umull	r1, r2, r2, r3
- 80010be:	0952      	lsrs	r2, r2, #5
- 80010c0:	2164      	movs	r1, #100	@ 0x64
- 80010c2:	fb01 f202 	mul.w	r2, r1, r2
- 80010c6:	1a9b      	subs	r3, r3, r2
- 80010c8:	61bb      	str	r3, [r7, #24]
+ 80010ac:	4a2c      	ldr	r2, [pc, #176]	@ (8001160 <main+0x1e4>)
+ 80010ae:	fba2 1203 	umull	r1, r2, r2, r3
+ 80010b2:	0952      	lsrs	r2, r2, #5
+ 80010b4:	2164      	movs	r1, #100	@ 0x64
+ 80010b6:	fb01 f202 	mul.w	r2, r1, r2
+ 80010ba:	1a9b      	subs	r3, r3, r2
+ 80010bc:	61bb      	str	r3, [r7, #24]
 
-		usart2_send_string("P: ");
- 80010ca:	482c      	ldr	r0, [pc, #176]	@ (800117c <main+0x1d4>)
- 80010cc:	f000 fa54 	bl	8001578 <usart2_send_string>
-		usart2_send_int((int32_t) hpa_whole);
- 80010d0:	69fb      	ldr	r3, [r7, #28]
- 80010d2:	4618      	mov	r0, r3
- 80010d4:	f000 fa66 	bl	80015a4 <usart2_send_int>
-		usart2_send_byte('.');
- 80010d8:	202e      	movs	r0, #46	@ 0x2e
- 80010da:	f000 fa35 	bl	8001548 <usart2_send_byte>
-		if (hpa_frac < 10U) {
+            usart2_send_string("P: ");
+ 80010be:	482b      	ldr	r0, [pc, #172]	@ (800116c <main+0x1f0>)
+ 80010c0:	f000 fa80 	bl	80015c4 <usart2_send_string>
+            usart2_send_int((int32_t)hpa_whole);
+ 80010c4:	69fb      	ldr	r3, [r7, #28]
+ 80010c6:	4618      	mov	r0, r3
+ 80010c8:	f000 fa92 	bl	80015f0 <usart2_send_int>
+            usart2_send_byte('.');
+ 80010cc:	202e      	movs	r0, #46	@ 0x2e
+ 80010ce:	f000 fa61 	bl	8001594 <usart2_send_byte>
+            if (hpa_frac < 10U) { usart2_send_byte('0'); }
+ 80010d2:	69bb      	ldr	r3, [r7, #24]
+ 80010d4:	2b09      	cmp	r3, #9
+ 80010d6:	d802      	bhi.n	80010de <main+0x162>
+ 80010d8:	2030      	movs	r0, #48	@ 0x30
+ 80010da:	f000 fa5b 	bl	8001594 <usart2_send_byte>
+            usart2_send_int((int32_t)hpa_frac);
  80010de:	69bb      	ldr	r3, [r7, #24]
- 80010e0:	2b09      	cmp	r3, #9
- 80010e2:	d802      	bhi.n	80010ea <main+0x142>
-			usart2_send_byte('0');
- 80010e4:	2030      	movs	r0, #48	@ 0x30
- 80010e6:	f000 fa2f 	bl	8001548 <usart2_send_byte>
-		}
-		usart2_send_int((int32_t) hpa_frac);
- 80010ea:	69bb      	ldr	r3, [r7, #24]
- 80010ec:	4618      	mov	r0, r3
- 80010ee:	f000 fa59 	bl	80015a4 <usart2_send_int>
-		usart2_send_string(" hPa   ");
- 80010f2:	4823      	ldr	r0, [pc, #140]	@ (8001180 <main+0x1d8>)
- 80010f4:	f000 fa40 	bl	8001578 <usart2_send_string>
+ 80010e0:	4618      	mov	r0, r3
+ 80010e2:	f000 fa85 	bl	80015f0 <usart2_send_int>
+            usart2_send_string(" hPa   ");
+ 80010e6:	4822      	ldr	r0, [pc, #136]	@ (8001170 <main+0x1f4>)
+ 80010e8:	f000 fa6c 	bl	80015c4 <usart2_send_string>
 
-		/* ---- Humidity: hum_x1024 holds (%RH × 1024), i.e. Q22.10. ----
-		 * Whole part = hum_x1024 / 1024.
-		 * Fractional part scaled to 2 decimal digits = (hum_x1024 % 1024) * 100 / 1024. */
-		uint32_t h_whole = reading.hum_x1024 / 1024U;
- 80010f8:	68fb      	ldr	r3, [r7, #12]
- 80010fa:	0a9b      	lsrs	r3, r3, #10
- 80010fc:	617b      	str	r3, [r7, #20]
-		uint32_t h_frac = ((reading.hum_x1024 % 1024U) * 100U) / 1024U;
- 80010fe:	68fb      	ldr	r3, [r7, #12]
- 8001100:	f3c3 0309 	ubfx	r3, r3, #0, #10
- 8001104:	2264      	movs	r2, #100	@ 0x64
- 8001106:	fb02 f303 	mul.w	r3, r2, r3
- 800110a:	0a9b      	lsrs	r3, r3, #10
- 800110c:	613b      	str	r3, [r7, #16]
+            /* ---- Humidity: hum_x1024 holds (%RH * 1024), i.e. Q22.10. ----
+             * Whole part = hum_x1024 / 1024.
+             * Fractional part scaled to 2 decimal digits =
+             *   (hum_x1024 % 1024) * 100 / 1024. */
+            uint32_t h_whole = reading.hum_x1024 / 1024U;
+ 80010ec:	68fb      	ldr	r3, [r7, #12]
+ 80010ee:	0a9b      	lsrs	r3, r3, #10
+ 80010f0:	617b      	str	r3, [r7, #20]
+            uint32_t h_frac  = ((reading.hum_x1024 % 1024U) * 100U) / 1024U;
+ 80010f2:	68fb      	ldr	r3, [r7, #12]
+ 80010f4:	f3c3 0309 	ubfx	r3, r3, #0, #10
+ 80010f8:	2264      	movs	r2, #100	@ 0x64
+ 80010fa:	fb02 f303 	mul.w	r3, r2, r3
+ 80010fe:	0a9b      	lsrs	r3, r3, #10
+ 8001100:	613b      	str	r3, [r7, #16]
 
-		usart2_send_string("H: ");
- 800110e:	481d      	ldr	r0, [pc, #116]	@ (8001184 <main+0x1dc>)
- 8001110:	f000 fa32 	bl	8001578 <usart2_send_string>
-		usart2_send_int((int32_t) h_whole);
- 8001114:	697b      	ldr	r3, [r7, #20]
- 8001116:	4618      	mov	r0, r3
- 8001118:	f000 fa44 	bl	80015a4 <usart2_send_int>
-		usart2_send_byte('.');
- 800111c:	202e      	movs	r0, #46	@ 0x2e
- 800111e:	f000 fa13 	bl	8001548 <usart2_send_byte>
-		if (h_frac < 10U) {
+            usart2_send_string("H: ");
+ 8001102:	481c      	ldr	r0, [pc, #112]	@ (8001174 <main+0x1f8>)
+ 8001104:	f000 fa5e 	bl	80015c4 <usart2_send_string>
+            usart2_send_int((int32_t)h_whole);
+ 8001108:	697b      	ldr	r3, [r7, #20]
+ 800110a:	4618      	mov	r0, r3
+ 800110c:	f000 fa70 	bl	80015f0 <usart2_send_int>
+            usart2_send_byte('.');
+ 8001110:	202e      	movs	r0, #46	@ 0x2e
+ 8001112:	f000 fa3f 	bl	8001594 <usart2_send_byte>
+            if (h_frac < 10U) { usart2_send_byte('0'); }
+ 8001116:	693b      	ldr	r3, [r7, #16]
+ 8001118:	2b09      	cmp	r3, #9
+ 800111a:	d802      	bhi.n	8001122 <main+0x1a6>
+ 800111c:	2030      	movs	r0, #48	@ 0x30
+ 800111e:	f000 fa39 	bl	8001594 <usart2_send_byte>
+            usart2_send_int((int32_t)h_frac);
  8001122:	693b      	ldr	r3, [r7, #16]
- 8001124:	2b09      	cmp	r3, #9
- 8001126:	d802      	bhi.n	800112e <main+0x186>
-			usart2_send_byte('0');
- 8001128:	2030      	movs	r0, #48	@ 0x30
- 800112a:	f000 fa0d 	bl	8001548 <usart2_send_byte>
-		}
-		usart2_send_int((int32_t) h_frac);
- 800112e:	693b      	ldr	r3, [r7, #16]
- 8001130:	4618      	mov	r0, r3
- 8001132:	f000 fa37 	bl	80015a4 <usart2_send_int>
-		usart2_send_string(" %RH\r\n");
- 8001136:	4814      	ldr	r0, [pc, #80]	@ (8001188 <main+0x1e0>)
- 8001138:	f000 fa1e 	bl	8001578 <usart2_send_string>
+ 8001124:	4618      	mov	r0, r3
+ 8001126:	f000 fa63 	bl	80015f0 <usart2_send_int>
+            usart2_send_string(" %RH\r\n");
+ 800112a:	4813      	ldr	r0, [pc, #76]	@ (8001178 <main+0x1fc>)
+ 800112c:	f000 fa4a 	bl	80015c4 <usart2_send_string>
+    {
+ 8001130:	e774      	b.n	800101c <main+0xa0>
+ 8001132:	bf00      	nop
+ 8001134:	0800173c 	.word	0x0800173c
+ 8001138:	08001768 	.word	0x08001768
+ 800113c:	08001780 	.word	0x08001780
+ 8001140:	08001788 	.word	0x08001788
+ 8001144:	08001798 	.word	0x08001798
+ 8001148:	080017bc 	.word	0x080017bc
+ 800114c:	080017ec 	.word	0x080017ec
+ 8001150:	08001814 	.word	0x08001814
+ 8001154:	0800184c 	.word	0x0800184c
+ 8001158:	08001878 	.word	0x08001878
+ 800115c:	080018b4 	.word	0x080018b4
+ 8001160:	51eb851f 	.word	0x51eb851f
+ 8001164:	080018d0 	.word	0x080018d0
+ 8001168:	080018d4 	.word	0x080018d4
+ 800116c:	080018dc 	.word	0x080018dc
+ 8001170:	080018e0 	.word	0x080018e0
+ 8001174:	080018e8 	.word	0x080018e8
+ 8001178:	080018ec 	.word	0x080018ec
 
-		/* Wait ~1 second to roughly match the BME280's t_sb cycle. */
-		delay_approx_1s();
- 800113c:	f7ff ff1e 	bl	8000f7c <delay_approx_1s>
-	while (1) {
- 8001140:	e77d      	b.n	800103e <main+0x96>
- 8001142:	bf00      	nop
- 8001144:	080016f0 	.word	0x080016f0
- 8001148:	0800171c 	.word	0x0800171c
- 800114c:	08001734 	.word	0x08001734
- 8001150:	0800173c 	.word	0x0800173c
- 8001154:	0800174c 	.word	0x0800174c
- 8001158:	08001770 	.word	0x08001770
- 800115c:	080017a0 	.word	0x080017a0
- 8001160:	080017c8 	.word	0x080017c8
- 8001164:	08001800 	.word	0x08001800
- 8001168:	0800182c 	.word	0x0800182c
- 800116c:	08001868 	.word	0x08001868
- 8001170:	51eb851f 	.word	0x51eb851f
- 8001174:	08001884 	.word	0x08001884
- 8001178:	08001888 	.word	0x08001888
- 800117c:	08001890 	.word	0x08001890
- 8001180:	08001894 	.word	0x08001894
- 8001184:	0800189c 	.word	0x0800189c
- 8001188:	080018a0 	.word	0x080018a0
-
-0800118c <rcc_init_clock_168mhz>:
+0800117c <rcc_init_clock_168mhz>:
  *
  * Sequence (industry-standard pattern; see RM0090 Sections 3.5, 6.2, 6.3
  * for individual register details).
  * ============================================================================ */
 void rcc_init_clock_168mhz(void)
 {
- 800118c:	b580      	push	{r7, lr}
- 800118e:	af00      	add	r7, sp, #0
+ 800117c:	b580      	push	{r7, lr}
+ 800117e:	af00      	add	r7, sp, #0
     rcc_enable_hse();
- 8001190:	f000 f80c 	bl	80011ac <rcc_enable_hse>
+ 8001180:	f000 f80c 	bl	800119c <rcc_enable_hse>
     rcc_configure_flash_latency();
- 8001194:	f000 f822 	bl	80011dc <rcc_configure_flash_latency>
+ 8001184:	f000 f822 	bl	80011cc <rcc_configure_flash_latency>
     rcc_configure_bus_prescalers();
- 8001198:	f000 f832 	bl	8001200 <rcc_configure_bus_prescalers>
+ 8001188:	f000 f832 	bl	80011f0 <rcc_configure_bus_prescalers>
     rcc_configure_pll();
- 800119c:	f000 f84c 	bl	8001238 <rcc_configure_pll>
+ 800118c:	f000 f84c 	bl	8001228 <rcc_configure_pll>
     rcc_enable_pll_and_wait();
- 80011a0:	f000 f858 	bl	8001254 <rcc_enable_pll_and_wait>
+ 8001190:	f000 f858 	bl	8001244 <rcc_enable_pll_and_wait>
     rcc_switch_sysclk_to_pll();
- 80011a4:	f000 f86e 	bl	8001284 <rcc_switch_sysclk_to_pll>
+ 8001194:	f000 f86e 	bl	8001274 <rcc_switch_sysclk_to_pll>
 }
- 80011a8:	bf00      	nop
- 80011aa:	bd80      	pop	{r7, pc}
+ 8001198:	bf00      	nop
+ 800119a:	bd80      	pop	{r7, pc}
 
-080011ac <rcc_enable_hse>:
+0800119c <rcc_enable_hse>:
  *
  * The HSE provides a more accurate reference than the HSI for the PLL.
  * RM0090 Section 6.2.1.
  * ============================================================================ */
 static void rcc_enable_hse(void)
 {
- 80011ac:	b480      	push	{r7}
- 80011ae:	af00      	add	r7, sp, #0
+ 800119c:	b480      	push	{r7}
+ 800119e:	af00      	add	r7, sp, #0
     /* Turn on the external oscillator circuit. */
     RCC->CR |= RCC_CR_HSEON;
- 80011b0:	4b09      	ldr	r3, [pc, #36]	@ (80011d8 <rcc_enable_hse+0x2c>)
- 80011b2:	681b      	ldr	r3, [r3, #0]
- 80011b4:	4a08      	ldr	r2, [pc, #32]	@ (80011d8 <rcc_enable_hse+0x2c>)
- 80011b6:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
- 80011ba:	6013      	str	r3, [r2, #0]
+ 80011a0:	4b09      	ldr	r3, [pc, #36]	@ (80011c8 <rcc_enable_hse+0x2c>)
+ 80011a2:	681b      	ldr	r3, [r3, #0]
+ 80011a4:	4a08      	ldr	r2, [pc, #32]	@ (80011c8 <rcc_enable_hse+0x2c>)
+ 80011a6:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 80011aa:	6013      	str	r3, [r2, #0]
 
     /* Wait for hardware to confirm the crystal is oscillating cleanly.
      * Typically takes a few hundred microseconds. */
     while ((RCC->CR & RCC_CR_HSERDY) == 0U) {
- 80011bc:	bf00      	nop
- 80011be:	4b06      	ldr	r3, [pc, #24]	@ (80011d8 <rcc_enable_hse+0x2c>)
- 80011c0:	681b      	ldr	r3, [r3, #0]
- 80011c2:	f403 3300 	and.w	r3, r3, #131072	@ 0x20000
- 80011c6:	2b00      	cmp	r3, #0
- 80011c8:	d0f9      	beq.n	80011be <rcc_enable_hse+0x12>
+ 80011ac:	bf00      	nop
+ 80011ae:	4b06      	ldr	r3, [pc, #24]	@ (80011c8 <rcc_enable_hse+0x2c>)
+ 80011b0:	681b      	ldr	r3, [r3, #0]
+ 80011b2:	f403 3300 	and.w	r3, r3, #131072	@ 0x20000
+ 80011b6:	2b00      	cmp	r3, #0
+ 80011b8:	d0f9      	beq.n	80011ae <rcc_enable_hse+0x12>
         /* spin */
     }
 }
- 80011ca:	bf00      	nop
- 80011cc:	bf00      	nop
- 80011ce:	46bd      	mov	sp, r7
- 80011d0:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80011d4:	4770      	bx	lr
- 80011d6:	bf00      	nop
- 80011d8:	40023800 	.word	0x40023800
+ 80011ba:	bf00      	nop
+ 80011bc:	bf00      	nop
+ 80011be:	46bd      	mov	sp, r7
+ 80011c0:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80011c4:	4770      	bx	lr
+ 80011c6:	bf00      	nop
+ 80011c8:	40023800 	.word	0x40023800
 
-080011dc <rcc_configure_flash_latency>:
+080011cc <rcc_configure_flash_latency>:
  *   - We rely on the reset state (ACR = 0, caches disabled) to allow the
  *     reset bits to be set in the first write, then clear them while
  *     enabling caches in the second write.
  * ============================================================================ */
 static void rcc_configure_flash_latency(void)
 {
- 80011dc:	b480      	push	{r7}
- 80011de:	af00      	add	r7, sp, #0
+ 80011cc:	b480      	push	{r7}
+ 80011ce:	af00      	add	r7, sp, #0
     /* Write 1: set wait states and pulse the cache-reset bits while caches
      * are still disabled. */
     FLASH->ACR = FLASH_ACR_LATENCY_5WS
- 80011e0:	4b06      	ldr	r3, [pc, #24]	@ (80011fc <rcc_configure_flash_latency+0x20>)
- 80011e2:	f641 0205 	movw	r2, #6149	@ 0x1805
- 80011e6:	601a      	str	r2, [r3, #0]
+ 80011d0:	4b06      	ldr	r3, [pc, #24]	@ (80011ec <rcc_configure_flash_latency+0x20>)
+ 80011d2:	f641 0205 	movw	r2, #6149	@ 0x1805
+ 80011d6:	601a      	str	r2, [r3, #0]
                | FLASH_ACR_ICRST
                | FLASH_ACR_DCRST;
 
     /* Write 2: clear the reset bits and enable prefetch + I-cache + D-cache. */
     FLASH->ACR = FLASH_ACR_LATENCY_5WS
- 80011e8:	4b04      	ldr	r3, [pc, #16]	@ (80011fc <rcc_configure_flash_latency+0x20>)
- 80011ea:	f240 7205 	movw	r2, #1797	@ 0x705
- 80011ee:	601a      	str	r2, [r3, #0]
+ 80011d8:	4b04      	ldr	r3, [pc, #16]	@ (80011ec <rcc_configure_flash_latency+0x20>)
+ 80011da:	f240 7205 	movw	r2, #1797	@ 0x705
+ 80011de:	601a      	str	r2, [r3, #0]
                | FLASH_ACR_PRFTEN
                | FLASH_ACR_ICEN
                | FLASH_ACR_DCEN;
 }
- 80011f0:	bf00      	nop
- 80011f2:	46bd      	mov	sp, r7
- 80011f4:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80011f8:	4770      	bx	lr
- 80011fa:	bf00      	nop
- 80011fc:	40023c00 	.word	0x40023c00
+ 80011e0:	bf00      	nop
+ 80011e2:	46bd      	mov	sp, r7
+ 80011e4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80011e8:	4770      	bx	lr
+ 80011ea:	bf00      	nop
+ 80011ec:	40023c00 	.word	0x40023c00
 
-08001200 <rcc_configure_bus_prescalers>:
+080011f0 <rcc_configure_bus_prescalers>:
  *
  * Configure these BEFORE switching SYSCLK to PLL. Otherwise PCLK1 would be
  * 168 MHz the instant SYSCLK jumps to 168 MHz - 4x over its 42 MHz cap.
  * ============================================================================ */
 static void rcc_configure_bus_prescalers(void)
 {
- 8001200:	b480      	push	{r7}
- 8001202:	b083      	sub	sp, #12
- 8001204:	af00      	add	r7, sp, #0
+ 80011f0:	b480      	push	{r7}
+ 80011f2:	b083      	sub	sp, #12
+ 80011f4:	af00      	add	r7, sp, #0
     uint32_t cfgr = RCC->CFGR;
- 8001206:	4b0b      	ldr	r3, [pc, #44]	@ (8001234 <rcc_configure_bus_prescalers+0x34>)
- 8001208:	689b      	ldr	r3, [r3, #8]
- 800120a:	607b      	str	r3, [r7, #4]
+ 80011f6:	4b0b      	ldr	r3, [pc, #44]	@ (8001224 <rcc_configure_bus_prescalers+0x34>)
+ 80011f8:	689b      	ldr	r3, [r3, #8]
+ 80011fa:	607b      	str	r3, [r7, #4]
 
     /* Clear the three prescaler fields with their full widths:
      *   HPRE  is 4 bits  [7:4]  -> mask 0xF
      *   PPRE1 is 3 bits  [12:10] -> mask 0x7
      *   PPRE2 is 3 bits  [15:13] -> mask 0x7  */
     cfgr &= ~((0xFU << RCC_CFGR_HPRE_POS)
- 800120c:	687b      	ldr	r3, [r7, #4]
- 800120e:	f423 437c 	bic.w	r3, r3, #64512	@ 0xfc00
- 8001212:	f023 03f0 	bic.w	r3, r3, #240	@ 0xf0
- 8001216:	607b      	str	r3, [r7, #4]
+ 80011fc:	687b      	ldr	r3, [r7, #4]
+ 80011fe:	f423 437c 	bic.w	r3, r3, #64512	@ 0xfc00
+ 8001202:	f023 03f0 	bic.w	r3, r3, #240	@ 0xf0
+ 8001206:	607b      	str	r3, [r7, #4]
             | (7U   << RCC_CFGR_PPRE1_POS)
             | (7U   << RCC_CFGR_PPRE2_POS));
 
     cfgr |= RCC_CFGR_HPRE_DIV1
- 8001218:	687b      	ldr	r3, [r7, #4]
- 800121a:	f443 4314 	orr.w	r3, r3, #37888	@ 0x9400
- 800121e:	607b      	str	r3, [r7, #4]
+ 8001208:	687b      	ldr	r3, [r7, #4]
+ 800120a:	f443 4314 	orr.w	r3, r3, #37888	@ 0x9400
+ 800120e:	607b      	str	r3, [r7, #4]
           | RCC_CFGR_PPRE1_DIV4
           | RCC_CFGR_PPRE2_DIV2;
 
     RCC->CFGR = cfgr;
- 8001220:	4a04      	ldr	r2, [pc, #16]	@ (8001234 <rcc_configure_bus_prescalers+0x34>)
- 8001222:	687b      	ldr	r3, [r7, #4]
- 8001224:	6093      	str	r3, [r2, #8]
+ 8001210:	4a04      	ldr	r2, [pc, #16]	@ (8001224 <rcc_configure_bus_prescalers+0x34>)
+ 8001212:	687b      	ldr	r3, [r7, #4]
+ 8001214:	6093      	str	r3, [r2, #8]
 }
- 8001226:	bf00      	nop
- 8001228:	370c      	adds	r7, #12
- 800122a:	46bd      	mov	sp, r7
- 800122c:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001230:	4770      	bx	lr
- 8001232:	bf00      	nop
- 8001234:	40023800 	.word	0x40023800
+ 8001216:	bf00      	nop
+ 8001218:	370c      	adds	r7, #12
+ 800121a:	46bd      	mov	sp, r7
+ 800121c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001220:	4770      	bx	lr
+ 8001222:	bf00      	nop
+ 8001224:	40023800 	.word	0x40023800
 
-08001238 <rcc_configure_pll>:
+08001228 <rcc_configure_pll>:
  *
  * RCC_PLLCFGR can only be written while the PLL is OFF - which it is here,
  * because PLLON is cleared at reset and we have not yet enabled it.
  * ============================================================================ */
 static void rcc_configure_pll(void)
 {
- 8001238:	b480      	push	{r7}
- 800123a:	af00      	add	r7, sp, #0
+ 8001228:	b480      	push	{r7}
+ 800122a:	af00      	add	r7, sp, #0
     /* Single write: build the full register value from named fields.
      * Avoids a partial-update window where the PLL could see an inconsistent
      * configuration mid-write. */
     RCC->PLLCFGR = (PLL_M_VAL << RCC_PLLCFGR_PLLM_POS)
- 800123c:	4b03      	ldr	r3, [pc, #12]	@ (800124c <rcc_configure_pll+0x14>)
- 800123e:	4a04      	ldr	r2, [pc, #16]	@ (8001250 <rcc_configure_pll+0x18>)
- 8001240:	605a      	str	r2, [r3, #4]
+ 800122c:	4b03      	ldr	r3, [pc, #12]	@ (800123c <rcc_configure_pll+0x14>)
+ 800122e:	4a04      	ldr	r2, [pc, #16]	@ (8001240 <rcc_configure_pll+0x18>)
+ 8001230:	605a      	str	r2, [r3, #4]
                  | (PLL_N_VAL << RCC_PLLCFGR_PLLN_POS)
                  | (PLL_P_VAL << RCC_PLLCFGR_PLLP_POS)
                  | (PLL_Q_VAL << RCC_PLLCFGR_PLLQ_POS)
                  | RCC_PLLCFGR_PLLSRC_HSE;
 }
- 8001242:	bf00      	nop
- 8001244:	46bd      	mov	sp, r7
- 8001246:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800124a:	4770      	bx	lr
- 800124c:	40023800 	.word	0x40023800
- 8001250:	07402a04 	.word	0x07402a04
+ 8001232:	bf00      	nop
+ 8001234:	46bd      	mov	sp, r7
+ 8001236:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800123a:	4770      	bx	lr
+ 800123c:	40023800 	.word	0x40023800
+ 8001240:	07402a04 	.word	0x07402a04
 
-08001254 <rcc_enable_pll_and_wait>:
+08001244 <rcc_enable_pll_and_wait>:
  *
  * After PLLON is set, the analog VCO needs ~200 us to settle onto the target
  * frequency. PLLRDY goes high when lock is achieved.
  * ============================================================================ */
 static void rcc_enable_pll_and_wait(void)
 {
- 8001254:	b480      	push	{r7}
- 8001256:	af00      	add	r7, sp, #0
+ 8001244:	b480      	push	{r7}
+ 8001246:	af00      	add	r7, sp, #0
     RCC->CR |= RCC_CR_PLLON;
- 8001258:	4b09      	ldr	r3, [pc, #36]	@ (8001280 <rcc_enable_pll_and_wait+0x2c>)
- 800125a:	681b      	ldr	r3, [r3, #0]
- 800125c:	4a08      	ldr	r2, [pc, #32]	@ (8001280 <rcc_enable_pll_and_wait+0x2c>)
- 800125e:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
- 8001262:	6013      	str	r3, [r2, #0]
+ 8001248:	4b09      	ldr	r3, [pc, #36]	@ (8001270 <rcc_enable_pll_and_wait+0x2c>)
+ 800124a:	681b      	ldr	r3, [r3, #0]
+ 800124c:	4a08      	ldr	r2, [pc, #32]	@ (8001270 <rcc_enable_pll_and_wait+0x2c>)
+ 800124e:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 8001252:	6013      	str	r3, [r2, #0]
 
     while ((RCC->CR & RCC_CR_PLLRDY) == 0U) {
- 8001264:	bf00      	nop
- 8001266:	4b06      	ldr	r3, [pc, #24]	@ (8001280 <rcc_enable_pll_and_wait+0x2c>)
- 8001268:	681b      	ldr	r3, [r3, #0]
- 800126a:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
- 800126e:	2b00      	cmp	r3, #0
- 8001270:	d0f9      	beq.n	8001266 <rcc_enable_pll_and_wait+0x12>
+ 8001254:	bf00      	nop
+ 8001256:	4b06      	ldr	r3, [pc, #24]	@ (8001270 <rcc_enable_pll_and_wait+0x2c>)
+ 8001258:	681b      	ldr	r3, [r3, #0]
+ 800125a:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 800125e:	2b00      	cmp	r3, #0
+ 8001260:	d0f9      	beq.n	8001256 <rcc_enable_pll_and_wait+0x12>
         /* spin */
     }
 }
- 8001272:	bf00      	nop
- 8001274:	bf00      	nop
- 8001276:	46bd      	mov	sp, r7
- 8001278:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800127c:	4770      	bx	lr
- 800127e:	bf00      	nop
- 8001280:	40023800 	.word	0x40023800
+ 8001262:	bf00      	nop
+ 8001264:	bf00      	nop
+ 8001266:	46bd      	mov	sp, r7
+ 8001268:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800126c:	4770      	bx	lr
+ 800126e:	bf00      	nop
+ 8001270:	40023800 	.word	0x40023800
 
-08001284 <rcc_switch_sysclk_to_pll>:
+08001274 <rcc_switch_sysclk_to_pll>:
  * Immediately after SWS reads PLL, the CPU is running at 168 MHz and any
  * peripheral configured assuming 16 MHz will be wrong by a factor of 10.5x.
  * That is why this is the LAST step.
  * ============================================================================ */
 static void rcc_switch_sysclk_to_pll(void)
 {
- 8001284:	b480      	push	{r7}
- 8001286:	b083      	sub	sp, #12
- 8001288:	af00      	add	r7, sp, #0
+ 8001274:	b480      	push	{r7}
+ 8001276:	b083      	sub	sp, #12
+ 8001278:	af00      	add	r7, sp, #0
     uint32_t cfgr = RCC->CFGR;
- 800128a:	4b0e      	ldr	r3, [pc, #56]	@ (80012c4 <rcc_switch_sysclk_to_pll+0x40>)
- 800128c:	689b      	ldr	r3, [r3, #8]
- 800128e:	607b      	str	r3, [r7, #4]
+ 800127a:	4b0e      	ldr	r3, [pc, #56]	@ (80012b4 <rcc_switch_sysclk_to_pll+0x40>)
+ 800127c:	689b      	ldr	r3, [r3, #8]
+ 800127e:	607b      	str	r3, [r7, #4]
 
     cfgr &= ~RCC_CFGR_SW_MASK;
- 8001290:	687b      	ldr	r3, [r7, #4]
- 8001292:	f023 0303 	bic.w	r3, r3, #3
- 8001296:	607b      	str	r3, [r7, #4]
+ 8001280:	687b      	ldr	r3, [r7, #4]
+ 8001282:	f023 0303 	bic.w	r3, r3, #3
+ 8001286:	607b      	str	r3, [r7, #4]
     cfgr |=  RCC_CFGR_SW_PLL;
- 8001298:	687b      	ldr	r3, [r7, #4]
- 800129a:	f043 0302 	orr.w	r3, r3, #2
- 800129e:	607b      	str	r3, [r7, #4]
+ 8001288:	687b      	ldr	r3, [r7, #4]
+ 800128a:	f043 0302 	orr.w	r3, r3, #2
+ 800128e:	607b      	str	r3, [r7, #4]
     RCC->CFGR = cfgr;
- 80012a0:	4a08      	ldr	r2, [pc, #32]	@ (80012c4 <rcc_switch_sysclk_to_pll+0x40>)
- 80012a2:	687b      	ldr	r3, [r7, #4]
- 80012a4:	6093      	str	r3, [r2, #8]
+ 8001290:	4a08      	ldr	r2, [pc, #32]	@ (80012b4 <rcc_switch_sysclk_to_pll+0x40>)
+ 8001292:	687b      	ldr	r3, [r7, #4]
+ 8001294:	6093      	str	r3, [r2, #8]
 
     while ((RCC->CFGR & RCC_CFGR_SWS_MASK) != RCC_CFGR_SWS_PLL) {
- 80012a6:	bf00      	nop
- 80012a8:	4b06      	ldr	r3, [pc, #24]	@ (80012c4 <rcc_switch_sysclk_to_pll+0x40>)
- 80012aa:	689b      	ldr	r3, [r3, #8]
- 80012ac:	f003 030c 	and.w	r3, r3, #12
- 80012b0:	2b08      	cmp	r3, #8
- 80012b2:	d1f9      	bne.n	80012a8 <rcc_switch_sysclk_to_pll+0x24>
+ 8001296:	bf00      	nop
+ 8001298:	4b06      	ldr	r3, [pc, #24]	@ (80012b4 <rcc_switch_sysclk_to_pll+0x40>)
+ 800129a:	689b      	ldr	r3, [r3, #8]
+ 800129c:	f003 030c 	and.w	r3, r3, #12
+ 80012a0:	2b08      	cmp	r3, #8
+ 80012a2:	d1f9      	bne.n	8001298 <rcc_switch_sysclk_to_pll+0x24>
         /* spin */
     }
 }
- 80012b4:	bf00      	nop
- 80012b6:	bf00      	nop
- 80012b8:	370c      	adds	r7, #12
- 80012ba:	46bd      	mov	sp, r7
- 80012bc:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80012c0:	4770      	bx	lr
- 80012c2:	bf00      	nop
- 80012c4:	40023800 	.word	0x40023800
+ 80012a4:	bf00      	nop
+ 80012a6:	bf00      	nop
+ 80012a8:	370c      	adds	r7, #12
+ 80012aa:	46bd      	mov	sp, r7
+ 80012ac:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80012b0:	4770      	bx	lr
+ 80012b2:	bf00      	nop
+ 80012b4:	40023800 	.word	0x40023800
 
-080012c8 <spi2_init>:
+080012b8 <spi2_init>:
 #include "stm32f407xx.h"
 #include "spi2.h"
 #include <stddef.h>   /* for NULL */
 
 void spi2_init(void) {
- 80012c8:	b480      	push	{r7}
- 80012ca:	af00      	add	r7, sp, #0
+ 80012b8:	b480      	push	{r7}
+ 80012ba:	af00      	add	r7, sp, #0
 	/* Step 1: Enable clocks
 	 * GPIOB is on AHB1 bus (bit 1 of AHB1ENR)
 	 * SPI2 is on APB1 bus (bit 14 of APB1ENR) */
 	RCC->AHB1ENR |= (1 << 1);
- 80012cc:	4b28      	ldr	r3, [pc, #160]	@ (8001370 <spi2_init+0xa8>)
- 80012ce:	6b1b      	ldr	r3, [r3, #48]	@ 0x30
- 80012d0:	4a27      	ldr	r2, [pc, #156]	@ (8001370 <spi2_init+0xa8>)
- 80012d2:	f043 0302 	orr.w	r3, r3, #2
- 80012d6:	6313      	str	r3, [r2, #48]	@ 0x30
+ 80012bc:	4b28      	ldr	r3, [pc, #160]	@ (8001360 <spi2_init+0xa8>)
+ 80012be:	6b1b      	ldr	r3, [r3, #48]	@ 0x30
+ 80012c0:	4a27      	ldr	r2, [pc, #156]	@ (8001360 <spi2_init+0xa8>)
+ 80012c2:	f043 0302 	orr.w	r3, r3, #2
+ 80012c6:	6313      	str	r3, [r2, #48]	@ 0x30
 	RCC->APB1ENR |= (1 << 14);
- 80012d8:	4b25      	ldr	r3, [pc, #148]	@ (8001370 <spi2_init+0xa8>)
- 80012da:	6c1b      	ldr	r3, [r3, #64]	@ 0x40
- 80012dc:	4a24      	ldr	r2, [pc, #144]	@ (8001370 <spi2_init+0xa8>)
- 80012de:	f443 4380 	orr.w	r3, r3, #16384	@ 0x4000
- 80012e2:	6413      	str	r3, [r2, #64]	@ 0x40
+ 80012c8:	4b25      	ldr	r3, [pc, #148]	@ (8001360 <spi2_init+0xa8>)
+ 80012ca:	6c1b      	ldr	r3, [r3, #64]	@ 0x40
+ 80012cc:	4a24      	ldr	r2, [pc, #144]	@ (8001360 <spi2_init+0xa8>)
+ 80012ce:	f443 4380 	orr.w	r3, r3, #16384	@ 0x4000
+ 80012d2:	6413      	str	r3, [r2, #64]	@ 0x40
 
 	/* Step 2: Configure PB13, PB14, PB15 as alternate function mode (0b10)
 	 * MODER fields are 2 bits wide:
 	 * pin12 = bits [25:24], pin13 = bits [27:26]
 	 * pin14 = bits [29:28], pin15 = bits [31:30] */
 	GPIOB->MODER &= ~(0xFF << 24); /* Clear mode bits for PB12-PB15 */
- 80012e4:	4b23      	ldr	r3, [pc, #140]	@ (8001374 <spi2_init+0xac>)
- 80012e6:	681b      	ldr	r3, [r3, #0]
- 80012e8:	4a22      	ldr	r2, [pc, #136]	@ (8001374 <spi2_init+0xac>)
- 80012ea:	f023 437f 	bic.w	r3, r3, #4278190080	@ 0xff000000
- 80012ee:	6013      	str	r3, [r2, #0]
+ 80012d4:	4b23      	ldr	r3, [pc, #140]	@ (8001364 <spi2_init+0xac>)
+ 80012d6:	681b      	ldr	r3, [r3, #0]
+ 80012d8:	4a22      	ldr	r2, [pc, #136]	@ (8001364 <spi2_init+0xac>)
+ 80012da:	f023 437f 	bic.w	r3, r3, #4278190080	@ 0xff000000
+ 80012de:	6013      	str	r3, [r2, #0]
 	GPIOB->MODER |= (0x1 << 24); /* PB12 = general purpose output (0b01) for CS */
- 80012f0:	4b20      	ldr	r3, [pc, #128]	@ (8001374 <spi2_init+0xac>)
- 80012f2:	681b      	ldr	r3, [r3, #0]
- 80012f4:	4a1f      	ldr	r2, [pc, #124]	@ (8001374 <spi2_init+0xac>)
- 80012f6:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
- 80012fa:	6013      	str	r3, [r2, #0]
+ 80012e0:	4b20      	ldr	r3, [pc, #128]	@ (8001364 <spi2_init+0xac>)
+ 80012e2:	681b      	ldr	r3, [r3, #0]
+ 80012e4:	4a1f      	ldr	r2, [pc, #124]	@ (8001364 <spi2_init+0xac>)
+ 80012e6:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 80012ea:	6013      	str	r3, [r2, #0]
 	GPIOB->MODER |= (0x2 << 26); /* PB13 = alternate function (0b10) for SCK */
- 80012fc:	4b1d      	ldr	r3, [pc, #116]	@ (8001374 <spi2_init+0xac>)
- 80012fe:	681b      	ldr	r3, [r3, #0]
- 8001300:	4a1c      	ldr	r2, [pc, #112]	@ (8001374 <spi2_init+0xac>)
- 8001302:	f043 6300 	orr.w	r3, r3, #134217728	@ 0x8000000
- 8001306:	6013      	str	r3, [r2, #0]
+ 80012ec:	4b1d      	ldr	r3, [pc, #116]	@ (8001364 <spi2_init+0xac>)
+ 80012ee:	681b      	ldr	r3, [r3, #0]
+ 80012f0:	4a1c      	ldr	r2, [pc, #112]	@ (8001364 <spi2_init+0xac>)
+ 80012f2:	f043 6300 	orr.w	r3, r3, #134217728	@ 0x8000000
+ 80012f6:	6013      	str	r3, [r2, #0]
 	GPIOB->MODER |= (0x2 << 28); /* PB14 = alternate function (0b10) for MISO */
- 8001308:	4b1a      	ldr	r3, [pc, #104]	@ (8001374 <spi2_init+0xac>)
- 800130a:	681b      	ldr	r3, [r3, #0]
- 800130c:	4a19      	ldr	r2, [pc, #100]	@ (8001374 <spi2_init+0xac>)
- 800130e:	f043 5300 	orr.w	r3, r3, #536870912	@ 0x20000000
- 8001312:	6013      	str	r3, [r2, #0]
+ 80012f8:	4b1a      	ldr	r3, [pc, #104]	@ (8001364 <spi2_init+0xac>)
+ 80012fa:	681b      	ldr	r3, [r3, #0]
+ 80012fc:	4a19      	ldr	r2, [pc, #100]	@ (8001364 <spi2_init+0xac>)
+ 80012fe:	f043 5300 	orr.w	r3, r3, #536870912	@ 0x20000000
+ 8001302:	6013      	str	r3, [r2, #0]
 	GPIOB->MODER |= (0x2 << 30); /* PB15 = alternate function (0b10) for MOSI */
- 8001314:	4b17      	ldr	r3, [pc, #92]	@ (8001374 <spi2_init+0xac>)
- 8001316:	681b      	ldr	r3, [r3, #0]
- 8001318:	4a16      	ldr	r2, [pc, #88]	@ (8001374 <spi2_init+0xac>)
- 800131a:	f043 4300 	orr.w	r3, r3, #2147483648	@ 0x80000000
- 800131e:	6013      	str	r3, [r2, #0]
+ 8001304:	4b17      	ldr	r3, [pc, #92]	@ (8001364 <spi2_init+0xac>)
+ 8001306:	681b      	ldr	r3, [r3, #0]
+ 8001308:	4a16      	ldr	r2, [pc, #88]	@ (8001364 <spi2_init+0xac>)
+ 800130a:	f043 4300 	orr.w	r3, r3, #2147483648	@ 0x80000000
+ 800130e:	6013      	str	r3, [r2, #0]
 
 	/* Step 3: Set alternate function to AF5 (SPI2) for PB13, PB14, PB15
 	 * AFRH fields are 4 bits wide (for pins 8-15):
 	 * pin13 = bits [23:20], pin14 = bits [27:24], pin15 = bits [31:28]
 	 * PB12 is GPIO output so it does not need an alternate function. */
 	GPIOB->AFRH &= ~(0xFFF << 20); /* Clear AF bits for PB13, PB14, PB15 */
- 8001320:	4b14      	ldr	r3, [pc, #80]	@ (8001374 <spi2_init+0xac>)
- 8001322:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
- 8001324:	4a13      	ldr	r2, [pc, #76]	@ (8001374 <spi2_init+0xac>)
- 8001326:	f3c3 0313 	ubfx	r3, r3, #0, #20
- 800132a:	6253      	str	r3, [r2, #36]	@ 0x24
+ 8001310:	4b14      	ldr	r3, [pc, #80]	@ (8001364 <spi2_init+0xac>)
+ 8001312:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8001314:	4a13      	ldr	r2, [pc, #76]	@ (8001364 <spi2_init+0xac>)
+ 8001316:	f3c3 0313 	ubfx	r3, r3, #0, #20
+ 800131a:	6253      	str	r3, [r2, #36]	@ 0x24
 	GPIOB->AFRH |= (0x5 << 20); /* PB13 = AF5 (SPI2_SCK) */
- 800132c:	4b11      	ldr	r3, [pc, #68]	@ (8001374 <spi2_init+0xac>)
- 800132e:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
- 8001330:	4a10      	ldr	r2, [pc, #64]	@ (8001374 <spi2_init+0xac>)
- 8001332:	f443 03a0 	orr.w	r3, r3, #5242880	@ 0x500000
- 8001336:	6253      	str	r3, [r2, #36]	@ 0x24
+ 800131c:	4b11      	ldr	r3, [pc, #68]	@ (8001364 <spi2_init+0xac>)
+ 800131e:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8001320:	4a10      	ldr	r2, [pc, #64]	@ (8001364 <spi2_init+0xac>)
+ 8001322:	f443 03a0 	orr.w	r3, r3, #5242880	@ 0x500000
+ 8001326:	6253      	str	r3, [r2, #36]	@ 0x24
 	GPIOB->AFRH |= (0x5 << 24); /* PB14 = AF5 (SPI2_MISO) */
- 8001338:	4b0e      	ldr	r3, [pc, #56]	@ (8001374 <spi2_init+0xac>)
- 800133a:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
- 800133c:	4a0d      	ldr	r2, [pc, #52]	@ (8001374 <spi2_init+0xac>)
- 800133e:	f043 63a0 	orr.w	r3, r3, #83886080	@ 0x5000000
- 8001342:	6253      	str	r3, [r2, #36]	@ 0x24
+ 8001328:	4b0e      	ldr	r3, [pc, #56]	@ (8001364 <spi2_init+0xac>)
+ 800132a:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 800132c:	4a0d      	ldr	r2, [pc, #52]	@ (8001364 <spi2_init+0xac>)
+ 800132e:	f043 63a0 	orr.w	r3, r3, #83886080	@ 0x5000000
+ 8001332:	6253      	str	r3, [r2, #36]	@ 0x24
 	GPIOB->AFRH |= (0x5 << 28); /* PB15 = AF5 (SPI2_MOSI) */
- 8001344:	4b0b      	ldr	r3, [pc, #44]	@ (8001374 <spi2_init+0xac>)
- 8001346:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
- 8001348:	4a0a      	ldr	r2, [pc, #40]	@ (8001374 <spi2_init+0xac>)
- 800134a:	f043 43a0 	orr.w	r3, r3, #1342177280	@ 0x50000000
- 800134e:	6253      	str	r3, [r2, #36]	@ 0x24
+ 8001334:	4b0b      	ldr	r3, [pc, #44]	@ (8001364 <spi2_init+0xac>)
+ 8001336:	6a5b      	ldr	r3, [r3, #36]	@ 0x24
+ 8001338:	4a0a      	ldr	r2, [pc, #40]	@ (8001364 <spi2_init+0xac>)
+ 800133a:	f043 43a0 	orr.w	r3, r3, #1342177280	@ 0x50000000
+ 800133e:	6253      	str	r3, [r2, #36]	@ 0x24
 
 	/* Step 4: Set CS (PB12) HIGH to deselect the sensor at startup.
 	 * CS is active low, so HIGH = sensor not selected. */
 	GPIOB->ODR |= (1 << 12);
- 8001350:	4b08      	ldr	r3, [pc, #32]	@ (8001374 <spi2_init+0xac>)
- 8001352:	695b      	ldr	r3, [r3, #20]
- 8001354:	4a07      	ldr	r2, [pc, #28]	@ (8001374 <spi2_init+0xac>)
- 8001356:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
- 800135a:	6153      	str	r3, [r2, #20]
+ 8001340:	4b08      	ldr	r3, [pc, #32]	@ (8001364 <spi2_init+0xac>)
+ 8001342:	695b      	ldr	r3, [r3, #20]
+ 8001344:	4a07      	ldr	r2, [pc, #28]	@ (8001364 <spi2_init+0xac>)
+ 8001346:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
+ 800134a:	6153      	str	r3, [r2, #20]
 	 *
 	 * Bits left at default (0):
 	 *   CPOL=0, CPHA=0 → SPI Mode 0 (clock idles LOW, sample on rising edge)
 	 *   DFF=0          → 8-bit data frame
 	 *   LSBFIRST=0     → MSB transmitted first */
 	SPI2->CR1 = (1 << 2) /* MSTR: master mode */
- 800135c:	4b06      	ldr	r3, [pc, #24]	@ (8001378 <spi2_init+0xb0>)
- 800135e:	f44f 7257 	mov.w	r2, #860	@ 0x35c
- 8001362:	601a      	str	r2, [r3, #0]
+ 800134c:	4b06      	ldr	r3, [pc, #24]	@ (8001368 <spi2_init+0xb0>)
+ 800134e:	f44f 7257 	mov.w	r2, #860	@ 0x35c
+ 8001352:	601a      	str	r2, [r3, #0]
 	| (1 << 9) /* SSM: software slave management */
 	| (1 << 8) /* SSI: internal slave select HIGH */
 	| (0x3 << 3) /* BR = 011: fPCLK / 16 = 2.625 MHz (PCLK1 = 42 MHz after PLL) */
 	| (1 << 6); /* SPE: enable SPI2 */
 }
- 8001364:	bf00      	nop
- 8001366:	46bd      	mov	sp, r7
- 8001368:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800136c:	4770      	bx	lr
- 800136e:	bf00      	nop
- 8001370:	40023800 	.word	0x40023800
- 8001374:	40020400 	.word	0x40020400
- 8001378:	40003800 	.word	0x40003800
+ 8001354:	bf00      	nop
+ 8001356:	46bd      	mov	sp, r7
+ 8001358:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800135c:	4770      	bx	lr
+ 800135e:	bf00      	nop
+ 8001360:	40023800 	.word	0x40023800
+ 8001364:	40020400 	.word	0x40020400
+ 8001368:	40003800 	.word	0x40003800
 
-0800137c <spi2_transmit_receive>:
+0800136c <spi2_transmit_receive>:
  * Sends one byte and simultaneously receives one byte over SPI2.
  * SPI is full-duplex: every byte sent on MOSI produces a byte on MISO.
  * When reading from a sensor, pass a dummy byte (0x00) and use the return value.
  * When writing to a sensor, pass the real data and ignore the return value.
  */
 uint8_t spi2_transmit_receive(uint8_t byte) {
- 800137c:	b480      	push	{r7}
- 800137e:	b083      	sub	sp, #12
- 8001380:	af00      	add	r7, sp, #0
- 8001382:	4603      	mov	r3, r0
- 8001384:	71fb      	strb	r3, [r7, #7]
+ 800136c:	b480      	push	{r7}
+ 800136e:	b083      	sub	sp, #12
+ 8001370:	af00      	add	r7, sp, #0
+ 8001372:	4603      	mov	r3, r0
+ 8001374:	71fb      	strb	r3, [r7, #7]
 	/* Wait until TXE (bit 1) in the status register is set.
 	 * TXE = 1 means the transmit buffer is empty and ready for a new byte.
 	 * TXE = 0 means the previous byte hasn't been moved to the shift
 	 * register yet, so we must wait. */
 	while (!(SPI2->SR & (1 << 1))) {
- 8001386:	bf00      	nop
- 8001388:	4b0c      	ldr	r3, [pc, #48]	@ (80013bc <spi2_transmit_receive+0x40>)
- 800138a:	689b      	ldr	r3, [r3, #8]
- 800138c:	f003 0302 	and.w	r3, r3, #2
- 8001390:	2b00      	cmp	r3, #0
- 8001392:	d0f9      	beq.n	8001388 <spi2_transmit_receive+0xc>
+ 8001376:	bf00      	nop
+ 8001378:	4b0c      	ldr	r3, [pc, #48]	@ (80013ac <spi2_transmit_receive+0x40>)
+ 800137a:	689b      	ldr	r3, [r3, #8]
+ 800137c:	f003 0302 	and.w	r3, r3, #2
+ 8001380:	2b00      	cmp	r3, #0
+ 8001382:	d0f9      	beq.n	8001378 <spi2_transmit_receive+0xc>
 
 	/* Write the byte to the data register.
 	 * This loads it into the transmit buffer, and the hardware begins
 	 * clocking it out on MOSI. Simultaneously, a byte from the slave
 	 * is clocked in on MISO. */
 	SPI2->DR = byte;
- 8001394:	4a09      	ldr	r2, [pc, #36]	@ (80013bc <spi2_transmit_receive+0x40>)
- 8001396:	79fb      	ldrb	r3, [r7, #7]
- 8001398:	60d3      	str	r3, [r2, #12]
+ 8001384:	4a09      	ldr	r2, [pc, #36]	@ (80013ac <spi2_transmit_receive+0x40>)
+ 8001386:	79fb      	ldrb	r3, [r7, #7]
+ 8001388:	60d3      	str	r3, [r2, #12]
 
 	/* Wait until RXNE (bit 0) in the status register is set.
 	 * RXNE = 1 means the receive buffer has a byte ready to read.
 	 * RXNE = 0 means the transfer is still in progress. */
 	while (!(SPI2->SR & (1 << 0))) {
- 800139a:	bf00      	nop
- 800139c:	4b07      	ldr	r3, [pc, #28]	@ (80013bc <spi2_transmit_receive+0x40>)
- 800139e:	689b      	ldr	r3, [r3, #8]
- 80013a0:	f003 0301 	and.w	r3, r3, #1
- 80013a4:	2b00      	cmp	r3, #0
- 80013a6:	d0f9      	beq.n	800139c <spi2_transmit_receive+0x20>
+ 800138a:	bf00      	nop
+ 800138c:	4b07      	ldr	r3, [pc, #28]	@ (80013ac <spi2_transmit_receive+0x40>)
+ 800138e:	689b      	ldr	r3, [r3, #8]
+ 8001390:	f003 0301 	and.w	r3, r3, #1
+ 8001394:	2b00      	cmp	r3, #0
+ 8001396:	d0f9      	beq.n	800138c <spi2_transmit_receive+0x20>
 		/* Do nothing — just keep checking */
 	}
 
 	/* Read the data register to get the byte received from the slave.
 	 * Reading DR also clears the RXNE flag automatically. */
 	return (uint8_t) SPI2->DR;
- 80013a8:	4b04      	ldr	r3, [pc, #16]	@ (80013bc <spi2_transmit_receive+0x40>)
- 80013aa:	68db      	ldr	r3, [r3, #12]
- 80013ac:	b2db      	uxtb	r3, r3
+ 8001398:	4b04      	ldr	r3, [pc, #16]	@ (80013ac <spi2_transmit_receive+0x40>)
+ 800139a:	68db      	ldr	r3, [r3, #12]
+ 800139c:	b2db      	uxtb	r3, r3
 }
- 80013ae:	4618      	mov	r0, r3
- 80013b0:	370c      	adds	r7, #12
- 80013b2:	46bd      	mov	sp, r7
- 80013b4:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80013b8:	4770      	bx	lr
- 80013ba:	bf00      	nop
- 80013bc:	40003800 	.word	0x40003800
+ 800139e:	4618      	mov	r0, r3
+ 80013a0:	370c      	adds	r7, #12
+ 80013a2:	46bd      	mov	sp, r7
+ 80013a4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80013a8:	4770      	bx	lr
+ 80013aa:	bf00      	nop
+ 80013ac:	40003800 	.word	0x40003800
 
-080013c0 <spi2_read_registers>:
+080013b0 <spi2_read_registers>:
 
 void spi2_read_registers(uint8_t reg_addr, uint8_t *buffer, uint16_t length) {
- 80013c0:	b590      	push	{r4, r7, lr}
- 80013c2:	b085      	sub	sp, #20
- 80013c4:	af00      	add	r7, sp, #0
- 80013c6:	4603      	mov	r3, r0
- 80013c8:	6039      	str	r1, [r7, #0]
- 80013ca:	71fb      	strb	r3, [r7, #7]
- 80013cc:	4613      	mov	r3, r2
- 80013ce:	80bb      	strh	r3, [r7, #4]
+ 80013b0:	b590      	push	{r4, r7, lr}
+ 80013b2:	b085      	sub	sp, #20
+ 80013b4:	af00      	add	r7, sp, #0
+ 80013b6:	4603      	mov	r3, r0
+ 80013b8:	6039      	str	r1, [r7, #0]
+ 80013ba:	71fb      	strb	r3, [r7, #7]
+ 80013bc:	4613      	mov	r3, r2
+ 80013be:	80bb      	strh	r3, [r7, #4]
 	/* Defensive parameter validation: bail out early on bad inputs
 	 * instead of producing weird SPI behavior. Catches caller bugs
 	 * at the boundary, not deep inside the transaction. */
 	if ((buffer == NULL) || (length == 0U)) {
- 80013d0:	683b      	ldr	r3, [r7, #0]
- 80013d2:	2b00      	cmp	r3, #0
- 80013d4:	d021      	beq.n	800141a <spi2_read_registers+0x5a>
- 80013d6:	88bb      	ldrh	r3, [r7, #4]
- 80013d8:	2b00      	cmp	r3, #0
- 80013da:	d01e      	beq.n	800141a <spi2_read_registers+0x5a>
+ 80013c0:	683b      	ldr	r3, [r7, #0]
+ 80013c2:	2b00      	cmp	r3, #0
+ 80013c4:	d021      	beq.n	800140a <spi2_read_registers+0x5a>
+ 80013c6:	88bb      	ldrh	r3, [r7, #4]
+ 80013c8:	2b00      	cmp	r3, #0
+ 80013ca:	d01e      	beq.n	800140a <spi2_read_registers+0x5a>
 	/* Force bit 7 of the address to 1 to signal a read operation.
 	 * The BME280 SPI protocol treats bit 7 as the read/write flag:
 	 *   bit 7 = 1 → read, bit 7 = 0 → write.
 	 * We OR with 0x80 defensively in case the caller passed a
 	 * "plain" address without the flag already set. */
 	uint8_t read_addr = reg_addr | 0x80U;
- 80013dc:	79fb      	ldrb	r3, [r7, #7]
- 80013de:	f063 037f 	orn	r3, r3, #127	@ 0x7f
- 80013e2:	737b      	strb	r3, [r7, #13]
+ 80013cc:	79fb      	ldrb	r3, [r7, #7]
+ 80013ce:	f063 037f 	orn	r3, r3, #127	@ 0x7f
+ 80013d2:	737b      	strb	r3, [r7, #13]
 
 	/* Step 1: Pull CS LOW to begin the transaction. The device's
 	 * internal state is reset on the falling edge of CS and will
 	 * stay "alive" until CS goes HIGH again. */
 	spi2_cs_enable();
- 80013e4:	f000 f83a 	bl	800145c <spi2_cs_enable>
+ 80013d4:	f000 f83a 	bl	800144c <spi2_cs_enable>
 
 	/* Step 2: Send the starting register address. The byte the
 	 * device returns during this exchange is garbage — discard it. */
 	(void) spi2_transmit_receive(read_addr);
- 80013e8:	7b7b      	ldrb	r3, [r7, #13]
- 80013ea:	4618      	mov	r0, r3
- 80013ec:	f7ff ffc6 	bl	800137c <spi2_transmit_receive>
+ 80013d8:	7b7b      	ldrb	r3, [r7, #13]
+ 80013da:	4618      	mov	r0, r3
+ 80013dc:	f7ff ffc6 	bl	800136c <spi2_transmit_receive>
 
 	/* Step 3: Clock out `length` dummy bytes and save each returned
 	 * byte into the caller's buffer. The device auto-increments its
 	 * internal register pointer after every byte, so we get
 	 * consecutive registers without re-sending any address. */
 	for (uint16_t i = 0U; i < length; i++) {
- 80013f0:	2300      	movs	r3, #0
- 80013f2:	81fb      	strh	r3, [r7, #14]
- 80013f4:	e00a      	b.n	800140c <spi2_read_registers+0x4c>
+ 80013e0:	2300      	movs	r3, #0
+ 80013e2:	81fb      	strh	r3, [r7, #14]
+ 80013e4:	e00a      	b.n	80013fc <spi2_read_registers+0x4c>
 		buffer[i] = spi2_transmit_receive(0x00U);
- 80013f6:	89fb      	ldrh	r3, [r7, #14]
- 80013f8:	683a      	ldr	r2, [r7, #0]
- 80013fa:	18d4      	adds	r4, r2, r3
- 80013fc:	2000      	movs	r0, #0
- 80013fe:	f7ff ffbd 	bl	800137c <spi2_transmit_receive>
- 8001402:	4603      	mov	r3, r0
- 8001404:	7023      	strb	r3, [r4, #0]
+ 80013e6:	89fb      	ldrh	r3, [r7, #14]
+ 80013e8:	683a      	ldr	r2, [r7, #0]
+ 80013ea:	18d4      	adds	r4, r2, r3
+ 80013ec:	2000      	movs	r0, #0
+ 80013ee:	f7ff ffbd 	bl	800136c <spi2_transmit_receive>
+ 80013f2:	4603      	mov	r3, r0
+ 80013f4:	7023      	strb	r3, [r4, #0]
 	for (uint16_t i = 0U; i < length; i++) {
- 8001406:	89fb      	ldrh	r3, [r7, #14]
- 8001408:	3301      	adds	r3, #1
- 800140a:	81fb      	strh	r3, [r7, #14]
- 800140c:	89fa      	ldrh	r2, [r7, #14]
- 800140e:	88bb      	ldrh	r3, [r7, #4]
- 8001410:	429a      	cmp	r2, r3
- 8001412:	d3f0      	bcc.n	80013f6 <spi2_read_registers+0x36>
+ 80013f6:	89fb      	ldrh	r3, [r7, #14]
+ 80013f8:	3301      	adds	r3, #1
+ 80013fa:	81fb      	strh	r3, [r7, #14]
+ 80013fc:	89fa      	ldrh	r2, [r7, #14]
+ 80013fe:	88bb      	ldrh	r3, [r7, #4]
+ 8001400:	429a      	cmp	r2, r3
+ 8001402:	d3f0      	bcc.n	80013e6 <spi2_read_registers+0x36>
 	}
 
 	/* Step 4: Pull CS HIGH to end the transaction. The device's
 	 * internal pointer and mode are discarded here. */
 	spi2_cs_disable();
- 8001414:	f000 f832 	bl	800147c <spi2_cs_disable>
- 8001418:	e000      	b.n	800141c <spi2_read_registers+0x5c>
+ 8001404:	f000 f832 	bl	800146c <spi2_cs_disable>
+ 8001408:	e000      	b.n	800140c <spi2_read_registers+0x5c>
 		return;
- 800141a:	bf00      	nop
+ 800140a:	bf00      	nop
 }
- 800141c:	3714      	adds	r7, #20
- 800141e:	46bd      	mov	sp, r7
- 8001420:	bd90      	pop	{r4, r7, pc}
+ 800140c:	3714      	adds	r7, #20
+ 800140e:	46bd      	mov	sp, r7
+ 8001410:	bd90      	pop	{r4, r7, pc}
 
-08001422 <spi2_write_register>:
+08001412 <spi2_write_register>:
 
 void spi2_write_register(uint8_t reg_addr, uint8_t data) {
- 8001422:	b580      	push	{r7, lr}
- 8001424:	b084      	sub	sp, #16
- 8001426:	af00      	add	r7, sp, #0
- 8001428:	4603      	mov	r3, r0
- 800142a:	460a      	mov	r2, r1
- 800142c:	71fb      	strb	r3, [r7, #7]
- 800142e:	4613      	mov	r3, r2
- 8001430:	71bb      	strb	r3, [r7, #6]
+ 8001412:	b580      	push	{r7, lr}
+ 8001414:	b084      	sub	sp, #16
+ 8001416:	af00      	add	r7, sp, #0
+ 8001418:	4603      	mov	r3, r0
+ 800141a:	460a      	mov	r2, r1
+ 800141c:	71fb      	strb	r3, [r7, #7]
+ 800141e:	4613      	mov	r3, r2
+ 8001420:	71bb      	strb	r3, [r7, #6]
 
 	/* Force bit 7 of the address to 0 to signal a write operation.
 	 * The BME280 SPI protocol treats bit 7 as the read/write flag:
 	 *   bit 7 = 1 → read, bit 7 = 0 → write.
 	 * We AND with 0x7F */
 	uint8_t write_addr = reg_addr & 0x7FU;
- 8001432:	79fb      	ldrb	r3, [r7, #7]
- 8001434:	f003 037f 	and.w	r3, r3, #127	@ 0x7f
- 8001438:	73fb      	strb	r3, [r7, #15]
+ 8001422:	79fb      	ldrb	r3, [r7, #7]
+ 8001424:	f003 037f 	and.w	r3, r3, #127	@ 0x7f
+ 8001428:	73fb      	strb	r3, [r7, #15]
 
 	/* Step 1: Pull CS LOW to begin the transaction. The device's
 	 * internal state is reset on the falling edge of CS and will
 	 * stay "alive" until CS goes HIGH again. */
 	spi2_cs_enable();
- 800143a:	f000 f80f 	bl	800145c <spi2_cs_enable>
+ 800142a:	f000 f80f 	bl	800144c <spi2_cs_enable>
 
 	/* Step 2: Send the register address you want to write data to. The byte the
 	 * device returns during this exchange is garbage — discard it. */
 	(void) spi2_transmit_receive(write_addr);
- 800143e:	7bfb      	ldrb	r3, [r7, #15]
- 8001440:	4618      	mov	r0, r3
- 8001442:	f7ff ff9b 	bl	800137c <spi2_transmit_receive>
+ 800142e:	7bfb      	ldrb	r3, [r7, #15]
+ 8001430:	4618      	mov	r0, r3
+ 8001432:	f7ff ff9b 	bl	800136c <spi2_transmit_receive>
 
 	/* Step 3: transmit the actual data you would like to write to that address */
 	(void) spi2_transmit_receive(data);
- 8001446:	79bb      	ldrb	r3, [r7, #6]
- 8001448:	4618      	mov	r0, r3
- 800144a:	f7ff ff97 	bl	800137c <spi2_transmit_receive>
+ 8001436:	79bb      	ldrb	r3, [r7, #6]
+ 8001438:	4618      	mov	r0, r3
+ 800143a:	f7ff ff97 	bl	800136c <spi2_transmit_receive>
 
 	/* Step 4: Pull CS HIGH to end the transaction.
 	 * The BME280 commits the new register value on the rising edge of CS. */
 	spi2_cs_disable();
- 800144e:	f000 f815 	bl	800147c <spi2_cs_disable>
+ 800143e:	f000 f815 	bl	800146c <spi2_cs_disable>
 }
- 8001452:	bf00      	nop
- 8001454:	3710      	adds	r7, #16
- 8001456:	46bd      	mov	sp, r7
- 8001458:	bd80      	pop	{r7, pc}
+ 8001442:	bf00      	nop
+ 8001444:	3710      	adds	r7, #16
+ 8001446:	46bd      	mov	sp, r7
+ 8001448:	bd80      	pop	{r7, pc}
 	...
 
-0800145c <spi2_cs_enable>:
+0800144c <spi2_cs_enable>:
 
 /*
  * Pulls CS (PB12) LOW to select the BME280.
  * Call this before starting an SPI transaction.
  */
 void spi2_cs_enable(void) {
- 800145c:	b480      	push	{r7}
- 800145e:	af00      	add	r7, sp, #0
+ 800144c:	b480      	push	{r7}
+ 800144e:	af00      	add	r7, sp, #0
 	GPIOB->ODR &= ~(1 << 12);
- 8001460:	4b05      	ldr	r3, [pc, #20]	@ (8001478 <spi2_cs_enable+0x1c>)
- 8001462:	695b      	ldr	r3, [r3, #20]
- 8001464:	4a04      	ldr	r2, [pc, #16]	@ (8001478 <spi2_cs_enable+0x1c>)
- 8001466:	f423 5380 	bic.w	r3, r3, #4096	@ 0x1000
- 800146a:	6153      	str	r3, [r2, #20]
+ 8001450:	4b05      	ldr	r3, [pc, #20]	@ (8001468 <spi2_cs_enable+0x1c>)
+ 8001452:	695b      	ldr	r3, [r3, #20]
+ 8001454:	4a04      	ldr	r2, [pc, #16]	@ (8001468 <spi2_cs_enable+0x1c>)
+ 8001456:	f423 5380 	bic.w	r3, r3, #4096	@ 0x1000
+ 800145a:	6153      	str	r3, [r2, #20]
 }
- 800146c:	bf00      	nop
- 800146e:	46bd      	mov	sp, r7
- 8001470:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001474:	4770      	bx	lr
- 8001476:	bf00      	nop
- 8001478:	40020400 	.word	0x40020400
+ 800145c:	bf00      	nop
+ 800145e:	46bd      	mov	sp, r7
+ 8001460:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001464:	4770      	bx	lr
+ 8001466:	bf00      	nop
+ 8001468:	40020400 	.word	0x40020400
 
-0800147c <spi2_cs_disable>:
+0800146c <spi2_cs_disable>:
 
 /*
  * Pulls CS (PB12) HIGH to deselect the BME280.
  * Call this after an SPI transaction is complete.
  */
 void spi2_cs_disable(void) {
- 800147c:	b480      	push	{r7}
- 800147e:	af00      	add	r7, sp, #0
+ 800146c:	b480      	push	{r7}
+ 800146e:	af00      	add	r7, sp, #0
 	GPIOB->ODR |= (1 << 12);
- 8001480:	4b05      	ldr	r3, [pc, #20]	@ (8001498 <spi2_cs_disable+0x1c>)
- 8001482:	695b      	ldr	r3, [r3, #20]
- 8001484:	4a04      	ldr	r2, [pc, #16]	@ (8001498 <spi2_cs_disable+0x1c>)
- 8001486:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
- 800148a:	6153      	str	r3, [r2, #20]
+ 8001470:	4b05      	ldr	r3, [pc, #20]	@ (8001488 <spi2_cs_disable+0x1c>)
+ 8001472:	695b      	ldr	r3, [r3, #20]
+ 8001474:	4a04      	ldr	r2, [pc, #16]	@ (8001488 <spi2_cs_disable+0x1c>)
+ 8001476:	f443 5380 	orr.w	r3, r3, #4096	@ 0x1000
+ 800147a:	6153      	str	r3, [r2, #20]
 }
- 800148c:	bf00      	nop
- 800148e:	46bd      	mov	sp, r7
- 8001490:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001494:	4770      	bx	lr
- 8001496:	bf00      	nop
- 8001498:	40020400 	.word	0x40020400
+ 800147c:	bf00      	nop
+ 800147e:	46bd      	mov	sp, r7
+ 8001480:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001484:	4770      	bx	lr
+ 8001486:	bf00      	nop
+ 8001488:	40020400 	.word	0x40020400
 
-0800149c <usart2_init>:
+0800148c <systick_init>:
+/* ============================================================================
+ * Public API
+ * ============================================================================ */
+
+void systick_init(void)
+{
+ 800148c:	b480      	push	{r7}
+ 800148e:	af00      	add	r7, sp, #0
+    /* Step 1 - Program reload value.
+     * Sets the period the counter will reload from each time it hits zero. */
+    SYSTICK->RVR = SYSTICK_RELOAD_VALUE;
+ 8001490:	4b06      	ldr	r3, [pc, #24]	@ (80014ac <systick_init+0x20>)
+ 8001492:	4a07      	ldr	r2, [pc, #28]	@ (80014b0 <systick_init+0x24>)
+ 8001494:	605a      	str	r2, [r3, #4]
+
+    /* Step 2 - Clear current value.
+     * Writing any value to CVR clears the counter and the COUNTFLAG bit
+     * in CSR. Without this, the very first tick fires from a stale,
+     * unknown counter value (Generic User Guide Section 4.4.5). */
+    SYSTICK->CVR = 0U;
+ 8001496:	4b05      	ldr	r3, [pc, #20]	@ (80014ac <systick_init+0x20>)
+ 8001498:	2200      	movs	r2, #0
+ 800149a:	609a      	str	r2, [r3, #8]
+
+    /* Step 3 - Enable counter, exception, and select HCLK as clock source.
+     * Writing all three bits together avoids a brief window where the
+     * counter is enabled with the wrong clock source. */
+    SYSTICK->CSR = SYSTICK_CSR_CLKSOURCE
+ 800149c:	4b03      	ldr	r3, [pc, #12]	@ (80014ac <systick_init+0x20>)
+ 800149e:	2207      	movs	r2, #7
+ 80014a0:	601a      	str	r2, [r3, #0]
+                 | SYSTICK_CSR_TICKINT
+                 | SYSTICK_CSR_ENABLE;
+}
+ 80014a2:	bf00      	nop
+ 80014a4:	46bd      	mov	sp, r7
+ 80014a6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80014aa:	4770      	bx	lr
+ 80014ac:	e000e010 	.word	0xe000e010
+ 80014b0:	0002903f 	.word	0x0002903f
+
+080014b4 <systick_get_ms>:
+    }
+}
+
+
+uint32_t systick_get_ms(void)
+{
+ 80014b4:	b480      	push	{r7}
+ 80014b6:	af00      	add	r7, sp, #0
+    /* Single-word read on a 32-bit core is atomic - no need to disable
+     * interrupts to get a consistent value. */
+    return g_systick_ms;
+ 80014b8:	4b03      	ldr	r3, [pc, #12]	@ (80014c8 <systick_get_ms+0x14>)
+ 80014ba:	681b      	ldr	r3, [r3, #0]
+}
+ 80014bc:	4618      	mov	r0, r3
+ 80014be:	46bd      	mov	sp, r7
+ 80014c0:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80014c4:	4770      	bx	lr
+ 80014c6:	bf00      	nop
+ 80014c8:	20000044 	.word	0x20000044
+
+080014cc <SysTick_Handler>:
+ *
+ * Industry rule: ISRs should be as short as possible. This one does
+ * nothing but increment the tick counter.
+ * ============================================================================ */
+void SysTick_Handler(void)
+{
+ 80014cc:	b480      	push	{r7}
+ 80014ce:	af00      	add	r7, sp, #0
+    g_systick_ms++;
+ 80014d0:	4b04      	ldr	r3, [pc, #16]	@ (80014e4 <SysTick_Handler+0x18>)
+ 80014d2:	681b      	ldr	r3, [r3, #0]
+ 80014d4:	3301      	adds	r3, #1
+ 80014d6:	4a03      	ldr	r2, [pc, #12]	@ (80014e4 <SysTick_Handler+0x18>)
+ 80014d8:	6013      	str	r3, [r2, #0]
+}
+ 80014da:	bf00      	nop
+ 80014dc:	46bd      	mov	sp, r7
+ 80014de:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80014e2:	4770      	bx	lr
+ 80014e4:	20000044 	.word	0x20000044
+
+080014e8 <usart2_init>:
 #include "stm32f407xx.h"
 #include "usart2.h"
 
 void usart2_init(void)
 {
- 800149c:	b480      	push	{r7}
- 800149e:	af00      	add	r7, sp, #0
+ 80014e8:	b480      	push	{r7}
+ 80014ea:	af00      	add	r7, sp, #0
     /* Step 1: Enable clocks
      * GPIOA is on AHB1 bus (bit 0 of AHB1ENR)
      * USART2 is on APB1 bus (bit 17 of APB1ENR) */
     RCC->AHB1ENR |= (1 << 0);
- 80014a0:	4b26      	ldr	r3, [pc, #152]	@ (800153c <usart2_init+0xa0>)
- 80014a2:	6b1b      	ldr	r3, [r3, #48]	@ 0x30
- 80014a4:	4a25      	ldr	r2, [pc, #148]	@ (800153c <usart2_init+0xa0>)
- 80014a6:	f043 0301 	orr.w	r3, r3, #1
- 80014aa:	6313      	str	r3, [r2, #48]	@ 0x30
+ 80014ec:	4b26      	ldr	r3, [pc, #152]	@ (8001588 <usart2_init+0xa0>)
+ 80014ee:	6b1b      	ldr	r3, [r3, #48]	@ 0x30
+ 80014f0:	4a25      	ldr	r2, [pc, #148]	@ (8001588 <usart2_init+0xa0>)
+ 80014f2:	f043 0301 	orr.w	r3, r3, #1
+ 80014f6:	6313      	str	r3, [r2, #48]	@ 0x30
     RCC->APB1ENR |= (1 << 17);
- 80014ac:	4b23      	ldr	r3, [pc, #140]	@ (800153c <usart2_init+0xa0>)
- 80014ae:	6c1b      	ldr	r3, [r3, #64]	@ 0x40
- 80014b0:	4a22      	ldr	r2, [pc, #136]	@ (800153c <usart2_init+0xa0>)
- 80014b2:	f443 3300 	orr.w	r3, r3, #131072	@ 0x20000
- 80014b6:	6413      	str	r3, [r2, #64]	@ 0x40
+ 80014f8:	4b23      	ldr	r3, [pc, #140]	@ (8001588 <usart2_init+0xa0>)
+ 80014fa:	6c1b      	ldr	r3, [r3, #64]	@ 0x40
+ 80014fc:	4a22      	ldr	r2, [pc, #136]	@ (8001588 <usart2_init+0xa0>)
+ 80014fe:	f443 3300 	orr.w	r3, r3, #131072	@ 0x20000
+ 8001502:	6413      	str	r3, [r2, #64]	@ 0x40
 
     /* Step 2: Configure PA2 and PA3 as alternate function mode (0b10)
      * MODER fields are 2 bits wide: pin2 = bits [5:4], pin3 = bits [7:6] */
     GPIOA->MODER &= ~(0x3 << 4);   /* Clear PA2 mode bits */
- 80014b8:	4b21      	ldr	r3, [pc, #132]	@ (8001540 <usart2_init+0xa4>)
- 80014ba:	681b      	ldr	r3, [r3, #0]
- 80014bc:	4a20      	ldr	r2, [pc, #128]	@ (8001540 <usart2_init+0xa4>)
- 80014be:	f023 0330 	bic.w	r3, r3, #48	@ 0x30
- 80014c2:	6013      	str	r3, [r2, #0]
+ 8001504:	4b21      	ldr	r3, [pc, #132]	@ (800158c <usart2_init+0xa4>)
+ 8001506:	681b      	ldr	r3, [r3, #0]
+ 8001508:	4a20      	ldr	r2, [pc, #128]	@ (800158c <usart2_init+0xa4>)
+ 800150a:	f023 0330 	bic.w	r3, r3, #48	@ 0x30
+ 800150e:	6013      	str	r3, [r2, #0]
     GPIOA->MODER |=  (0x2 << 4);   /* Set PA2 to alternate function */
- 80014c4:	4b1e      	ldr	r3, [pc, #120]	@ (8001540 <usart2_init+0xa4>)
- 80014c6:	681b      	ldr	r3, [r3, #0]
- 80014c8:	4a1d      	ldr	r2, [pc, #116]	@ (8001540 <usart2_init+0xa4>)
- 80014ca:	f043 0320 	orr.w	r3, r3, #32
- 80014ce:	6013      	str	r3, [r2, #0]
+ 8001510:	4b1e      	ldr	r3, [pc, #120]	@ (800158c <usart2_init+0xa4>)
+ 8001512:	681b      	ldr	r3, [r3, #0]
+ 8001514:	4a1d      	ldr	r2, [pc, #116]	@ (800158c <usart2_init+0xa4>)
+ 8001516:	f043 0320 	orr.w	r3, r3, #32
+ 800151a:	6013      	str	r3, [r2, #0]
     GPIOA->MODER &= ~(0x3 << 6);   /* Clear PA3 mode bits */
- 80014d0:	4b1b      	ldr	r3, [pc, #108]	@ (8001540 <usart2_init+0xa4>)
- 80014d2:	681b      	ldr	r3, [r3, #0]
- 80014d4:	4a1a      	ldr	r2, [pc, #104]	@ (8001540 <usart2_init+0xa4>)
- 80014d6:	f023 03c0 	bic.w	r3, r3, #192	@ 0xc0
- 80014da:	6013      	str	r3, [r2, #0]
+ 800151c:	4b1b      	ldr	r3, [pc, #108]	@ (800158c <usart2_init+0xa4>)
+ 800151e:	681b      	ldr	r3, [r3, #0]
+ 8001520:	4a1a      	ldr	r2, [pc, #104]	@ (800158c <usart2_init+0xa4>)
+ 8001522:	f023 03c0 	bic.w	r3, r3, #192	@ 0xc0
+ 8001526:	6013      	str	r3, [r2, #0]
     GPIOA->MODER |=  (0x2 << 6);   /* Set PA3 to alternate function */
- 80014dc:	4b18      	ldr	r3, [pc, #96]	@ (8001540 <usart2_init+0xa4>)
- 80014de:	681b      	ldr	r3, [r3, #0]
- 80014e0:	4a17      	ldr	r2, [pc, #92]	@ (8001540 <usart2_init+0xa4>)
- 80014e2:	f043 0380 	orr.w	r3, r3, #128	@ 0x80
- 80014e6:	6013      	str	r3, [r2, #0]
+ 8001528:	4b18      	ldr	r3, [pc, #96]	@ (800158c <usart2_init+0xa4>)
+ 800152a:	681b      	ldr	r3, [r3, #0]
+ 800152c:	4a17      	ldr	r2, [pc, #92]	@ (800158c <usart2_init+0xa4>)
+ 800152e:	f043 0380 	orr.w	r3, r3, #128	@ 0x80
+ 8001532:	6013      	str	r3, [r2, #0]
 
     /* Step 3: Set alternate function to AF7 (USART2) for PA2 and PA3
      * AFRL fields are 4 bits wide: pin2 = bits [11:8], pin3 = bits [15:12] */
     GPIOA->AFRL &= ~(0xF << 8);    /* Clear PA2 AF bits */
- 80014e8:	4b15      	ldr	r3, [pc, #84]	@ (8001540 <usart2_init+0xa4>)
- 80014ea:	6a1b      	ldr	r3, [r3, #32]
- 80014ec:	4a14      	ldr	r2, [pc, #80]	@ (8001540 <usart2_init+0xa4>)
- 80014ee:	f423 6370 	bic.w	r3, r3, #3840	@ 0xf00
- 80014f2:	6213      	str	r3, [r2, #32]
+ 8001534:	4b15      	ldr	r3, [pc, #84]	@ (800158c <usart2_init+0xa4>)
+ 8001536:	6a1b      	ldr	r3, [r3, #32]
+ 8001538:	4a14      	ldr	r2, [pc, #80]	@ (800158c <usart2_init+0xa4>)
+ 800153a:	f423 6370 	bic.w	r3, r3, #3840	@ 0xf00
+ 800153e:	6213      	str	r3, [r2, #32]
     GPIOA->AFRL |=  (0x7 << 8);    /* Set PA2 to AF7 */
- 80014f4:	4b12      	ldr	r3, [pc, #72]	@ (8001540 <usart2_init+0xa4>)
- 80014f6:	6a1b      	ldr	r3, [r3, #32]
- 80014f8:	4a11      	ldr	r2, [pc, #68]	@ (8001540 <usart2_init+0xa4>)
- 80014fa:	f443 63e0 	orr.w	r3, r3, #1792	@ 0x700
- 80014fe:	6213      	str	r3, [r2, #32]
+ 8001540:	4b12      	ldr	r3, [pc, #72]	@ (800158c <usart2_init+0xa4>)
+ 8001542:	6a1b      	ldr	r3, [r3, #32]
+ 8001544:	4a11      	ldr	r2, [pc, #68]	@ (800158c <usart2_init+0xa4>)
+ 8001546:	f443 63e0 	orr.w	r3, r3, #1792	@ 0x700
+ 800154a:	6213      	str	r3, [r2, #32]
     GPIOA->AFRL &= ~(0xF << 12);   /* Clear PA3 AF bits */
- 8001500:	4b0f      	ldr	r3, [pc, #60]	@ (8001540 <usart2_init+0xa4>)
- 8001502:	6a1b      	ldr	r3, [r3, #32]
- 8001504:	4a0e      	ldr	r2, [pc, #56]	@ (8001540 <usart2_init+0xa4>)
- 8001506:	f423 4370 	bic.w	r3, r3, #61440	@ 0xf000
- 800150a:	6213      	str	r3, [r2, #32]
+ 800154c:	4b0f      	ldr	r3, [pc, #60]	@ (800158c <usart2_init+0xa4>)
+ 800154e:	6a1b      	ldr	r3, [r3, #32]
+ 8001550:	4a0e      	ldr	r2, [pc, #56]	@ (800158c <usart2_init+0xa4>)
+ 8001552:	f423 4370 	bic.w	r3, r3, #61440	@ 0xf000
+ 8001556:	6213      	str	r3, [r2, #32]
     GPIOA->AFRL |=  (0x7 << 12);   /* Set PA3 to AF7 */
- 800150c:	4b0c      	ldr	r3, [pc, #48]	@ (8001540 <usart2_init+0xa4>)
- 800150e:	6a1b      	ldr	r3, [r3, #32]
- 8001510:	4a0b      	ldr	r2, [pc, #44]	@ (8001540 <usart2_init+0xa4>)
- 8001512:	f443 43e0 	orr.w	r3, r3, #28672	@ 0x7000
- 8001516:	6213      	str	r3, [r2, #32]
+ 8001558:	4b0c      	ldr	r3, [pc, #48]	@ (800158c <usart2_init+0xa4>)
+ 800155a:	6a1b      	ldr	r3, [r3, #32]
+ 800155c:	4a0b      	ldr	r2, [pc, #44]	@ (800158c <usart2_init+0xa4>)
+ 800155e:	f443 43e0 	orr.w	r3, r3, #28672	@ 0x7000
+ 8001562:	6213      	str	r3, [r2, #32]
      *   Mantissa = 22 (0x16), Fraction = round(0.7865 * 16) = 13 (0xD)
      *   BRR = (22 << 4) | 13 = 0x016D
      * Actual baud: 115068.49 (-0.114% error, well within UART tolerance)
      * Word length: 8 bits (default, CR1 bit 12 = 0)
      * Stop bits: 1 (default, CR2 bits [13:12] = 00) */
     USART2->BRR = 0x016D;
- 8001518:	4b0a      	ldr	r3, [pc, #40]	@ (8001544 <usart2_init+0xa8>)
- 800151a:	f240 126d 	movw	r2, #365	@ 0x16d
- 800151e:	609a      	str	r2, [r3, #8]
+ 8001564:	4b0a      	ldr	r3, [pc, #40]	@ (8001590 <usart2_init+0xa8>)
+ 8001566:	f240 126d 	movw	r2, #365	@ 0x16d
+ 800156a:	609a      	str	r2, [r3, #8]
 
 
     /* Step 5: Enable transmitter and USART2 peripheral
      * TE (bit 3): Enables the transmit shift register
      * UE (bit 13): Master enable for the entire USART2 block */
     USART2->CR1 |= (1 << 3) | (1 << 13);
- 8001520:	4b08      	ldr	r3, [pc, #32]	@ (8001544 <usart2_init+0xa8>)
- 8001522:	68db      	ldr	r3, [r3, #12]
- 8001524:	4a07      	ldr	r2, [pc, #28]	@ (8001544 <usart2_init+0xa8>)
- 8001526:	f443 5300 	orr.w	r3, r3, #8192	@ 0x2000
- 800152a:	f043 0308 	orr.w	r3, r3, #8
- 800152e:	60d3      	str	r3, [r2, #12]
+ 800156c:	4b08      	ldr	r3, [pc, #32]	@ (8001590 <usart2_init+0xa8>)
+ 800156e:	68db      	ldr	r3, [r3, #12]
+ 8001570:	4a07      	ldr	r2, [pc, #28]	@ (8001590 <usart2_init+0xa8>)
+ 8001572:	f443 5300 	orr.w	r3, r3, #8192	@ 0x2000
+ 8001576:	f043 0308 	orr.w	r3, r3, #8
+ 800157a:	60d3      	str	r3, [r2, #12]
 }
- 8001530:	bf00      	nop
- 8001532:	46bd      	mov	sp, r7
- 8001534:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001538:	4770      	bx	lr
- 800153a:	bf00      	nop
- 800153c:	40023800 	.word	0x40023800
- 8001540:	40020000 	.word	0x40020000
- 8001544:	40004400 	.word	0x40004400
+ 800157c:	bf00      	nop
+ 800157e:	46bd      	mov	sp, r7
+ 8001580:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001584:	4770      	bx	lr
+ 8001586:	bf00      	nop
+ 8001588:	40023800 	.word	0x40023800
+ 800158c:	40020000 	.word	0x40020000
+ 8001590:	40004400 	.word	0x40004400
 
-08001548 <usart2_send_byte>:
+08001594 <usart2_send_byte>:
  * Sends a single byte over USART2 TX.
  * Blocks (waits in a loop) until the transmit data register is empty,
  * then writes the byte to the data register for transmission.
  */
 void usart2_send_byte(uint8_t byte)
 {
- 8001548:	b480      	push	{r7}
- 800154a:	b083      	sub	sp, #12
- 800154c:	af00      	add	r7, sp, #0
- 800154e:	4603      	mov	r3, r0
- 8001550:	71fb      	strb	r3, [r7, #7]
+ 8001594:	b480      	push	{r7}
+ 8001596:	b083      	sub	sp, #12
+ 8001598:	af00      	add	r7, sp, #0
+ 800159a:	4603      	mov	r3, r0
+ 800159c:	71fb      	strb	r3, [r7, #7]
     /* Wait until TXE (bit 7) in the status register is set.
      * TXE = 1 means the data register is empty and ready for a new byte.
      * TXE = 0 means the previous byte hasn't been moved to the shift
      * register yet, so we must wait. */
     while (!(USART2->SR & (1 << 7)))
- 8001552:	bf00      	nop
- 8001554:	4b07      	ldr	r3, [pc, #28]	@ (8001574 <usart2_send_byte+0x2c>)
- 8001556:	681b      	ldr	r3, [r3, #0]
- 8001558:	f003 0380 	and.w	r3, r3, #128	@ 0x80
- 800155c:	2b00      	cmp	r3, #0
- 800155e:	d0f9      	beq.n	8001554 <usart2_send_byte+0xc>
+ 800159e:	bf00      	nop
+ 80015a0:	4b07      	ldr	r3, [pc, #28]	@ (80015c0 <usart2_send_byte+0x2c>)
+ 80015a2:	681b      	ldr	r3, [r3, #0]
+ 80015a4:	f003 0380 	and.w	r3, r3, #128	@ 0x80
+ 80015a8:	2b00      	cmp	r3, #0
+ 80015aa:	d0f9      	beq.n	80015a0 <usart2_send_byte+0xc>
     }
 
     /* Write the byte to the data register.
      * The hardware automatically moves it to the shift register
      * and begins transmitting out the TX pin (PA2). */
     USART2->DR = byte;
- 8001560:	4a04      	ldr	r2, [pc, #16]	@ (8001574 <usart2_send_byte+0x2c>)
- 8001562:	79fb      	ldrb	r3, [r7, #7]
- 8001564:	6053      	str	r3, [r2, #4]
+ 80015ac:	4a04      	ldr	r2, [pc, #16]	@ (80015c0 <usart2_send_byte+0x2c>)
+ 80015ae:	79fb      	ldrb	r3, [r7, #7]
+ 80015b0:	6053      	str	r3, [r2, #4]
 }
- 8001566:	bf00      	nop
- 8001568:	370c      	adds	r7, #12
- 800156a:	46bd      	mov	sp, r7
- 800156c:	f85d 7b04 	ldr.w	r7, [sp], #4
- 8001570:	4770      	bx	lr
- 8001572:	bf00      	nop
- 8001574:	40004400 	.word	0x40004400
+ 80015b2:	bf00      	nop
+ 80015b4:	370c      	adds	r7, #12
+ 80015b6:	46bd      	mov	sp, r7
+ 80015b8:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80015bc:	4770      	bx	lr
+ 80015be:	bf00      	nop
+ 80015c0:	40004400 	.word	0x40004400
 
-08001578 <usart2_send_string>:
+080015c4 <usart2_send_string>:
  * Sends a null-terminated string over USART2 TX.
  * Loops through each character and sends it one byte at a time.
  * Stops when it reaches the null terminator '\0'.
  */
 void usart2_send_string(const char *str)
 {
- 8001578:	b580      	push	{r7, lr}
- 800157a:	b082      	sub	sp, #8
- 800157c:	af00      	add	r7, sp, #0
- 800157e:	6078      	str	r0, [r7, #4]
+ 80015c4:	b580      	push	{r7, lr}
+ 80015c6:	b082      	sub	sp, #8
+ 80015c8:	af00      	add	r7, sp, #0
+ 80015ca:	6078      	str	r0, [r7, #4]
     while (*str != '\0')
- 8001580:	e007      	b.n	8001592 <usart2_send_string+0x1a>
+ 80015cc:	e007      	b.n	80015de <usart2_send_string+0x1a>
     {
         usart2_send_byte((uint8_t)*str);
- 8001582:	687b      	ldr	r3, [r7, #4]
- 8001584:	781b      	ldrb	r3, [r3, #0]
- 8001586:	4618      	mov	r0, r3
- 8001588:	f7ff ffde 	bl	8001548 <usart2_send_byte>
+ 80015ce:	687b      	ldr	r3, [r7, #4]
+ 80015d0:	781b      	ldrb	r3, [r3, #0]
+ 80015d2:	4618      	mov	r0, r3
+ 80015d4:	f7ff ffde 	bl	8001594 <usart2_send_byte>
         str++;
- 800158c:	687b      	ldr	r3, [r7, #4]
- 800158e:	3301      	adds	r3, #1
- 8001590:	607b      	str	r3, [r7, #4]
+ 80015d8:	687b      	ldr	r3, [r7, #4]
+ 80015da:	3301      	adds	r3, #1
+ 80015dc:	607b      	str	r3, [r7, #4]
     while (*str != '\0')
- 8001592:	687b      	ldr	r3, [r7, #4]
- 8001594:	781b      	ldrb	r3, [r3, #0]
- 8001596:	2b00      	cmp	r3, #0
- 8001598:	d1f3      	bne.n	8001582 <usart2_send_string+0xa>
+ 80015de:	687b      	ldr	r3, [r7, #4]
+ 80015e0:	781b      	ldrb	r3, [r3, #0]
+ 80015e2:	2b00      	cmp	r3, #0
+ 80015e4:	d1f3      	bne.n	80015ce <usart2_send_string+0xa>
     }
 }
- 800159a:	bf00      	nop
- 800159c:	bf00      	nop
- 800159e:	3708      	adds	r7, #8
- 80015a0:	46bd      	mov	sp, r7
- 80015a2:	bd80      	pop	{r7, pc}
+ 80015e6:	bf00      	nop
+ 80015e8:	bf00      	nop
+ 80015ea:	3708      	adds	r7, #8
+ 80015ec:	46bd      	mov	sp, r7
+ 80015ee:	bd80      	pop	{r7, pc}
 
-080015a4 <usart2_send_int>:
+080015f0 <usart2_send_int>:
  *
  * Buffer size: a 32-bit value is at most 10 decimal digits, plus a
  * possible sign. 12 bytes leaves safe headroom.
  */
 void usart2_send_int(int32_t value)
 {
- 80015a4:	b580      	push	{r7, lr}
- 80015a6:	b088      	sub	sp, #32
- 80015a8:	af00      	add	r7, sp, #0
- 80015aa:	6078      	str	r0, [r7, #4]
+ 80015f0:	b580      	push	{r7, lr}
+ 80015f2:	b088      	sub	sp, #32
+ 80015f4:	af00      	add	r7, sp, #0
+ 80015f6:	6078      	str	r0, [r7, #4]
     char buf[12];
     int32_t idx = 0;
- 80015ac:	2300      	movs	r3, #0
- 80015ae:	61fb      	str	r3, [r7, #28]
+ 80015f8:	2300      	movs	r3, #0
+ 80015fa:	61fb      	str	r3, [r7, #28]
     uint32_t abs_val;
 
     if (value < 0)
- 80015b0:	687b      	ldr	r3, [r7, #4]
- 80015b2:	2b00      	cmp	r3, #0
- 80015b4:	da06      	bge.n	80015c4 <usart2_send_int+0x20>
+ 80015fc:	687b      	ldr	r3, [r7, #4]
+ 80015fe:	2b00      	cmp	r3, #0
+ 8001600:	da06      	bge.n	8001610 <usart2_send_int+0x20>
     {
         usart2_send_byte('-');
- 80015b6:	202d      	movs	r0, #45	@ 0x2d
- 80015b8:	f7ff ffc6 	bl	8001548 <usart2_send_byte>
+ 8001602:	202d      	movs	r0, #45	@ 0x2d
+ 8001604:	f7ff ffc6 	bl	8001594 <usart2_send_byte>
         /* Negate via unsigned to avoid signed overflow on INT32_MIN. */
         abs_val = -(uint32_t)value;
- 80015bc:	687b      	ldr	r3, [r7, #4]
- 80015be:	425b      	negs	r3, r3
- 80015c0:	61bb      	str	r3, [r7, #24]
- 80015c2:	e001      	b.n	80015c8 <usart2_send_int+0x24>
+ 8001608:	687b      	ldr	r3, [r7, #4]
+ 800160a:	425b      	negs	r3, r3
+ 800160c:	61bb      	str	r3, [r7, #24]
+ 800160e:	e001      	b.n	8001614 <usart2_send_int+0x24>
     }
     else
     {
         abs_val = (uint32_t)value;
- 80015c4:	687b      	ldr	r3, [r7, #4]
- 80015c6:	61bb      	str	r3, [r7, #24]
+ 8001610:	687b      	ldr	r3, [r7, #4]
+ 8001612:	61bb      	str	r3, [r7, #24]
     }
 
     /* Special case: 0 would skip the digit-extraction loop entirely. */
     if (abs_val == 0U)
- 80015c8:	69bb      	ldr	r3, [r7, #24]
- 80015ca:	2b00      	cmp	r3, #0
- 80015cc:	d11f      	bne.n	800160e <usart2_send_int+0x6a>
+ 8001614:	69bb      	ldr	r3, [r7, #24]
+ 8001616:	2b00      	cmp	r3, #0
+ 8001618:	d11f      	bne.n	800165a <usart2_send_int+0x6a>
     {
         usart2_send_byte('0');
- 80015ce:	2030      	movs	r0, #48	@ 0x30
- 80015d0:	f7ff ffba 	bl	8001548 <usart2_send_byte>
- 80015d4:	e02d      	b.n	8001632 <usart2_send_int+0x8e>
+ 800161a:	2030      	movs	r0, #48	@ 0x30
+ 800161c:	f7ff ffba 	bl	8001594 <usart2_send_byte>
+ 8001620:	e02d      	b.n	800167e <usart2_send_int+0x8e>
     }
 
     /* Extract digits in reverse order (least significant first). */
     while (abs_val > 0U)
     {
         buf[idx] = (char)('0' + (abs_val % 10U));
- 80015d6:	69b9      	ldr	r1, [r7, #24]
- 80015d8:	4b17      	ldr	r3, [pc, #92]	@ (8001638 <usart2_send_int+0x94>)
- 80015da:	fba3 2301 	umull	r2, r3, r3, r1
- 80015de:	08da      	lsrs	r2, r3, #3
- 80015e0:	4613      	mov	r3, r2
- 80015e2:	009b      	lsls	r3, r3, #2
- 80015e4:	4413      	add	r3, r2
- 80015e6:	005b      	lsls	r3, r3, #1
- 80015e8:	1aca      	subs	r2, r1, r3
- 80015ea:	b2d3      	uxtb	r3, r2
- 80015ec:	3330      	adds	r3, #48	@ 0x30
- 80015ee:	b2d9      	uxtb	r1, r3
- 80015f0:	f107 020c 	add.w	r2, r7, #12
- 80015f4:	69fb      	ldr	r3, [r7, #28]
- 80015f6:	4413      	add	r3, r2
- 80015f8:	460a      	mov	r2, r1
- 80015fa:	701a      	strb	r2, [r3, #0]
+ 8001622:	69b9      	ldr	r1, [r7, #24]
+ 8001624:	4b17      	ldr	r3, [pc, #92]	@ (8001684 <usart2_send_int+0x94>)
+ 8001626:	fba3 2301 	umull	r2, r3, r3, r1
+ 800162a:	08da      	lsrs	r2, r3, #3
+ 800162c:	4613      	mov	r3, r2
+ 800162e:	009b      	lsls	r3, r3, #2
+ 8001630:	4413      	add	r3, r2
+ 8001632:	005b      	lsls	r3, r3, #1
+ 8001634:	1aca      	subs	r2, r1, r3
+ 8001636:	b2d3      	uxtb	r3, r2
+ 8001638:	3330      	adds	r3, #48	@ 0x30
+ 800163a:	b2d9      	uxtb	r1, r3
+ 800163c:	f107 020c 	add.w	r2, r7, #12
+ 8001640:	69fb      	ldr	r3, [r7, #28]
+ 8001642:	4413      	add	r3, r2
+ 8001644:	460a      	mov	r2, r1
+ 8001646:	701a      	strb	r2, [r3, #0]
         idx++;
- 80015fc:	69fb      	ldr	r3, [r7, #28]
- 80015fe:	3301      	adds	r3, #1
- 8001600:	61fb      	str	r3, [r7, #28]
+ 8001648:	69fb      	ldr	r3, [r7, #28]
+ 800164a:	3301      	adds	r3, #1
+ 800164c:	61fb      	str	r3, [r7, #28]
         abs_val /= 10U;
- 8001602:	69bb      	ldr	r3, [r7, #24]
- 8001604:	4a0c      	ldr	r2, [pc, #48]	@ (8001638 <usart2_send_int+0x94>)
- 8001606:	fba2 2303 	umull	r2, r3, r2, r3
- 800160a:	08db      	lsrs	r3, r3, #3
- 800160c:	61bb      	str	r3, [r7, #24]
+ 800164e:	69bb      	ldr	r3, [r7, #24]
+ 8001650:	4a0c      	ldr	r2, [pc, #48]	@ (8001684 <usart2_send_int+0x94>)
+ 8001652:	fba2 2303 	umull	r2, r3, r2, r3
+ 8001656:	08db      	lsrs	r3, r3, #3
+ 8001658:	61bb      	str	r3, [r7, #24]
     while (abs_val > 0U)
- 800160e:	69bb      	ldr	r3, [r7, #24]
- 8001610:	2b00      	cmp	r3, #0
- 8001612:	d1e0      	bne.n	80015d6 <usart2_send_int+0x32>
+ 800165a:	69bb      	ldr	r3, [r7, #24]
+ 800165c:	2b00      	cmp	r3, #0
+ 800165e:	d1e0      	bne.n	8001622 <usart2_send_int+0x32>
     }
 
     /* Print the buffer in reverse so the most-significant digit prints first. */
     while (idx > 0)
- 8001614:	e00a      	b.n	800162c <usart2_send_int+0x88>
+ 8001660:	e00a      	b.n	8001678 <usart2_send_int+0x88>
     {
         idx--;
- 8001616:	69fb      	ldr	r3, [r7, #28]
- 8001618:	3b01      	subs	r3, #1
- 800161a:	61fb      	str	r3, [r7, #28]
+ 8001662:	69fb      	ldr	r3, [r7, #28]
+ 8001664:	3b01      	subs	r3, #1
+ 8001666:	61fb      	str	r3, [r7, #28]
         usart2_send_byte((uint8_t)buf[idx]);
- 800161c:	f107 020c 	add.w	r2, r7, #12
- 8001620:	69fb      	ldr	r3, [r7, #28]
- 8001622:	4413      	add	r3, r2
- 8001624:	781b      	ldrb	r3, [r3, #0]
- 8001626:	4618      	mov	r0, r3
- 8001628:	f7ff ff8e 	bl	8001548 <usart2_send_byte>
+ 8001668:	f107 020c 	add.w	r2, r7, #12
+ 800166c:	69fb      	ldr	r3, [r7, #28]
+ 800166e:	4413      	add	r3, r2
+ 8001670:	781b      	ldrb	r3, [r3, #0]
+ 8001672:	4618      	mov	r0, r3
+ 8001674:	f7ff ff8e 	bl	8001594 <usart2_send_byte>
     while (idx > 0)
- 800162c:	69fb      	ldr	r3, [r7, #28]
- 800162e:	2b00      	cmp	r3, #0
- 8001630:	dcf1      	bgt.n	8001616 <usart2_send_int+0x72>
+ 8001678:	69fb      	ldr	r3, [r7, #28]
+ 800167a:	2b00      	cmp	r3, #0
+ 800167c:	dcf1      	bgt.n	8001662 <usart2_send_int+0x72>
     }
 }
- 8001632:	3720      	adds	r7, #32
- 8001634:	46bd      	mov	sp, r7
- 8001636:	bd80      	pop	{r7, pc}
- 8001638:	cccccccd 	.word	0xcccccccd
+ 800167e:	3720      	adds	r7, #32
+ 8001680:	46bd      	mov	sp, r7
+ 8001682:	bd80      	pop	{r7, pc}
+ 8001684:	cccccccd 	.word	0xcccccccd
 
-0800163c <Reset_Handler>:
+08001688 <Reset_Handler>:
 
   .section .text.Reset_Handler
   .weak Reset_Handler
   .type Reset_Handler, %function
 Reset_Handler:
   ldr   r0, =_estack
- 800163c:	480d      	ldr	r0, [pc, #52]	@ (8001674 <LoopForever+0x2>)
+ 8001688:	480d      	ldr	r0, [pc, #52]	@ (80016c0 <LoopForever+0x2>)
   mov   sp, r0          /* set stack pointer */
- 800163e:	4685      	mov	sp, r0
+ 800168a:	4685      	mov	sp, r0
 /* Call the clock system initialization function.*/
   bl  SystemInit
- 8001640:	f3af 8000 	nop.w
+ 800168c:	f3af 8000 	nop.w
 
 /* Copy the data segment initializers from flash to SRAM */
   ldr r0, =_sdata
- 8001644:	480c      	ldr	r0, [pc, #48]	@ (8001678 <LoopForever+0x6>)
+ 8001690:	480c      	ldr	r0, [pc, #48]	@ (80016c4 <LoopForever+0x6>)
   ldr r1, =_edata
- 8001646:	490d      	ldr	r1, [pc, #52]	@ (800167c <LoopForever+0xa>)
+ 8001692:	490d      	ldr	r1, [pc, #52]	@ (80016c8 <LoopForever+0xa>)
   ldr r2, =_sidata
- 8001648:	4a0d      	ldr	r2, [pc, #52]	@ (8001680 <LoopForever+0xe>)
+ 8001694:	4a0d      	ldr	r2, [pc, #52]	@ (80016cc <LoopForever+0xe>)
   movs r3, #0
- 800164a:	2300      	movs	r3, #0
+ 8001696:	2300      	movs	r3, #0
   b LoopCopyDataInit
- 800164c:	e002      	b.n	8001654 <LoopCopyDataInit>
+ 8001698:	e002      	b.n	80016a0 <LoopCopyDataInit>
 
-0800164e <CopyDataInit>:
+0800169a <CopyDataInit>:
 
 CopyDataInit:
   ldr r4, [r2, r3]
- 800164e:	58d4      	ldr	r4, [r2, r3]
+ 800169a:	58d4      	ldr	r4, [r2, r3]
   str r4, [r0, r3]
- 8001650:	50c4      	str	r4, [r0, r3]
+ 800169c:	50c4      	str	r4, [r0, r3]
   adds r3, r3, #4
- 8001652:	3304      	adds	r3, #4
+ 800169e:	3304      	adds	r3, #4
 
-08001654 <LoopCopyDataInit>:
+080016a0 <LoopCopyDataInit>:
 
 LoopCopyDataInit:
   adds r4, r0, r3
- 8001654:	18c4      	adds	r4, r0, r3
+ 80016a0:	18c4      	adds	r4, r0, r3
   cmp r4, r1
- 8001656:	428c      	cmp	r4, r1
+ 80016a2:	428c      	cmp	r4, r1
   bcc CopyDataInit
- 8001658:	d3f9      	bcc.n	800164e <CopyDataInit>
+ 80016a4:	d3f9      	bcc.n	800169a <CopyDataInit>
 
 /* Zero fill the bss segment. */
   ldr r2, =_sbss
- 800165a:	4a0a      	ldr	r2, [pc, #40]	@ (8001684 <LoopForever+0x12>)
+ 80016a6:	4a0a      	ldr	r2, [pc, #40]	@ (80016d0 <LoopForever+0x12>)
   ldr r4, =_ebss
- 800165c:	4c0a      	ldr	r4, [pc, #40]	@ (8001688 <LoopForever+0x16>)
+ 80016a8:	4c0a      	ldr	r4, [pc, #40]	@ (80016d4 <LoopForever+0x16>)
   movs r3, #0
- 800165e:	2300      	movs	r3, #0
+ 80016aa:	2300      	movs	r3, #0
   b LoopFillZerobss
- 8001660:	e001      	b.n	8001666 <LoopFillZerobss>
+ 80016ac:	e001      	b.n	80016b2 <LoopFillZerobss>
 
-08001662 <FillZerobss>:
+080016ae <FillZerobss>:
 
 FillZerobss:
   str  r3, [r2]
- 8001662:	6013      	str	r3, [r2, #0]
+ 80016ae:	6013      	str	r3, [r2, #0]
   adds r2, r2, #4
- 8001664:	3204      	adds	r2, #4
+ 80016b0:	3204      	adds	r2, #4
 
-08001666 <LoopFillZerobss>:
+080016b2 <LoopFillZerobss>:
 
 LoopFillZerobss:
   cmp r2, r4
- 8001666:	42a2      	cmp	r2, r4
+ 80016b2:	42a2      	cmp	r2, r4
   bcc FillZerobss
- 8001668:	d3fb      	bcc.n	8001662 <FillZerobss>
+ 80016b4:	d3fb      	bcc.n	80016ae <FillZerobss>
 
 
 /* Call static constructors */
   bl __libc_init_array
- 800166a:	f000 f811 	bl	8001690 <__libc_init_array>
+ 80016b6:	f000 f811 	bl	80016dc <__libc_init_array>
 /* Call the application's entry point.*/
 
   bl main
- 800166e:	f7ff fc9b 	bl	8000fa8 <main>
+ 80016ba:	f7ff fc5f 	bl	8000f7c <main>
 
-08001672 <LoopForever>:
+080016be <LoopForever>:
 
 LoopForever:
   b LoopForever
- 8001672:	e7fe      	b.n	8001672 <LoopForever>
+ 80016be:	e7fe      	b.n	80016be <LoopForever>
   ldr   r0, =_estack
- 8001674:	20020000 	.word	0x20020000
+ 80016c0:	20020000 	.word	0x20020000
   ldr r0, =_sdata
- 8001678:	20000000 	.word	0x20000000
+ 80016c4:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 800167c:	20000000 	.word	0x20000000
+ 80016c8:	20000000 	.word	0x20000000
   ldr r2, =_sidata
- 8001680:	080018b8 	.word	0x080018b8
+ 80016cc:	08001904 	.word	0x08001904
   ldr r2, =_sbss
- 8001684:	20000000 	.word	0x20000000
+ 80016d0:	20000000 	.word	0x20000000
   ldr r4, =_ebss
- 8001688:	20000044 	.word	0x20000044
+ 80016d4:	20000048 	.word	0x20000048
 
-0800168c <ADC_IRQHandler>:
+080016d8 <ADC_IRQHandler>:
  * @retval : None
 */
   .section .text.Default_Handler,"ax",%progbits
 Default_Handler:
 Infinite_Loop:
   b Infinite_Loop
- 800168c:	e7fe      	b.n	800168c <ADC_IRQHandler>
+ 80016d8:	e7fe      	b.n	80016d8 <ADC_IRQHandler>
 	...
 
-08001690 <__libc_init_array>:
- 8001690:	b570      	push	{r4, r5, r6, lr}
- 8001692:	4d0d      	ldr	r5, [pc, #52]	@ (80016c8 <__libc_init_array+0x38>)
- 8001694:	4c0d      	ldr	r4, [pc, #52]	@ (80016cc <__libc_init_array+0x3c>)
- 8001696:	1b64      	subs	r4, r4, r5
- 8001698:	10a4      	asrs	r4, r4, #2
- 800169a:	2600      	movs	r6, #0
- 800169c:	42a6      	cmp	r6, r4
- 800169e:	d109      	bne.n	80016b4 <__libc_init_array+0x24>
- 80016a0:	4d0b      	ldr	r5, [pc, #44]	@ (80016d0 <__libc_init_array+0x40>)
- 80016a2:	4c0c      	ldr	r4, [pc, #48]	@ (80016d4 <__libc_init_array+0x44>)
- 80016a4:	f000 f818 	bl	80016d8 <_init>
- 80016a8:	1b64      	subs	r4, r4, r5
- 80016aa:	10a4      	asrs	r4, r4, #2
- 80016ac:	2600      	movs	r6, #0
- 80016ae:	42a6      	cmp	r6, r4
- 80016b0:	d105      	bne.n	80016be <__libc_init_array+0x2e>
- 80016b2:	bd70      	pop	{r4, r5, r6, pc}
- 80016b4:	f855 3b04 	ldr.w	r3, [r5], #4
- 80016b8:	4798      	blx	r3
- 80016ba:	3601      	adds	r6, #1
- 80016bc:	e7ee      	b.n	800169c <__libc_init_array+0xc>
- 80016be:	f855 3b04 	ldr.w	r3, [r5], #4
- 80016c2:	4798      	blx	r3
- 80016c4:	3601      	adds	r6, #1
- 80016c6:	e7f2      	b.n	80016ae <__libc_init_array+0x1e>
- 80016c8:	080018b0 	.word	0x080018b0
- 80016cc:	080018b0 	.word	0x080018b0
- 80016d0:	080018b0 	.word	0x080018b0
- 80016d4:	080018b4 	.word	0x080018b4
+080016dc <__libc_init_array>:
+ 80016dc:	b570      	push	{r4, r5, r6, lr}
+ 80016de:	4d0d      	ldr	r5, [pc, #52]	@ (8001714 <__libc_init_array+0x38>)
+ 80016e0:	4c0d      	ldr	r4, [pc, #52]	@ (8001718 <__libc_init_array+0x3c>)
+ 80016e2:	1b64      	subs	r4, r4, r5
+ 80016e4:	10a4      	asrs	r4, r4, #2
+ 80016e6:	2600      	movs	r6, #0
+ 80016e8:	42a6      	cmp	r6, r4
+ 80016ea:	d109      	bne.n	8001700 <__libc_init_array+0x24>
+ 80016ec:	4d0b      	ldr	r5, [pc, #44]	@ (800171c <__libc_init_array+0x40>)
+ 80016ee:	4c0c      	ldr	r4, [pc, #48]	@ (8001720 <__libc_init_array+0x44>)
+ 80016f0:	f000 f818 	bl	8001724 <_init>
+ 80016f4:	1b64      	subs	r4, r4, r5
+ 80016f6:	10a4      	asrs	r4, r4, #2
+ 80016f8:	2600      	movs	r6, #0
+ 80016fa:	42a6      	cmp	r6, r4
+ 80016fc:	d105      	bne.n	800170a <__libc_init_array+0x2e>
+ 80016fe:	bd70      	pop	{r4, r5, r6, pc}
+ 8001700:	f855 3b04 	ldr.w	r3, [r5], #4
+ 8001704:	4798      	blx	r3
+ 8001706:	3601      	adds	r6, #1
+ 8001708:	e7ee      	b.n	80016e8 <__libc_init_array+0xc>
+ 800170a:	f855 3b04 	ldr.w	r3, [r5], #4
+ 800170e:	4798      	blx	r3
+ 8001710:	3601      	adds	r6, #1
+ 8001712:	e7f2      	b.n	80016fa <__libc_init_array+0x1e>
+ 8001714:	080018fc 	.word	0x080018fc
+ 8001718:	080018fc 	.word	0x080018fc
+ 800171c:	080018fc 	.word	0x080018fc
+ 8001720:	08001900 	.word	0x08001900
 
-080016d8 <_init>:
- 80016d8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80016da:	bf00      	nop
- 80016dc:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80016de:	bc08      	pop	{r3}
- 80016e0:	469e      	mov	lr, r3
- 80016e2:	4770      	bx	lr
+08001724 <_init>:
+ 8001724:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001726:	bf00      	nop
+ 8001728:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800172a:	bc08      	pop	{r3}
+ 800172c:	469e      	mov	lr, r3
+ 800172e:	4770      	bx	lr
 
-080016e4 <_fini>:
- 80016e4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80016e6:	bf00      	nop
- 80016e8:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80016ea:	bc08      	pop	{r3}
- 80016ec:	469e      	mov	lr, r3
- 80016ee:	4770      	bx	lr
+08001730 <_fini>:
+ 8001730:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001732:	bf00      	nop
+ 8001734:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8001736:	bc08      	pop	{r3}
+ 8001738:	469e      	mov	lr, r3
+ 800173a:	4770      	bx	lr

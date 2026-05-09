@@ -1,0 +1,138 @@
+
+/*
+ * systick.c - System Timer driver for STM32F407VGT6
+ *
+ * Provides a 1 ms time base for the air quality monitor:
+ *   - delay_ms()        - blocking init delays
+ *   - systick_get_ms()  - non-blocking timestamp for periodic scheduling
+ *
+ * SysTick fires an exception every 1 ms; the handler increments a
+ * monotonically-increasing tick counter that other code samples to
+ * measure elapsed time. The 32-bit tick counter wraps after ~49.7
+ * days of continuous operation; callers should compare timestamps
+ * with unsigned subtraction so the wrap is transparent.
+ *
+ * Reference:
+ *   ARM Cortex-M4 Generic User Guide ARM DUI 0553B, Section 4.4
+ *     - 4.4.1 SysTick Control and Status Register
+ *     - 4.4.2 SysTick Reload Value Register
+ *     - 4.4.5 SysTick usage hints and tips (init sequence)
+ *   RM0090 Section 7.2 (SysTick clock source on STM32F405/07/15/17)
+ */
+
+#include "systick.h"
+#include "stm32f407xx.h"
+#include "rcc.h"
+
+
+/* ============================================================================
+ * Bit positions (private to this file)
+ *
+ * Per Generic User Guide Table 4-33. Names mirror ARM's documentation so
+ * cross-referencing the manual is direct.
+ * ============================================================================ */
+
+/* SysTick CSR - Control and Status register */
+#define SYSTICK_CSR_ENABLE          (1U << 0)   /* Counter enable                       */
+#define SYSTICK_CSR_TICKINT         (1U << 1)   /* Exception request on count to zero   */
+#define SYSTICK_CSR_CLKSOURCE       (1U << 2)   /* Clock source: 1 = HCLK, 0 = HCLK/8   */
+
+
+/* ============================================================================
+ * Tick rate configuration
+ *
+ * RELOAD_TICKS_PER_MS is computed from RCC_HCLK_HZ at compile time, so any
+ * change to the system clock frequency in rcc.h propagates here automatically.
+ *
+ * The "- 1U" matches the rule from Generic User Guide Section 4.4.2:
+ *   "to generate a multi-shot timer with a period of N processor clock
+ *    cycles, use a RELOAD value of N-1."
+ *
+ * Sanity: RCC_HCLK_HZ = 168,000,000 -> reload = 167,999, well within the
+ * 24-bit field maximum of 16,777,215.
+ * ============================================================================ */
+#define SYSTICK_FREQ_HZ       1000U
+#define SYSTICK_RELOAD_VALUE  ((RCC_HCLK_HZ / SYSTICK_FREQ_HZ) - 1U)
+
+
+/* ============================================================================
+ * Private state
+ *
+ * Tick counter incremented once per millisecond by SysTick_Handler.
+ *
+ * 'volatile' is mandatory: the variable is modified inside an ISR while
+ * also being read in normal code, so the compiler must always re-fetch
+ * it from memory rather than caching it in a register.
+ *
+ * 'static' confines the symbol to this translation unit; external code
+ * must go through systick_get_ms() to read the value.
+ * ============================================================================ */
+static volatile uint32_t g_systick_ms = 0U;
+
+
+/* ============================================================================
+ * Public API
+ * ============================================================================ */
+
+void systick_init(void)
+{
+    /* Step 1 - Program reload value.
+     * Sets the period the counter will reload from each time it hits zero. */
+    SYSTICK->RVR = SYSTICK_RELOAD_VALUE;
+
+    /* Step 2 - Clear current value.
+     * Writing any value to CVR clears the counter and the COUNTFLAG bit
+     * in CSR. Without this, the very first tick fires from a stale,
+     * unknown counter value (Generic User Guide Section 4.4.5). */
+    SYSTICK->CVR = 0U;
+
+    /* Step 3 - Enable counter, exception, and select HCLK as clock source.
+     * Writing all three bits together avoids a brief window where the
+     * counter is enabled with the wrong clock source. */
+    SYSTICK->CSR = SYSTICK_CSR_CLKSOURCE
+                 | SYSTICK_CSR_TICKINT
+                 | SYSTICK_CSR_ENABLE;
+}
+
+
+void delay_ms(uint32_t ms)
+{
+    /* Snapshot the current tick count, then spin until enough ticks have
+     * elapsed. The (now - start) form is wrap-safe: unsigned subtraction
+     * yields the correct elapsed value even when g_systick_ms rolls over
+     * past UINT32_MAX (after ~49.7 days of uptime).
+     *
+     * The CPU continues running and serves interrupts during the spin -
+     * including SysTick itself, which is what makes the loop terminate. */
+    uint32_t start = g_systick_ms;
+
+    while ((g_systick_ms - start) < ms)
+    {
+        /* Spin. SysTick ISR advances g_systick_ms in the background. */
+    }
+}
+
+
+uint32_t systick_get_ms(void)
+{
+    /* Single-word read on a 32-bit core is atomic - no need to disable
+     * interrupts to get a consistent value. */
+    return g_systick_ms;
+}
+
+
+/* ============================================================================
+ * Interrupt Service Routine
+ *
+ * Called by the hardware via the vector table every time SysTick counts
+ * down to zero (every 1 ms). The vector table entry for SysTick is at
+ * offset 0x3C (Generic User Guide Table 2-16) and the startup file
+ * provided by STM32CubeIDE binds the symbol "SysTick_Handler" to it.
+ *
+ * Industry rule: ISRs should be as short as possible. This one does
+ * nothing but increment the tick counter.
+ * ============================================================================ */
+void SysTick_Handler(void)
+{
+    g_systick_ms++;
+}
