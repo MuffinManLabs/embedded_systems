@@ -1,0 +1,333 @@
+/*
+ * ============================================================================
+ *  TEMPORARY OLED VISUAL TEST  --  DELETE WHEN PROPER DRIVERS ARE BUILT
+ * ============================================================================
+ *
+ *  Purpose:
+ *      Drive the SSD1306 128x64 OLED through I2C1 to display a checkerboard
+ *      pattern. Visual proof that I2C1 bring-up + SSD1306 init sequence +
+ *      GDDRAM (Graphics Display Data RAM) writes all work end-to-end.
+ *
+ *  Expected result:
+ *      The OLED lights up showing a 16x8 grid of 8x8 squares, alternating
+ *      bright/dark. PuTTY prints "OLED test complete" once after init.
+ *
+ *  Wiring:
+ *      Discovery 3V   -> red rail  -> OLED VCC
+ *      Discovery GND  -> blue rail -> OLED GND
+ *      Discovery PB6  -> SCL row   -> OLED SCL
+ *      Discovery PB7  -> SDA row   -> OLED SDA
+ *
+ *  Style note:
+ *      This file uses raw pointer macros for I2C1 register access and inlines
+ *      the SSD1306 init sequence directly in main. That is NOT the style we
+ *      will use in the real driver - this entire file is throwaway. The real
+ *      driver will have i2c1.c / i2c1.h and ssd1306.c / ssd1306.h with proper
+ *      separation of concerns.
+ * ============================================================================
+ */
+
+#include "stm32f407xx.h"
+#include "rcc.h"
+#include "systick.h"
+#include "usart2.h"
+#include <stdint.h>
+
+
+/* ----- I2C1 register access (temporary, raw pointer macros) -------------- */
+#define I2C1_BASE          0x40005400UL
+#define I2C1_CR1           (*(volatile uint32_t *)(I2C1_BASE + 0x00U))
+#define I2C1_CR2           (*(volatile uint32_t *)(I2C1_BASE + 0x04U))
+#define I2C1_DR            (*(volatile uint32_t *)(I2C1_BASE + 0x10U))
+#define I2C1_SR1           (*(volatile uint32_t *)(I2C1_BASE + 0x14U))
+#define I2C1_SR2           (*(volatile uint32_t *)(I2C1_BASE + 0x18U))
+#define I2C1_CCR           (*(volatile uint32_t *)(I2C1_BASE + 0x1CU))
+#define I2C1_TRISE         (*(volatile uint32_t *)(I2C1_BASE + 0x20U))
+
+#define I2C_CR1_PE         (1U << 0)
+#define I2C_CR1_START      (1U << 8)
+#define I2C_CR1_STOP       (1U << 9)
+#define I2C_CR1_SWRST      (1U << 15)
+
+#define I2C_SR1_SB         (1U << 0)    /* Start condition generated         */
+#define I2C_SR1_ADDR       (1U << 1)    /* Address sent and ACK'd            */
+#define I2C_SR1_BTF        (1U << 2)    /* Byte Transfer Finished            */
+#define I2C_SR1_TXE        (1U << 7)    /* Data register empty (transmit)    */
+#define I2C_SR1_AF         (1U << 10)   /* Acknowledge failure (NACK)        */
+
+#define I2C_SR2_BUSY       (1U << 1)
+
+#define I2C_TIMEOUT_MS     50U
+
+
+/* ----- SSD1306 protocol constants ---------------------------------------- */
+
+#define SSD1306_I2C_ADDR        0x3CU    /* 7-bit address                   */
+
+/* Control byte format: Co (bit 7) | D/C# (bit 6) | reserved
+ * Co = 0 means all following bytes in this transaction are the same type. */
+#define SSD1306_CTRL_CMD        0x00U    /* Subsequent bytes are commands   */
+#define SSD1306_CTRL_DATA       0x40U    /* Subsequent bytes are pixel data */
+
+/* Display geometry */
+#define SSD1306_WIDTH           128U
+#define SSD1306_HEIGHT          64U
+#define SSD1306_PAGES           (SSD1306_HEIGHT / 8U)  /* 8 horizontal bands */
+#define SSD1306_FB_BYTES        (SSD1306_WIDTH * SSD1306_PAGES) /* 1024 */
+
+
+/* ============================================================================
+ *  GPIO setup for I2C1 on PB6 (SCL) and PB7 (SDA)
+ * ============================================================================ */
+static void i2c1_gpio_init(void)
+{
+    /* Enable GPIOB clock */
+    RCC->AHB1ENR |= (1U << 1);
+
+    /* PB6, PB7 -> alternate function mode */
+    GPIOB->MODER &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
+    GPIOB->MODER |=  ((2U << (6 * 2)) | (2U << (7 * 2)));
+
+    /* PB6, PB7 -> open-drain */
+    GPIOB->OTYPER |= (1U << 6) | (1U << 7);
+
+    /* PB6, PB7 -> high speed */
+    GPIOB->OSPEEDR |= (3U << (6 * 2)) | (3U << (7 * 2));
+
+    /* PB6, PB7 -> no internal pull (external 4.7k on OLED module) */
+    GPIOB->PUPDR &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
+
+    /* PB6, PB7 -> AF4 (I2C1_SCL / I2C1_SDA) */
+    GPIOB->AFRL &= ~((0xFU << (6 * 4)) | (0xFU << (7 * 4)));
+    GPIOB->AFRL |=  ((4U   << (6 * 4)) | (4U   << (7 * 4)));
+}
+
+
+/* ============================================================================
+ *  I2C1 peripheral config: 100 kHz standard mode on APB1 (42 MHz)
+ * ============================================================================ */
+static void i2c1_peripheral_init(void)
+{
+    RCC->APB1ENR |= (1U << 21);              /* I2C1 clock enable */
+
+    I2C1_CR1 |=  I2C_CR1_SWRST;              /* SW reset toggle  */
+    I2C1_CR1 &= ~I2C_CR1_SWRST;
+
+    I2C1_CR2   = 42U;                        /* APB1 frequency in MHz */
+    I2C1_CCR   = 210U;                       /* 42 MHz / (2 * 100 kHz) */
+    I2C1_TRISE = 43U;                        /* (1000 ns / 23.8 ns) + 1 */
+
+    I2C1_CR1 |= I2C_CR1_PE;                  /* Enable peripheral */
+}
+
+
+/* ============================================================================
+ *  I2C1 master transmitter: send `len` bytes to a 7-bit address.
+ *
+ *  This is the procedure straight out of RM0090 Section 27.3.3 Figure 243:
+ *      1. wait for bus idle
+ *      2. set START, wait for SB
+ *      3. write address (7-bit << 1, W=0), wait for ADDR or AF
+ *      4. read SR1 then SR2 to clear ADDR
+ *      5. for each byte: wait for TXE, write to DR
+ *      6. wait for BTF after last byte
+ *      7. set STOP
+ *
+ *  Returns 0 on success, -1 on timeout or NACK.
+ *
+ *  All status-flag waits are protected by I2C_TIMEOUT_MS so a stuck bus
+ *  doesn't lock the firmware.
+ * ============================================================================ */
+static int i2c1_write(uint8_t address, const uint8_t *data, uint32_t len)
+{
+    uint32_t start_ms;
+
+    /* 1. Wait for bus idle */
+    start_ms = systick_get_ms();
+    while ((I2C1_SR2 & I2C_SR2_BUSY) != 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_TIMEOUT_MS) { return -1; }
+    }
+
+    /* 2. Generate START, wait for SB */
+    I2C1_CR1 |= I2C_CR1_START;
+    start_ms = systick_get_ms();
+    while ((I2C1_SR1 & I2C_SR1_SB) == 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_TIMEOUT_MS) { return -1; }
+    }
+
+    /* 3. Send address << 1 with W bit (0). Reading SR1 then writing DR
+     *    clears the SB flag. */
+    I2C1_DR = (uint32_t)((uint32_t)address << 1);
+    start_ms = systick_get_ms();
+    while ((I2C1_SR1 & (I2C_SR1_ADDR | I2C_SR1_AF)) == 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_TIMEOUT_MS)
+        {
+            I2C1_CR1 |= I2C_CR1_STOP;
+            return -1;
+        }
+    }
+
+    /* NACK from slave -> abort */
+    if ((I2C1_SR1 & I2C_SR1_AF) != 0U)
+    {
+        I2C1_SR1 &= ~I2C_SR1_AF;
+        I2C1_CR1 |= I2C_CR1_STOP;
+        return -1;
+    }
+
+    /* 4. Clear ADDR by reading SR1 then SR2 (in that order) */
+    (void)I2C1_SR1;
+    (void)I2C1_SR2;
+
+    /* 5. Send each byte */
+    for (uint32_t i = 0U; i < len; i++)
+    {
+        start_ms = systick_get_ms();
+        while ((I2C1_SR1 & I2C_SR1_TXE) == 0U)
+        {
+            if ((systick_get_ms() - start_ms) >= I2C_TIMEOUT_MS)
+            {
+                I2C1_CR1 |= I2C_CR1_STOP;
+                return -1;
+            }
+        }
+        I2C1_DR = data[i];
+    }
+
+    /* 6. Wait for BTF: last byte fully shifted out */
+    start_ms = systick_get_ms();
+    while ((I2C1_SR1 & I2C_SR1_BTF) == 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_TIMEOUT_MS)
+        {
+            I2C1_CR1 |= I2C_CR1_STOP;
+            return -1;
+        }
+    }
+
+    /* 7. STOP */
+    I2C1_CR1 |= I2C_CR1_STOP;
+
+    return 0;
+}
+
+
+/* ============================================================================
+ *  SSD1306 init sequence for 128x64 with internal charge pump.
+ *
+ *  Mirrors the canonical Adafruit/SSD1306 datasheet sequence. The single
+ *  control byte 0x00 at the front tells the chip "all following bytes are
+ *  commands" (Co=0, D/C#=0), so we send the whole list in one I2C
+ *  transaction.
+ * ============================================================================ */
+static const uint8_t ssd1306_init_seq[] =
+{
+    SSD1306_CTRL_CMD,
+    0xAE,             /* Display OFF                                          */
+    0xD5, 0x80,       /* Display clock divide ratio / oscillator freq         */
+    0xA8, 0x3F,       /* Multiplex ratio = 63 (for 64-row display)            */
+    0xD3, 0x00,       /* Display offset = 0                                   */
+    0x40,             /* Display start line = 0                               */
+    0x8D, 0x14,       /* Charge pump ENABLE (required for 3.3V supply)        */
+    0x20, 0x00,       /* Memory addressing mode = horizontal                  */
+    0xA1,             /* Segment remap: column 127 mapped to SEG0             */
+    0xC8,             /* COM output scan direction: remapped (flip vertical)  */
+    0xDA, 0x12,       /* COM pins hardware config (alternative, no remap)     */
+    0x81, 0xCF,       /* Contrast = 0xCF                                      */
+    0xD9, 0xF1,       /* Pre-charge period                                    */
+    0xDB, 0x40,       /* VCOMH deselect level                                 */
+    0xA4,             /* Output follows GDDRAM (not entire-display-on test)   */
+    0xA6,             /* Normal display (not inverted)                        */
+    0x2E,             /* Deactivate scrolling                                 */
+    0xAF              /* Display ON                                           */
+};
+
+static const uint8_t ssd1306_addr_window[] =
+{
+    SSD1306_CTRL_CMD,
+    0x21, 0x00, 0x7F, /* Column address: start=0, end=127                    */
+    0x22, 0x00, 0x07  /* Page address: start=0, end=7                        */
+};
+
+
+/* ============================================================================
+ *  Build a checkerboard pattern (8x8 squares) into the framebuffer.
+ *
+ *  SSD1306 byte layout in horizontal addressing mode:
+ *    - 8 pages stacked vertically, each 8 pixels tall
+ *    - Each byte = 1 column of 8 pixels for one page (bit 0 = top)
+ *    - Bytes 0..127 are page 0 cols 0..127, bytes 128..255 are page 1, etc.
+ *
+ *  Each "square" of the checkerboard is 8x8 pixels, so one square per page
+ *  vertically and one per 8-column group horizontally. A byte is either
+ *  all-on (0xFF) or all-off (0x00) depending on which square it falls in.
+ * ============================================================================ */
+static void build_checkerboard(uint8_t *framebuffer)
+{
+    framebuffer[0] = SSD1306_CTRL_DATA;
+
+    for (uint32_t i = 0U; i < SSD1306_FB_BYTES; i++)
+    {
+        uint32_t page  = i / SSD1306_WIDTH;     /* 0..7                       */
+        uint32_t col   = i % SSD1306_WIDTH;     /* 0..127                     */
+        uint32_t sq_x  = col / 8U;              /* 0..15 horizontal squares   */
+        uint8_t  is_on = (uint8_t)(((page + sq_x) & 1U) == 0U);
+
+        framebuffer[1U + i] = is_on ? 0xFFU : 0x00U;
+    }
+}
+
+
+/* ============================================================================
+ *  main
+ * ============================================================================ */
+int main(void)
+{
+    static uint8_t framebuffer[1U + SSD1306_FB_BYTES];  /* +1 for ctrl byte   */
+
+    rcc_init_clock_168mhz();
+    systick_init();
+    usart2_init();
+
+    usart2_send_string("\r\n--- OLED visual test ---\r\n");
+
+    i2c1_gpio_init();
+    i2c1_peripheral_init();
+    delay_ms(10);                                       /* peripheral settle  */
+
+    /* Run the SSD1306 power-on init sequence */
+    if (i2c1_write(SSD1306_I2C_ADDR,
+                   ssd1306_init_seq,
+                   sizeof(ssd1306_init_seq)) != 0)
+    {
+        usart2_send_string("FAIL: SSD1306 init\r\n");
+        while (1) { /* halt */ }
+    }
+
+    /* Configure column/page addressing for a full-screen update */
+    if (i2c1_write(SSD1306_I2C_ADDR,
+                   ssd1306_addr_window,
+                   sizeof(ssd1306_addr_window)) != 0)
+    {
+        usart2_send_string("FAIL: addr window\r\n");
+        while (1) { /* halt */ }
+    }
+
+    /* Push the checkerboard framebuffer */
+    build_checkerboard(framebuffer);
+    if (i2c1_write(SSD1306_I2C_ADDR, framebuffer, sizeof(framebuffer)) != 0)
+    {
+        usart2_send_string("FAIL: framebuffer write\r\n");
+        while (1) { /* halt */ }
+    }
+
+    usart2_send_string("OLED test complete - check the screen.\r\n");
+
+    while (1)
+    {
+        /* halt */
+    }
+}

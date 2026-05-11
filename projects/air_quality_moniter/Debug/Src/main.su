@@ -1,1 +1,12 @@
-../Src/main.c:15:5:main	64	static
+../Src/main.c:78:13:i2c1_gpio_init	4	static
+../Src/main.c:90:13:i2c1_peripheral_init_fast_mode	4	static
+../Src/main.c:105:12:i2c1_write	32	static
+../Src/main.c:194:13:fb_clear	16	static
+../Src/main.c:203:20:fb_set_pixel	32	static
+../Src/main.c:218:13:fb_draw_line	48	static
+../Src/main.c:244:17:lcg_next	4	static
+../Src/main.c:251:12:rand_dir	8	static
+../Src/main.c:275:13:star_spawn	16	static
+../Src/main.c:289:13:stars_init	16	static
+../Src/main.c:300:13:stars_update_and_draw	40	static
+../Src/main.c:337:5:main	16	static

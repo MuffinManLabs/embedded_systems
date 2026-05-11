@@ -1115,3 +1115,59 @@ Finished building: default.size.stdout
  
 Finished building: air_quality_moniter.list
  
+22:16:07 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   2352	      0	   1568	   3920	    f50	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+22:21:24 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   2440	      0	   2600	   5040	   13b0	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+22:23:57 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   2728	     72	   2600	   5400	   1518	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 
+22:28:41 **** Incremental Build of configuration Debug for project air_quality_moniter ****
+make -j8 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "air_quality_moniter.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\huray\dev\Embedded_Systems\projects\air_quality_moniter\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="air_quality_moniter.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: air_quality_moniter.elf
+ 
+arm-none-eabi-size  air_quality_moniter.elf 
+arm-none-eabi-objdump -h -S air_quality_moniter.elf  > "air_quality_moniter.list"
+   text	   data	    bss	    dec	    hex	filename
+   3108	      4	   3076	   6188	   182c	air_quality_moniter.elf
+Finished building: default.size.stdout
+ 
+Finished building: air_quality_moniter.list
+ 

@@ -1,30 +1,21 @@
 /*
  * ============================================================================
- *  TEMPORARY OLED ANIMATION  --  STARFIELD WARP
+ *  TEMPORARY OLED ANIMATION  --  DELETE WHEN PROPER DRIVERS ARE BUILT
  * ============================================================================
  *
  *  Purpose:
- *      Render a "warp drive" starfield - 80 stars stream out from the screen
- *      center with motion-blur trails, accelerating as they approach the
- *      camera. Same vibe as the Star Wars hyperspace shot.
+ *      Drive the SSD1306 with a real-time animation: three rectangles bounce
+ *      around the screen at different speeds, redrawing every ~25 ms.
  *
- *  How it works:
- *      - Each star has a 2D direction (dx, dy) and a depth z.
- *      - z decreases every frame -> the star is "approaching" the camera.
- *      - Screen position projects (dx, dy, z) via simple integer perspective:
- *            screen_x = 64 + dx * SCALE / z
- *            screen_y = 32 + dy * SCALE / z
- *      - We draw a line from where the star was 4 frames ago to where it is
- *        now, using Bresenham's line algorithm. Closer stars cover more
- *        screen distance per frame, so their trails are naturally longer.
- *      - When a star passes the camera (z below threshold) or projects
- *        off-screen, it respawns at max depth with a new random direction.
+ *  Speed note:
+ *      Bumped I2C1 to 400 kHz Fast Mode so the 1025-byte framebuffer push
+ *      takes ~25 ms instead of ~92 ms. That gives ~40 FPS animation instead
+ *      of ~10 FPS. The CCR/TRISE math for Fast Mode is slightly different
+ *      from Standard Mode - we'll cover it properly in the real driver.
  *
- *  Integer-only math throughout - no FPU dependency, no math.h. Pseudo-random
- *  is a 32-bit Linear Congruential Generator (LCG).
- *
- *  Throwaway code reminder: register macros, single-file, throw it all away
- *  when the proper drivers go in.
+ *  Throwaway code reminder:
+ *      Same caveats as the bus scanner / OLED test - raw register macros,
+ *      everything in one file. NOT the style for the real driver.
  * ============================================================================
  */
 
@@ -49,19 +40,22 @@
 #define I2C_CR1_START      (1U << 8)
 #define I2C_CR1_STOP       (1U << 9)
 #define I2C_CR1_SWRST      (1U << 15)
-#define I2C_CCR_FS         (1U << 15)
+
+#define I2C_CCR_FS         (1U << 15)   /* Fast mode select                  */
 
 #define I2C_SR1_SB         (1U << 0)
 #define I2C_SR1_ADDR       (1U << 1)
 #define I2C_SR1_BTF        (1U << 2)
 #define I2C_SR1_TXE        (1U << 7)
 #define I2C_SR1_AF         (1U << 10)
+
 #define I2C_SR2_BUSY       (1U << 1)
 
 #define I2C_TIMEOUT_MS     50U
 
 
-/* ----- SSD1306 constants ------------------------------------------------- */
+/* ----- SSD1306 protocol constants ---------------------------------------- */
+
 #define SSD1306_I2C_ADDR        0x3CU
 #define SSD1306_CTRL_CMD        0x00U
 #define SSD1306_CTRL_DATA       0x40U
@@ -69,38 +63,53 @@
 #define SSD1306_WIDTH           128
 #define SSD1306_HEIGHT          64
 #define SSD1306_PAGES           (SSD1306_HEIGHT / 8)
-#define SSD1306_FB_BYTES        (SSD1306_WIDTH * SSD1306_PAGES)
+#define SSD1306_FB_BYTES        (SSD1306_WIDTH * SSD1306_PAGES) /* 1024 */
 
 
 /* ============================================================================
- *  I2C1 GPIO + peripheral init (Fast Mode 400 kHz)
+ *  Bring-up: GPIO + I2C1 (Fast Mode 400 kHz)
  * ============================================================================ */
 static void i2c1_gpio_init(void)
 {
     RCC->AHB1ENR |= (1U << 1);
-    GPIOB->MODER   &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
-    GPIOB->MODER   |=  ((2U << (6 * 2)) | (2U << (7 * 2)));
+
+    GPIOB->MODER &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
+    GPIOB->MODER |=  ((2U << (6 * 2)) | (2U << (7 * 2)));
+
     GPIOB->OTYPER  |= (1U << 6) | (1U << 7);
     GPIOB->OSPEEDR |= (3U << (6 * 2)) | (3U << (7 * 2));
     GPIOB->PUPDR   &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
-    GPIOB->AFRL    &= ~((0xFU << (6 * 4)) | (0xFU << (7 * 4)));
-    GPIOB->AFRL    |=  ((4U   << (6 * 4)) | (4U   << (7 * 4)));
+
+    GPIOB->AFRL &= ~((0xFU << (6 * 4)) | (0xFU << (7 * 4)));
+    GPIOB->AFRL |=  ((4U   << (6 * 4)) | (4U   << (7 * 4)));
 }
 
 static void i2c1_peripheral_init_fast_mode(void)
 {
     RCC->APB1ENR |= (1U << 21);
+
     I2C1_CR1 |=  I2C_CR1_SWRST;
     I2C1_CR1 &= ~I2C_CR1_SWRST;
-    I2C1_CR2   = 42U;
-    I2C1_CCR   = I2C_CCR_FS | 35U;
+
+    I2C1_CR2 = 42U;                              /* APB1 = 42 MHz             */
+
+    /* Fast Mode at 400 kHz, DUTY=0:
+     *   SCL period = 3 * CCR * T_pclk
+     *   CCR = APB1 / (3 * SCL) = 42_000_000 / (3 * 400_000) = 35
+     */
+    I2C1_CCR = I2C_CCR_FS | 35U;
+
+    /* TRISE for Fast Mode: max rise = 300 ns
+     *   TRISE = (300 ns / 23.8 ns) + 1 = 13.6 + 1 ≈ 14
+     */
     I2C1_TRISE = 14U;
+
     I2C1_CR1 |= I2C_CR1_PE;
 }
 
 
 /* ============================================================================
- *  I2C1 master transmit (same as before)
+ *  I2C1 master transmit (same as oled test)
  * ============================================================================ */
 static int i2c1_write(uint8_t address, const uint8_t *data, uint32_t len)
 {
@@ -169,7 +178,8 @@ static int i2c1_write(uint8_t address, const uint8_t *data, uint32_t len)
 }
 
 
-/* ----- SSD1306 init + addressing window ---------------------------------- */
+/* ----- SSD1306 init + addressing window (same as oled test) -------------- */
+
 static const uint8_t ssd1306_init_seq[] =
 {
     SSD1306_CTRL_CMD,
@@ -178,6 +188,7 @@ static const uint8_t ssd1306_init_seq[] =
     0x81, 0xCF, 0xD9, 0xF1, 0xDB, 0x40, 0xA4, 0xA6,
     0x2E, 0xAF
 };
+
 static const uint8_t ssd1306_addr_window[] =
 {
     SSD1306_CTRL_CMD,
@@ -188,7 +199,16 @@ static const uint8_t ssd1306_addr_window[] =
 
 /* ============================================================================
  *  Framebuffer + drawing primitives
+ *
+ *  Framebuffer layout: framebuffer[0] is the SSD1306 data control byte
+ *  (0x40). framebuffer[1..1024] is the 128*8 byte pixel buffer in horizontal
+ *  addressing mode.
+ *
+ *  For set_pixel: each byte is 8 vertical pixels in a "page". The byte at
+ *  (page=y/8, col=x) lives at framebuffer[1 + page*128 + col], and bit
+ *  (y & 7) within that byte controls pixel (x, y).
  * ============================================================================ */
+
 static uint8_t framebuffer[1U + SSD1306_FB_BYTES];
 
 static void fb_clear(void)
@@ -212,118 +232,71 @@ static inline void fb_set_pixel(int x, int y)
     framebuffer[index] |= (uint8_t)(1U << bit);
 }
 
-/* Bresenham's line algorithm. Draws a 1px line between (x0,y0) and (x1,y1).
- * Standard textbook implementation - off-screen pixels are silently dropped
- * by fb_set_pixel's bounds check. */
-static void fb_draw_line(int x0, int y0, int x1, int y1)
+static void fb_draw_rect_filled(int x, int y, int w, int h)
 {
-    int dx  =  (x1 > x0) ? (x1 - x0) : (x0 - x1);
-    int dy  = -((y1 > y0) ? (y1 - y0) : (y0 - y1));
-    int sx  =  (x0 < x1) ? 1 : -1;
-    int sy  =  (y0 < y1) ? 1 : -1;
-    int err = dx + dy;
-
-    for (;;)
+    for (int dy = 0; dy < h; dy++)
     {
-        fb_set_pixel(x0, y0);
-        if ((x0 == x1) && (y0 == y1)) { break; }
-        int e2 = 2 * err;
-        if (e2 >= dy) { err += dy; x0 += sx; }
-        if (e2 <= dx) { err += dx; y0 += sy; }
-    }
-}
-
-
-/* ============================================================================
- *  Pseudo-random generator (32-bit LCG)
- *
- *  Numerical Recipes constants. Good enough for visuals; not cryptographic.
- * ============================================================================ */
-static uint32_t lcg_state = 0x12345678U;
-
-static uint32_t lcg_next(void)
-{
-    lcg_state = (lcg_state * 1664525U) + 1013904223U;
-    return lcg_state;
-}
-
-/* Random signed value in approximately [-128, +127] */
-static int rand_dir(void)
-{
-    return (int)(lcg_next() & 0xFFU) - 128;
-}
-
-
-/* ============================================================================
- *  Starfield state
- * ============================================================================ */
-#define STAR_COUNT      80
-#define Z_MAX           1000      /* spawn depth                              */
-#define Z_MIN           20        /* respawn threshold (z below this resets)  */
-#define WARP_SPEED      18        /* z decrement per frame                    */
-#define PROJ_SCALE      280       /* perspective constant - larger = "wider"  */
-#define TRAIL_FRAMES    4         /* how many frames back the trail extends   */
-
-typedef struct {
-    int16_t dx;        /* direction from center, fixed for star lifetime      */
-    int16_t dy;
-    int16_t z;         /* current depth                                       */
-} star_t;
-
-static star_t stars[STAR_COUNT];
-
-static void star_spawn(star_t *s, int initial_z)
-{
-    /* Re-roll direction until we get a nonzero one (otherwise the star
-     * sits dead at the center and never moves). */
-    do
-    {
-        s->dx = (int16_t)rand_dir();
-        s->dy = (int16_t)rand_dir();
-    }
-    while ((s->dx == 0) && (s->dy == 0));
-
-    s->z = (int16_t)initial_z;
-}
-
-static void stars_init(void)
-{
-    for (int i = 0; i < STAR_COUNT; i++)
-    {
-        /* Stagger initial depths across the full Z range so we don't see
-         * 80 stars emerge from the center on frame 1. */
-        int z = Z_MIN + (int)(lcg_next() % (uint32_t)(Z_MAX - Z_MIN));
-        star_spawn(&stars[i], z);
-    }
-}
-
-static void stars_update_and_draw(void)
-{
-    for (int i = 0; i < STAR_COUNT; i++)
-    {
-        star_t *s = &stars[i];
-
-        /* Current screen position */
-        int sx = (SSD1306_WIDTH  / 2) + ((int)s->dx * PROJ_SCALE) / s->z;
-        int sy = (SSD1306_HEIGHT / 2) + ((int)s->dy * PROJ_SCALE) / s->z;
-
-        /* Position TRAIL_FRAMES ago: z was larger by WARP_SPEED * TRAIL */
-        int prev_z = s->z + (WARP_SPEED * TRAIL_FRAMES);
-        int px = (SSD1306_WIDTH  / 2) + ((int)s->dx * PROJ_SCALE) / prev_z;
-        int py = (SSD1306_HEIGHT / 2) + ((int)s->dy * PROJ_SCALE) / prev_z;
-
-        /* Streak the star from previous to current position */
-        fb_draw_line(px, py, sx, sy);
-
-        /* Advance toward camera */
-        s->z -= WARP_SPEED;
-
-        /* Respawn when star reaches the camera or projects off-screen */
-        if ((s->z <= Z_MIN) ||
-            (sx < 0) || (sx >= SSD1306_WIDTH) ||
-            (sy < 0) || (sy >= SSD1306_HEIGHT))
+        for (int dx = 0; dx < w; dx++)
         {
-            star_spawn(s, Z_MAX);
+            fb_set_pixel(x + dx, y + dy);
+        }
+    }
+}
+
+
+/* ============================================================================
+ *  Bouncing box state
+ * ============================================================================ */
+typedef struct {
+    int x;
+    int y;
+    int dx;
+    int dy;
+    int w;
+    int h;
+} box_t;
+
+#define BOX_COUNT  3
+
+static box_t boxes[BOX_COUNT] = {
+    /* big slow box                    */ {  4,  4,  1,  1, 16, 16 },
+    /* medium box, different angle     */ { 60, 30, -2,  1, 10, 10 },
+    /* small fast box                  */ { 90,  8,  2, -2,  6,  6 }
+};
+
+static void boxes_update_and_draw(void)
+{
+    for (int i = 0; i < BOX_COUNT; i++)
+    {
+        box_t *b = &boxes[i];
+
+        /* Draw at current position */
+        fb_draw_rect_filled(b->x, b->y, b->w, b->h);
+
+        /* Move */
+        b->x += b->dx;
+        b->y += b->dy;
+
+        /* Bounce off the walls */
+        if (b->x <= 0)
+        {
+            b->x = 0;
+            b->dx = -b->dx;
+        }
+        if ((b->x + b->w) >= SSD1306_WIDTH)
+        {
+            b->x = SSD1306_WIDTH - b->w;
+            b->dx = -b->dx;
+        }
+        if (b->y <= 0)
+        {
+            b->y = 0;
+            b->dy = -b->dy;
+        }
+        if ((b->y + b->h) >= SSD1306_HEIGHT)
+        {
+            b->y = SSD1306_HEIGHT - b->h;
+            b->dy = -b->dy;
         }
     }
 }
@@ -332,7 +305,7 @@ static void stars_update_and_draw(void)
 /* ============================================================================
  *  main
  * ============================================================================ */
-#define FRAME_PERIOD_MS    25U    /* ~40 FPS                                  */
+#define FRAME_PERIOD_MS    25U     /* ~40 FPS                                */
 
 int main(void)
 {
@@ -340,7 +313,7 @@ int main(void)
     systick_init();
     usart2_init();
 
-    usart2_send_string("\r\n--- OLED starfield warp ---\r\n");
+    usart2_send_string("\r\n--- OLED animation ---\r\n");
 
     i2c1_gpio_init();
     i2c1_peripheral_init_fast_mode();
@@ -354,8 +327,7 @@ int main(void)
         while (1) { /* halt */ }
     }
 
-    stars_init();
-    usart2_send_string("Warp drive engaged.\r\n");
+    usart2_send_string("Animation running.\r\n");
 
     uint32_t last_frame_ms = 0U;
 
@@ -367,12 +339,17 @@ int main(void)
         {
             last_frame_ms = now_ms;
 
+            /* Build next frame */
             fb_clear();
-            stars_update_and_draw();
+            boxes_update_and_draw();
 
+            /* Reset addressing window every frame so the cursor wraps back
+             * to (0,0) cleanly. Cheap, ~1 ms over 400 kHz I2C. */
             (void)i2c1_write(SSD1306_I2C_ADDR,
                              ssd1306_addr_window,
                              sizeof(ssd1306_addr_window));
+
+            /* Push the framebuffer */
             (void)i2c1_write(SSD1306_I2C_ADDR,
                              framebuffer,
                              sizeof(framebuffer));

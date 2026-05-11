@@ -1,0 +1,243 @@
+/*
+ * ============================================================================
+ *  TEMPORARY I2C BUS SCANNER  --  DELETE WHEN PROPER I2C DRIVER IS BUILT
+ * ============================================================================
+ *
+ *  Purpose:
+ *      Verify that I2C1 hardware is alive and that the OLED responds at
+ *      the expected 7-bit address 0x3C. Scans all addresses 0x08 through
+ *      0x77 (the valid 7-bit address range, excluding reserved ranges)
+ *      and prints over USART2 every address that returns ACK.
+ *
+ *  Expected output (with one OLED wired to PB6/PB7):
+ *      --- I2C bus scan ---
+ *      Found device at 0x0000003C
+ *      Scan complete.
+ *
+ *  Wiring:
+ *      Discovery 3V   -> red rail  -> OLED VCC
+ *      Discovery GND  -> blue rail -> OLED GND
+ *      Discovery PB6  -> SCL row   -> OLED SCL
+ *      Discovery PB7  -> SDA row   -> OLED SDA
+ *
+ *  Throwaway code: register access uses raw pointer macros rather than the
+ *  proper TypeDef pattern, because this entire file is going away once the
+ *  real driver is in place. Do not copy this style into the driver.
+ * ============================================================================
+ */
+
+#include "stm32f407xx.h"
+#include "rcc.h"
+#include "systick.h"
+#include "usart2.h"
+#include <stdint.h>
+
+
+/* ----- I2C1 register access (temporary) -----------------------------------
+ *
+ * Raw 32-bit pointer dereferences at each register offset. The proper
+ * TypeDef struct will live in stm32f407xx.h once we build the real driver.
+ *
+ * Base address per RM0090 Section 2.3 memory map: I2C1 = 0x40005400
+ */
+#define I2C1_BASE          0x40005400UL
+
+#define I2C1_CR1           (*(volatile uint32_t *)(I2C1_BASE + 0x00U))
+#define I2C1_CR2           (*(volatile uint32_t *)(I2C1_BASE + 0x04U))
+#define I2C1_DR            (*(volatile uint32_t *)(I2C1_BASE + 0x10U))
+#define I2C1_SR1           (*(volatile uint32_t *)(I2C1_BASE + 0x14U))
+#define I2C1_SR2           (*(volatile uint32_t *)(I2C1_BASE + 0x18U))
+#define I2C1_CCR           (*(volatile uint32_t *)(I2C1_BASE + 0x1CU))
+#define I2C1_TRISE         (*(volatile uint32_t *)(I2C1_BASE + 0x20U))
+
+/* I2C_CR1 bit positions */
+#define I2C_CR1_PE         (1U << 0)    /* Peripheral Enable                   */
+#define I2C_CR1_START      (1U << 8)    /* Generate Start                      */
+#define I2C_CR1_STOP       (1U << 9)    /* Generate Stop                       */
+#define I2C_CR1_SWRST      (1U << 15)   /* Software Reset                      */
+
+/* I2C_SR1 bit positions */
+#define I2C_SR1_SB         (1U << 0)    /* Start condition generated           */
+#define I2C_SR1_ADDR       (1U << 1)    /* Address sent and ACK'd              */
+#define I2C_SR1_AF         (1U << 10)   /* Acknowledge Failure (NACK)          */
+
+/* I2C_SR2 bit positions */
+#define I2C_SR2_BUSY       (1U << 1)    /* Bus busy                            */
+
+/* Per-step timeout for the probe state machine. 5 ms is far longer than any
+ * legitimate I2C transaction at 100 kHz; if we hit it, something is wrong. */
+#define I2C_PROBE_TIMEOUT_MS    5U
+
+/* Lowest and highest valid 7-bit addresses to scan. Addresses below 0x08 and
+ * above 0x77 are reserved by the I2C specification. */
+#define I2C_SCAN_ADDR_FIRST     0x08U
+#define I2C_SCAN_ADDR_LAST      0x77U
+
+
+/* ============================================================================
+ *  GPIO setup for I2C1 on PB6 (SCL) and PB7 (SDA)
+ * ============================================================================ */
+static void i2c1_gpio_init(void)
+{
+    /* Enable GPIOB clock (RCC->AHB1ENR bit 1) */
+    RCC->AHB1ENR |= (1U << 1);
+
+    /* PB6, PB7 -> alternate function mode (MODER = 10) */
+    GPIOB->MODER &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
+    GPIOB->MODER |=  ((2U << (6 * 2)) | (2U << (7 * 2)));
+
+    /* PB6, PB7 -> open-drain output (OTYPER = 1) */
+    GPIOB->OTYPER |= (1U << 6) | (1U << 7);
+
+    /* PB6, PB7 -> high speed (OSPEEDR = 11) */
+    GPIOB->OSPEEDR |= (3U << (6 * 2)) | (3U << (7 * 2));
+
+    /* PB6, PB7 -> no internal pull (external 4.7k pull-ups on OLED module) */
+    GPIOB->PUPDR &= ~((3U << (6 * 2)) | (3U << (7 * 2)));
+
+    /* PB6, PB7 -> AF4 (I2C1_SCL / I2C1_SDA) in AFRL */
+    GPIOB->AFRL &= ~((0xFU << (6 * 4)) | (0xFU << (7 * 4)));
+    GPIOB->AFRL |=  ((4U   << (6 * 4)) | (4U   << (7 * 4)));
+}
+
+
+/* ============================================================================
+ *  I2C1 peripheral configuration for 100 kHz standard mode
+ * ============================================================================ */
+static void i2c1_peripheral_init(void)
+{
+    /* Enable I2C1 clock (RCC->APB1ENR bit 21) */
+    RCC->APB1ENR |= (1U << 21);
+
+    /* Software reset, in case the peripheral is stuck from a previous run */
+    I2C1_CR1 |=  I2C_CR1_SWRST;
+    I2C1_CR1 &= ~I2C_CR1_SWRST;
+
+    /* CR2.FREQ = 42 (APB1 = 42 MHz). Required so the peripheral can convert
+     * its absolute-time I2C spec requirements into APB1 clock cycles. */
+    I2C1_CR2 = 42U;
+
+    /* CCR = APB1 / (2 * SCL) = 42_000_000 / 200_000 = 210, standard mode */
+    I2C1_CCR = 210U;
+
+    /* TRISE = (1000 ns / APB1_period) + 1 = FREQ + 1 = 43, standard mode */
+    I2C1_TRISE = 43U;
+
+    /* Enable the peripheral last, after all timing config is in place */
+    I2C1_CR1 |= I2C_CR1_PE;
+}
+
+
+/* ============================================================================
+ *  Probe one 7-bit I2C address with a timeout-protected state machine.
+ *
+ *  Returns 1 if the target device ACK'd the address, 0 otherwise (NACK or
+ *  timeout). Always issues a STOP at the end so the bus is left idle.
+ * ============================================================================ */
+static int i2c1_probe_address(uint8_t address)
+{
+    uint32_t start_ms;
+
+    /* Wait for the bus to be idle */
+    start_ms = systick_get_ms();
+    while ((I2C1_SR2 & I2C_SR2_BUSY) != 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_PROBE_TIMEOUT_MS)
+        {
+            return 0;
+        }
+    }
+
+    /* Generate START condition */
+    I2C1_CR1 |= I2C_CR1_START;
+
+    /* Wait for SB (Start Bit sent) */
+    start_ms = systick_get_ms();
+    while ((I2C1_SR1 & I2C_SR1_SB) == 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_PROBE_TIMEOUT_MS)
+        {
+            I2C1_CR1 |= I2C_CR1_STOP;
+            return 0;
+        }
+    }
+
+    /* Send 7-bit address shifted left, with W bit (0) appended.
+     * Writing DR after reading SR1 clears the SB flag. */
+    I2C1_DR = (uint32_t)((uint32_t)address << 1);
+
+    /* Wait for either ADDR (slave ACK'd) or AF (slave NACK'd) */
+    start_ms = systick_get_ms();
+    while ((I2C1_SR1 & (I2C_SR1_ADDR | I2C_SR1_AF)) == 0U)
+    {
+        if ((systick_get_ms() - start_ms) >= I2C_PROBE_TIMEOUT_MS)
+        {
+            I2C1_CR1 |= I2C_CR1_STOP;
+            return 0;
+        }
+    }
+
+    int found;
+    if ((I2C1_SR1 & I2C_SR1_ADDR) != 0U)
+    {
+        /* Device responded with ACK. Clear ADDR by reading SR1 then SR2. */
+        (void)I2C1_SR1;
+        (void)I2C1_SR2;
+        found = 1;
+    }
+    else
+    {
+        /* No device at this address (NACK). Clear AF bit by writing 0. */
+        I2C1_SR1 &= ~I2C_SR1_AF;
+        found = 0;
+    }
+
+    /* Issue STOP and leave the bus idle */
+    I2C1_CR1 |= I2C_CR1_STOP;
+
+    /* Small breathing room before the next probe so STOP completes cleanly */
+    delay_ms(1);
+
+    return found;
+}
+
+
+/* ============================================================================
+ *  main: init clock, serial, I2C; scan; print results; halt
+ * ============================================================================ */
+int main(void)
+{
+    rcc_init_clock_168mhz();
+    systick_init();
+    usart2_init();
+
+    usart2_send_string("\r\n--- I2C bus scan ---\r\n");
+    usart2_send_string("Expecting OLED at address 0x3C\r\n");
+
+    i2c1_gpio_init();
+    i2c1_peripheral_init();
+
+    /* Brief settling time after peripheral enable */
+    delay_ms(10);
+
+    int devices_found = 0;
+    for (uint8_t addr = I2C_SCAN_ADDR_FIRST; addr <= I2C_SCAN_ADDR_LAST; addr++)
+    {
+        if (i2c1_probe_address(addr) != 0)
+        {
+            usart2_send_string("Found device at ");
+            usart2_send_hex((uint32_t)addr);
+            usart2_send_string("\r\n");
+            devices_found++;
+        }
+    }
+
+    usart2_send_string("Scan complete. Devices found: ");
+    usart2_send_int(devices_found);
+    usart2_send_string("\r\n");
+
+    while (1)
+    {
+        /* halt */
+    }
+}
